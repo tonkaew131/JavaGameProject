@@ -11,12 +11,20 @@ import javafx.stage.Stage;
  * JavaFX App
  */
 public class Game extends Application {
+    public Player player;
+
+    Player getPlayer() {
+        return this.player;
+    }
+
     @Override
     public void start(Stage stage) {
+        this.player = new Player();
+
         var label = new Label("Hello World!");
 
         var scene = new Scene(new StackPane(label), 640, 480);
-        scene.setOnKeyPressed(new KeyHandler());
+        scene.setOnKeyPressed(new KeyHandler(this));
 
         stage.setScene(scene);
         stage.show();
