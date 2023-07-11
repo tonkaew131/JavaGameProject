@@ -11,11 +11,16 @@ public class Player {
     Player() {
         this.posX = 0;
         this.posY = 0;
+        this.angle = 0;
         this.health = 100;
     }
 
     public void setPosition(float posX, float posY) {
         this.posX = posX;
         this.posY = posY;
+    }
+
+    public void setDirection(float angle) {
+        this.angle = angle;
     }
 }
