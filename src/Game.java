@@ -1,3 +1,6 @@
+import core.Renderer;
+import core.Setting;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -5,18 +8,18 @@ public class Game {
     public Game() {
         JFrame frame = new JFrame();
 
-        JPanel panel = new JPanel();
-        panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
-        panel.setLayout(new GridLayout(0, 1));
-
-        frame.add(panel, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Hello World!");
+        frame.add(new Renderer());
         frame.pack();
+
+        frame.setLayout(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // frame.setSize(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
+        frame.setResizable(Setting.WINDOWS_RESIZABLE);
+        frame.setTitle("Veru super Cool Game! by @tonkaew131");
         frame.setVisible(true);
     }
 
     public static void main(String args[]) {
-        new Game();
+        SwingUtilities.invokeLater(() -> new Game());
     }
 }
