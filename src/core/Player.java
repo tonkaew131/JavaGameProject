@@ -8,4 +8,5 @@ public class Player {
     // planeX and planeY the camera plane of the player
     private double planeX = 0, planeY = 0.66;
 
+    private double health = 100;
 }
