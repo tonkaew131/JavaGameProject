@@ -1,10 +1,10 @@
 
 
+import core.*;
 import core.Renderer;
-import core.Setting;
-import core.Tick;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Game {
     Renderer renderer;
@@ -22,8 +22,16 @@ public class Game {
         frame.setTitle("Very Super Duper Extremly Cool Game! by @tonkaew131");
         frame.setVisible(true);
 
+        Player player = new Player();
+        KeyListener keyListener = new KeyListener();
+        keyListener.setPlayer(player);
+
+        frame.setFocusable(true);
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+                .addKeyEventDispatcher(keyListener);
+
         Tick tick = new Tick(renderer);
-        tick.runGame();
+        tick.start();
     }
 
     public static void main(String args[]) {

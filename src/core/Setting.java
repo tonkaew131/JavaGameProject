@@ -6,4 +6,7 @@ public class Setting {
     public static boolean WINDOWS_RESIZABLE = false;
     public static int MAX_FPS = 10;
     public static boolean SHOW_FPS = true;
+
+    // Game's logic settings
+    public static double WALKING_STEP = 0.05;
 }

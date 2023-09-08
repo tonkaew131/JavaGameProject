@@ -9,4 +9,8 @@ public class Player {
     private double directionAlpha = 0;
 
     private double health = 100;
+
+    public void forward(double amount) {
+        posX += amount;
+    }
 }

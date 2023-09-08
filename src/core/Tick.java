@@ -2,7 +2,7 @@ package core;
 
 import java.time.Instant;
 
-public class Tick {
+public class Tick extends Thread {
     // time since game lanuched!
     private long gameStartMillis;
     // time since last frame finish render
@@ -16,7 +16,7 @@ public class Tick {
         this.renderer.setTick(this);
     }
 
-    public void runGame() {
+    public void run() {
         long targetDeltaTime = 1000 / Setting.MAX_FPS;
         long currentTimeMillis = this.getCurrentMillis();
         gameStartMillis = currentTimeMillis;

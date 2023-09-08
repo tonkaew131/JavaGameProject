@@ -34,7 +34,7 @@ public class Renderer extends JPanel {
     public void render() {
         Graphics g = this.getBufferedImage().getGraphics();
 
-        // drawRainbow(g);
+        drawRainbow(g);
         if (Setting.SHOW_FPS) drawFPS(g);
 
         this.update(this.getGraphics());
