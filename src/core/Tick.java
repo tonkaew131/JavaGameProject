@@ -26,19 +26,21 @@ public class Tick {
             currentTimeMillis = this.getCurrentMillis();
             deltaTime = currentTimeMillis - lastTickMillis;
 
+            // Dear myself in the future please propery implements tick system with fixed update and dynamic update so no more stupid fickering
+
 //            try {
 //                Thread.sleep(targetDeltaTime);
 //            } catch (InterruptedException e) {
 //                throw new RuntimeException(e);
 //            }
 
-            if (deltaTime < targetDeltaTime) {
-                try {
-                    Thread.sleep(targetDeltaTime - deltaTime);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+//            if (deltaTime < targetDeltaTime) {
+//                try {
+//                    Thread.sleep(targetDeltaTime - deltaTime);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
 
             // System.out.println("Tick updated! deltaTime: " + deltaTime + ", current time (ms): " + currentTimeMillis);
             // System.out.println("FPS: " + (deltaTime != 0 ? 1000 / deltaTime : "-"));

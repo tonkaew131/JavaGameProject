@@ -34,8 +34,8 @@ public class Renderer extends JPanel {
     public void render() {
         Graphics g = this.getBufferedImage().getGraphics();
 
-        drawRainbow(g);
-        drawFPS(g);
+        // drawRainbow(g);
+        if (Setting.SHOW_FPS) drawFPS(g);
 
         this.update(this.getGraphics());
         this.repaint();
@@ -61,7 +61,7 @@ public class Renderer extends JPanel {
         g2d.fillRect(0, 0, 30, 16);
 
         g2d.setFont(font);
-        g2d.setColor(Color.RED);
+        g2d.setColor(Color.BLACK);
         g2d.drawString(String.format("%d", (tick.getDeltaTime() != 0 ? (1000 / tick.getDeltaTime()) : 9999)), 3, 13);
     }
 
