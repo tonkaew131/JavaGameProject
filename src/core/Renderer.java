@@ -13,6 +13,10 @@ public class Renderer extends JPanel {
         return new Dimension(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
     }
 
+    public void render() {
+        this.paintComponent(this.getGraphics());
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         // super.paintComponent(g);
@@ -41,7 +45,7 @@ public class Renderer extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        int rainbowSize = 20;
+        int rainbowSize = 5;
         g2d.setStroke(new BasicStroke(rainbowSize));
 
         int h = Setting.WINDOWS_HEIGHT;
