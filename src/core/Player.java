@@ -1,12 +1,12 @@
 package core;
 
 public class Player {
-    // posX and posY represent the position vector of the player
+    // Player position
     private double posX, posY;
-    //  dirX and dirY represent the direction of the player
-    private double dirX, dirY;
-    // planeX and planeY the camera plane of the player
-    private double planeX = 0, planeY = 0.66;
+
+    // Player direction (in PI)
+    // Right is 0, top is PI / 2, left is PI, bottom is 3PI / 2
+    private double directionAlpha = 0;
 
     private double health = 100;
 }

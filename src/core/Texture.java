@@ -2,7 +2,9 @@ package core;
 
 public enum Texture {
     EMPTY(0),
-    WHITE_WALL(1);
+    WHITE_WALL(1),
+
+    RED_WALL(2);
 
     public final int textureId;
 
