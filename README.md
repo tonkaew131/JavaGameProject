@@ -2,6 +2,7 @@
 
 - https://www.permadi.com/tutorial/raycast/rayc3.html
 - https://docs.oracle.com/javase/tutorial/uiswing/events/keylistener.html
+- https://www.reddit.com/r/javahelp/comments/a3glz9/how_best_to_prevent_screen_flicker_when_clearing/
 
 7 September 2023
 

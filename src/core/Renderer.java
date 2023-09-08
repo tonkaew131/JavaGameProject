@@ -2,10 +2,28 @@ package core;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Renderer extends JPanel {
+    private BufferedImage bufferedImageA;
+    private BufferedImage bufferedImageB;
+    private boolean isDisplayingImageA;
+    private Tick tick;
+
     public Renderer() {
-        this.setBackground(new Color(167, 199, 231));
+        this.setBackground(Color.BLACK);
+    }
+
+    public BufferedImage getBufferedImage() {
+        if (isDisplayingImageA) {
+            if (bufferedImageA == null)
+                bufferedImageA = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
+            return bufferedImageA;
+        }
+
+        if (bufferedImageB == null)
+            bufferedImageB = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        return bufferedImageB;
     }
 
     @Override
@@ -14,25 +32,40 @@ public class Renderer extends JPanel {
     }
 
     public void render() {
-        this.paintComponent(this.getGraphics());
+        Graphics g = this.getBufferedImage().getGraphics();
+
+        drawRainbow(g);
+        drawFPS(g);
+
+        this.update(this.getGraphics());
+        this.repaint();
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        // super.paintComponent(g);
+    public void paint(Graphics g) {
+        super.paint(g);
 
-        // Graphics2D g2d = (Graphics2D) g;
+        if (isDisplayingImageA) {
+            g.drawImage(bufferedImageA, 0, 0, this);
+        } else {
+            g.drawImage(bufferedImageB, 0, 0, this);
+        }
+        isDisplayingImageA = !isDisplayingImageA;
+    }
 
-        // g2d.setStroke(new BasicStroke(2));
-        // g2d.setColor(Color.CYAN);
-        // g2d.drawLine(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
+    public void drawFPS(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        Font font = new Font("Serif", Font.BOLD, 16);
 
-        drawRainbow(g);
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, 30, 16);
+
+        g2d.setFont(font);
+        g2d.setColor(Color.RED);
+        g2d.drawString(String.format("%d", (tick.getDeltaTime() != 0 ? (1000 / tick.getDeltaTime()) : 9999)), 3, 13);
     }
 
     public void drawRainbow(Graphics g) {
-        super.paintComponent(g);
-
         Color[] rainbows = {
                 new Color(148, 0, 211),
                 new Color(75, 0, 130),
@@ -56,5 +89,9 @@ public class Renderer extends JPanel {
                 g2d.drawLine(x, y, x, y);
             }
         }
+    }
+
+    public void setTick(Tick tick) {
+        this.tick = tick;
     }
 }
