@@ -10,5 +10,5 @@ public class Setting {
 
     // Game's logic settings
     public static double WALKING_STEP = 0.05;
-    public static double TURNING_STEP = 1;
+    public static double TURNING_STEP = 0.1;
 }

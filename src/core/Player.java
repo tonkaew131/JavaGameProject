@@ -20,8 +20,8 @@ public class Player {
     public void turnRight(double amount) {
         directionAlpha -= amount;
 
-        // directionAlpha = directionAlpha % (2 * Math.PI);
-        // System.out.println(this);
+        directionAlpha %= Math.PI * 2;
+        if (directionAlpha < 0) directionAlpha += Math.PI * 2;
     }
 
     public double getPosX() {

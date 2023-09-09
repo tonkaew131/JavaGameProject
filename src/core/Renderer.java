@@ -39,13 +39,13 @@ public class Renderer extends JPanel {
         if (Setting.SHOW_FPS) drawFPS(g);
 
         drawMap(g2d);
-        rayCast(player.getPosX(), player.getPosY(), player.getDirectionAlpha(), Setting.WINDOWS_WIDTH / 2, Setting.WINDOWS_HEIGHT / 2, g2d);
 
-        // g2d.setColor(Color.WHITE);
-        // for (int i = 0; i < Setting.WINDOWS_WIDTH; i++) {
-        //    rayCast(player.getPosX(), player.getPosY(), player.getDirectionAlpha());
-        //    g2d.drawLine(i, Setting.WINDOWS_HEIGHT / 2, i, Setting.WINDOWS_HEIGHT / 2);
-        //}
+        double scanStep = (double) Setting.FOV / Setting.WINDOWS_WIDTH * Math.PI / 180;
+        double scanStart = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
+        for (int i = 0; i < Setting.WINDOWS_WIDTH; i++) {
+            rayCast(player.getPosX(), player.getPosY(), scanStart, i, Setting.WINDOWS_HEIGHT / 2, g2d);
+            scanStart -= scanStep;
+        }
 
         this.update(this.getGraphics());
         this.repaint();
@@ -59,28 +59,36 @@ public class Renderer extends JPanel {
         double dy = posY % 1;
 
         // first horizontal intersect
-        double x = posX + (dy / Math.tan(direction));
-        double y = posY + dy;
+        double hx = posX + (dy / Math.tan(direction));
+        double hy = posY + dy;
 
-        int targetX = (int) x;
-        int targetY = (int) y;
+        int targetX = (int) hx;
+        int targetY = (int) hy;
 
         // horizontal step
-        double xStep = 1 / Math.tan(direction);
-        double yStep = 1;
+        double hxStep = 1 / Math.tan(direction);
+        double hyStep = direction < Math.PI ? 1 : -1;
 
         while (true) {
-            // System.out.println("Walked found: " + map.getTexture(targetX, targetY));
+            // Point out of map
+            if (targetX >= map.getMapWidth() || targetY >= map.getMapHeight() || targetX < 0 || targetY < 0) {
+                return;
+            }
+
+            // Horizontal
             if (map.getTexture(targetX, targetY) != Texture.EMPTY) {
                 break;
             }
-            x += xStep;
-            y += yStep;
-            targetX = (int) x;
-            targetY = (int) y;
+            hx += hxStep;
+            hy += hyStep;
+            targetX = (int) hx;
+            targetY = (int) hy;
         }
 
-        double distance = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2));
+        double vx = posX + (dy / Math.tan(direction));
+        double vy = posY + dy;
+
+        double distance = Math.sqrt(Math.pow(posX - hx, 2) + Math.pow(posY - hy, 2));
         int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 0.75);
 
         g2d.setColor(map.getTexture(targetX, targetY).getColor());
