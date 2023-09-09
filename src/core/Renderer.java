@@ -63,16 +63,33 @@ public class Renderer extends JPanel {
         double dx = posX % 1;
         double dy = posY % 1;
 
+        boolean isUp = direction < Math.PI;
+        boolean isRight = (direction < Math.PI / 2 || direction > 3 * Math.PI / 2);
+
         // first horizontal intersect
+        // q 1
         double hx = posX + (dy / Math.tan(direction));
-        double hy = posY + dy;
+        // q 2
+        if (isUp && !isRight) {
+            hx = posX - (dy / Math.tan(direction));
+        }
+        // q 3
+        if (!isUp && !isRight) {
+            hx = posX - ((1 - dy) / Math.tan(direction));
+        }
+        // q 4
+        if (!isUp && isRight) {
+            hx = posX + ((1 - dy) / Math.tan(direction));
+        }
+
+        double hy = isUp ? posY - dy : posY + 1 - dy;
 
         int targetX = (int) hx;
         int targetY = (int) hy;
 
         // horizontal step
-        double hxStep = 1 / Math.tan(direction);
-        double hyStep = direction < Math.PI ? 1 : -1;
+        double hxStep = isRight ? 1 / Math.tan(direction) : -1 / Math.tan(direction);
+        double hyStep = isUp ? -1 : 1;
 
         while (true) {
             // Point out of map
@@ -91,10 +108,25 @@ public class Renderer extends JPanel {
         }
 
         // first vertical hit
-        double vx = 1 - dx + posX;
-        double vy = (Math.tan(direction) * (1 - dx)) + posY;
-        double vxStep = (direction < Math.PI / 2 || direction > 3 * Math.PI / 2) ? 1 : -1;
-        double vyStep = direction < Math.PI ? -1 : 1;
+        double vx = isRight ? posX + 1 - dx : posX - dx;
+        // q 1
+        double vy = posY - ((1 - dx) / Math.tan(direction));
+        // q 2
+        if (isUp && !isRight) {
+            vy = posY - (dx / Math.tan(direction));
+        }
+        // q 3
+        if (!isUp && !isRight) {
+            vy = posY + (dx / Math.tan(direction));
+        }
+        // q 4
+        if (!isUp && isRight) {
+            vy = posY + ((1 - dx) / Math.tan(direction));
+        }
+
+        double vxStep = isRight ? 1 : -1;
+        double vyStep = isUp ? -1 / Math.tan(direction) : 1 / Math.tan(direction);
+
         targetX = (int) vx;
         targetY = (int) vy;
 
@@ -124,19 +156,21 @@ public class Renderer extends JPanel {
             targetY = (int) hy;
         }
 
-        distance *= Math.cos(Player.radian(direction - this.player.getDirectionAlpha()));
-        // double distance = Math.sqrt(Math.pow(posX - hx, 2) + Math.pow(posY - hy, 2)) * Math.cos(direction - this.player.getDirectionAlpha());
-        int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 0.75);
-
         if (targetX >= map.getMapWidth() || targetY >= map.getMapHeight() || targetX < 0 || targetY < 0) {
             return;
         }
 
-        g2d.setColor(map.getTexture(targetX, targetY).getColor());
+        Color color = map.getTexture(targetX, targetY).getColor();
+        if (distanceH > distanceV) {
+            color = color.darker();
+        }
+
+        // Removed distortion
+        distance *= Math.cos(Player.radian(direction - this.player.getDirectionAlpha()));
+        int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 0.75);
+
+        g2d.setColor(color);
         g2d.drawLine(pixelX, pixelY - (lineHeight / 2), pixelX, pixelY + (lineHeight / 2));
-        // System.out.println("Hit! " + map.getTexture(targetX, targetY));
-        // System.out.println(String.format("x:%8f y:%.8f a:%.8f", x, y, direction));
-        // System.out.println(String.format("x:%d y:%d", targetX, targetY));
     }
 
     @Override
