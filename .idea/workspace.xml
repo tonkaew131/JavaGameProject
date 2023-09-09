@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/src/core/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Renderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/Setting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Setting.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/Tick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Tick.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

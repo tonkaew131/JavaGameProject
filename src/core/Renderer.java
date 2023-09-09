@@ -18,11 +18,13 @@ public class Renderer extends JPanel {
 
     public BufferedImage getBufferedImage() {
         if (isDisplayingImageA) {
-            bufferedImageA = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
+            if (bufferedImageA == null)
+                bufferedImageA = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
             return bufferedImageA;
         }
 
-        bufferedImageB = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        if (bufferedImageB == null)
+            bufferedImageB = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
         return bufferedImageB;
     }
 
@@ -35,7 +37,10 @@ public class Renderer extends JPanel {
         Graphics g = this.getBufferedImage().getGraphics();
         Graphics2D g2d = (Graphics2D) g;
 
-        // drawRainbow(g);
+        // clear image
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
+
         if (Setting.SHOW_FPS) drawFPS(g);
 
         drawMap(g2d);
@@ -72,7 +77,7 @@ public class Renderer extends JPanel {
         while (true) {
             // Point out of map
             if (targetX >= map.getMapWidth() || targetY >= map.getMapHeight() || targetX < 0 || targetY < 0) {
-                return;
+                break;
             }
 
             // Horizontal
@@ -85,11 +90,47 @@ public class Renderer extends JPanel {
             targetY = (int) hy;
         }
 
-        double vx = posX + (dy / Math.tan(direction));
-        double vy = posY + dy;
+        // first vertical hit
+        double vx = 1 - dx + posX;
+        double vy = (Math.tan(direction) * (1 - dx)) + posY;
+        double vxStep = (direction < Math.PI / 2 || direction > 3 * Math.PI / 2) ? 1 : -1;
+        double vyStep = direction < Math.PI ? -1 : 1;
+        targetX = (int) vx;
+        targetY = (int) vy;
 
-        double distance = Math.sqrt(Math.pow(posX - hx, 2) + Math.pow(posY - hy, 2));
+        while (true) {
+            // Point out of map
+            if (targetX >= map.getMapWidth() || targetY >= map.getMapHeight() || targetX < 0 || targetY < 0) {
+                break;
+            }
+
+            // Horizontal
+            if (map.getTexture(targetX, targetY) != Texture.EMPTY) {
+                break;
+            }
+            vx += vxStep;
+            vy += vyStep;
+            targetX = (int) vx;
+            targetY = (int) vy;
+        }
+
+        double distanceH = Math.sqrt(Math.pow(posX - hx, 2) + Math.pow(posY - hy, 2));
+        double distanceV = Math.sqrt(Math.pow(posX - vx, 2) + Math.pow(posY - vy, 2));
+
+        double distance = distanceV;
+        if (distanceH < distanceV) {
+            distance = distanceH;
+            targetX = (int) hx;
+            targetY = (int) hy;
+        }
+
+        distance *= Math.cos(Player.radian(direction - this.player.getDirectionAlpha()));
+        // double distance = Math.sqrt(Math.pow(posX - hx, 2) + Math.pow(posY - hy, 2)) * Math.cos(direction - this.player.getDirectionAlpha());
         int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 0.75);
+
+        if (targetX >= map.getMapWidth() || targetY >= map.getMapHeight() || targetX < 0 || targetY < 0) {
+            return;
+        }
 
         g2d.setColor(map.getTexture(targetX, targetY).getColor());
         g2d.drawLine(pixelX, pixelY - (lineHeight / 2), pixelX, pixelY + (lineHeight / 2));
@@ -119,7 +160,7 @@ public class Renderer extends JPanel {
 
         g2d.setFont(font);
         g2d.setColor(Color.BLACK);
-        g2d.drawString(String.format("%d", (tick.getDeltaTime() != 0 ? (1000 / tick.getDeltaTime()) : 9999)), 4, 4);
+        g2d.drawString(String.format("%d", (tick.getDeltaTime() != 0 ? (1000 / tick.getDeltaTime()) : 9999)), 3, 13);
     }
 
     public void drawMap(Graphics g) {
@@ -137,7 +178,7 @@ public class Renderer extends JPanel {
         }
 
         g.setColor(Color.cyan);
-        g.fillOval(posX + (int) (player.getPosX() * mapScale), posY + (int) (player.getPosY() * mapScale), 2, 2);
+        g.fillOval(posX + (int) (player.getPosX() * mapScale), posY + (int) (player.getPosY() * mapScale), 3, 3);
     }
 
     public void drawRainbow(Graphics g) {

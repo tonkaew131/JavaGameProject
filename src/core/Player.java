@@ -12,6 +12,8 @@ public class Player {
 
     public void forward(double amount) {
         posX += amount;
+        // posY -= amount * Math.cos(directionAlpha);
+        // posX += amount * Math.sin(directionAlpha);
 
         // System.out.println(this);
     }
@@ -20,8 +22,13 @@ public class Player {
     public void turnRight(double amount) {
         directionAlpha -= amount;
 
-        directionAlpha %= Math.PI * 2;
-        if (directionAlpha < 0) directionAlpha += Math.PI * 2;
+        directionAlpha = radian(directionAlpha);
+    }
+
+    public static double radian(double amount) {
+        amount %= Math.PI * 2;
+        if (amount < 0) amount += Math.PI * 2;
+        return amount;
     }
 
     public double getPosX() {

@@ -28,11 +28,12 @@ public class Tick extends Thread {
 
             // Dear myself in the future please propery implements tick system with fixed update and dynamic update so no more stupid fickering
 
-//            try {
-//                Thread.sleep(targetDeltaTime);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
+            this.renderer.render();
+            try {
+                Thread.sleep(targetDeltaTime);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
 //            if (deltaTime < targetDeltaTime) {
 //                try {
