@@ -14,7 +14,13 @@ public class KeyListener implements KeyEventDispatcher {
                     this.player.forward(Setting.WALKING_STEP);
                     break;
                 case 's':
-                    this.player.forward(-1 * Setting.WALKING_STEP);
+                    this.player.forward(-Setting.WALKING_STEP);
+                    break;
+                case 'a':
+                    this.player.turnRight(-Setting.TURNING_STEP);
+                    break;
+                case 'd':
+                    this.player.turnRight(Setting.TURNING_STEP);
                     break;
             }
 

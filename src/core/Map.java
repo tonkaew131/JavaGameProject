@@ -12,8 +12,20 @@ public class Map {
             {Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL},
     };
 
-    Map() {
+    public Map() {
         mapHeight = mapContent.length;
         mapWidth = mapContent[0].length;
+    }
+
+    public Texture getTexture(int x, int y) {
+        return mapContent[x][y];
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public int getMapWidth() {
+        return mapWidth;
     }
 }

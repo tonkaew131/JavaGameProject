@@ -32,6 +32,11 @@ public class Game {
 
         Tick tick = new Tick(renderer);
         tick.start();
+
+        Map map = new Map();
+
+        this.renderer.setMap(map);
+        this.renderer.setPlayer(player);
     }
 
     public static void main(String args[]) {
