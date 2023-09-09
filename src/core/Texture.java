@@ -1,5 +1,7 @@
 package core;
 
+import java.awt.*;
+
 public enum Texture {
     EMPTY(0),
     WHITE_WALL(1),
@@ -10,5 +12,13 @@ public enum Texture {
 
     private Texture(int textureId) {
         this.textureId = textureId;
+    }
+
+    public Color getColor() {
+        if (textureId == 0) return Color.BLACK;
+        if (textureId == 1) return Color.WHITE;
+        if (textureId == 2) return Color.RED;
+
+        return Color.CYAN;
     }
 }

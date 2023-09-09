@@ -18,13 +18,11 @@ public class Renderer extends JPanel {
 
     public BufferedImage getBufferedImage() {
         if (isDisplayingImageA) {
-            if (bufferedImageA == null)
-                bufferedImageA = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
+            bufferedImageA = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
             return bufferedImageA;
         }
 
-        if (bufferedImageB == null)
-            bufferedImageB = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        bufferedImageB = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
         return bufferedImageB;
     }
 
@@ -41,6 +39,7 @@ public class Renderer extends JPanel {
         if (Setting.SHOW_FPS) drawFPS(g);
 
         drawMap(g2d);
+        rayCast(player.getPosX(), player.getPosY(), player.getDirectionAlpha(), Setting.WINDOWS_WIDTH / 2, Setting.WINDOWS_HEIGHT / 2, g2d);
 
         // g2d.setColor(Color.WHITE);
         // for (int i = 0; i < Setting.WINDOWS_WIDTH; i++) {
@@ -52,7 +51,7 @@ public class Renderer extends JPanel {
         this.repaint();
     }
 
-    public void rayCast(double posX, double posY, double direction) {
+    public void rayCast(double posX, double posY, double direction, int pixelX, int pixelY, Graphics2D g2d) {
         // DDA Algorithm
 
         // distance from top-left
@@ -71,16 +70,24 @@ public class Renderer extends JPanel {
         double yStep = 1;
 
         while (true) {
+            // System.out.println("Walked found: " + map.getTexture(targetX, targetY));
             if (map.getTexture(targetX, targetY) != Texture.EMPTY) {
                 break;
             }
             x += xStep;
             y += yStep;
+            targetX = (int) x;
+            targetY = (int) y;
         }
 
-        System.out.println(String.format("Hit! %d", map.getTexture(targetX, targetY)));
-        System.out.println(String.format("x:%8f y:%.8f a:%.8f", x, y, direction));
-        System.out.println(String.format("x:%d y:%d", targetX, targetY));
+        double distance = Math.sqrt(Math.pow(posX - x, 2) + Math.pow(posY - y, 2));
+        int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 0.75);
+
+        g2d.setColor(map.getTexture(targetX, targetY).getColor());
+        g2d.drawLine(pixelX, pixelY - (lineHeight / 2), pixelX, pixelY + (lineHeight / 2));
+        // System.out.println("Hit! " + map.getTexture(targetX, targetY));
+        // System.out.println(String.format("x:%8f y:%.8f a:%.8f", x, y, direction));
+        // System.out.println(String.format("x:%d y:%d", targetX, targetY));
     }
 
     @Override
@@ -104,24 +111,25 @@ public class Renderer extends JPanel {
 
         g2d.setFont(font);
         g2d.setColor(Color.BLACK);
-        g2d.drawString(String.format("%d", (tick.getDeltaTime() != 0 ? (1000 / tick.getDeltaTime()) : 9999)), 3, 13);
+        g2d.drawString(String.format("%d", (tick.getDeltaTime() != 0 ? (1000 / tick.getDeltaTime()) : 9999)), 4, 4);
     }
 
     public void drawMap(Graphics g) {
-        int mapScale = 30;
-        int posX = Setting.WINDOWS_WIDTH - (map.getMapWidth() * mapScale), posY = 0;
+        int mapScale = 15;
+        int posX = Setting.WINDOWS_WIDTH - (map.getMapWidth() * mapScale) - 1, posY = 1;
         for (int i = 0; i < map.getMapHeight(); i++) {
             for (int j = 0; j < map.getMapWidth(); j++) {
-                if (map.getTexture(i, j) != Texture.EMPTY) {
-                    g.setColor(Color.CYAN);
-                } else g.setColor(Color.BLACK);
+                if (map.getTexture(i, j) == Texture.EMPTY) g.setColor(Color.BLACK);
+                else if (map.getTexture(i, j) == Texture.WHITE_WALL) g.setColor(Color.WHITE);
+                else if (map.getTexture(i, j) == Texture.RED_WALL) g.setColor(Color.RED);
+                else g.setColor(Color.CYAN);
 
                 g.fillRect(posX + (mapScale * i), posY + (j * mapScale), mapScale, mapScale);
             }
         }
 
         g.setColor(Color.cyan);
-        g.fillOval(posX + (int) (player.getPosX() * mapScale), posY + (int) (player.getPosY() * mapScale), 5, 5);
+        g.fillOval(posX + (int) (player.getPosX() * mapScale), posY + (int) (player.getPosY() * mapScale), 2, 2);
     }
 
     public void drawRainbow(Graphics g) {
