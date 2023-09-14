@@ -46,8 +46,9 @@ public class Renderer extends JPanel {
         if (Setting.SHOW_FPS)
             drawFPS(g);
 
-        drawMap(g2d);
+        // drawMap(g2d);
 
+        drawFloors(g2d);
         double scanStep = (double) Setting.FOV / Setting.WINDOWS_WIDTH * Math.PI / 180;
         double scanStart = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
         for (int i = 0; i < Setting.WINDOWS_WIDTH; i++) {
@@ -57,6 +58,16 @@ public class Renderer extends JPanel {
 
         this.update(this.getGraphics());
         this.repaint();
+    }
+
+    public void drawFloors(Graphics2D g2d) {
+        // Floor
+        g2d.setColor(Color.GRAY);
+        g2d.fillRect(0, Setting.WINDOWS_HEIGHT / 2, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT / 2);
+
+        // Ceiling
+        g2d.setColor(Color.DARK_GRAY);
+        g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT / 2);
     }
 
     public void rayCast(double posX, double posY, double direction, int pixelX, int pixelY, Graphics2D g2d) {
