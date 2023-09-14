@@ -99,10 +99,15 @@ public class Renderer extends JPanel {
             rayLengthCumu.y = ((float) mapCheck.y + 1 - startPoint.y) * rayUnitStepSize.y;
         }
 
+        Point beforeHit = new Point();
+
         boolean hit = false;
         double distance = 0;
         double MAX_DISTANCE = 100;
         while (!hit && distance < MAX_DISTANCE) {
+            beforeHit.x = rayLengthCumu.x;
+            beforeHit.y = rayLengthCumu.y;
+
             if (rayLengthCumu.x < rayLengthCumu.y) {
                 mapCheck.x += rayStep.x;
                 distance = rayLengthCumu.x;
@@ -127,14 +132,15 @@ public class Renderer extends JPanel {
         intersecPoint.y = startPoint.y + rayDirection.y * distance;
 
         Color color = map.getTexture(mapCheck.x, mapCheck.y).getColor();
-        // if (rayLengthCumu.x > rayLengthCumu.y)
-        //     color = color.darker();
+        // if hit from side
+        if (beforeHit.x < beforeHit.y) {
+            color = color.darker();
+        }
 
         // System.out.println("mapCheck: " + mapCheck.toString());
 
         // Removed distortion
-        // distance *= Math.cos(Player.radian(direction -
-        // this.player.getDirectionAlpha()));
+        distance *= Math.cos(player.getDirectionAlpha() - direction);
         int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 0.75);
 
         g2d.setColor(color);
