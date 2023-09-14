@@ -43,18 +43,18 @@ public class Renderer extends JPanel {
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
 
-        if (Setting.SHOW_FPS)
-            drawFPS(g);
-
         // drawMap(g2d);
-
         drawFloors(g2d);
+
         double scanStep = (double) Setting.FOV / Setting.WINDOWS_WIDTH * Math.PI / 180;
         double scanStart = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
         for (int i = 0; i < Setting.WINDOWS_WIDTH; i++) {
             rayCast(player.getPosX(), player.getPosY(), scanStart, i, Setting.WINDOWS_HEIGHT / 2, g2d);
             scanStart -= scanStep;
         }
+
+        if (Setting.SHOW_FPS)
+            drawFPS(g);
 
         this.update(this.getGraphics());
         this.repaint();
