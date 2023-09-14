@@ -44,7 +44,7 @@ public class Renderer extends JPanel {
         g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
 
         // drawMap(g2d);
-        drawFloors(g2d);
+        // drawFloors(g2d);
 
         double scanStep = (double) Setting.FOV / Setting.WINDOWS_WIDTH * Math.PI / 180;
         double scanStart = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
@@ -61,13 +61,8 @@ public class Renderer extends JPanel {
     }
 
     public void drawFloors(Graphics2D g2d) {
-        // Floor
-        g2d.setColor(Color.GRAY);
-        g2d.fillRect(0, Setting.WINDOWS_HEIGHT / 2, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT / 2);
-
-        // Ceiling
         g2d.setColor(Color.DARK_GRAY);
-        g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT / 2);
+        g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
     }
 
     public void rayCast(double posX, double posY, double direction, int pixelX, int pixelY, Graphics2D g2d) {
@@ -143,8 +138,14 @@ public class Renderer extends JPanel {
 
         Color color = map.getTexture(mapCheck.x, mapCheck.y).getColor();
         // if hit from side
-        if (beforeHit.x < beforeHit.y) {
-            color = color.darker();
+        // if (beforeHit.x < beforeHit.y) {
+        //     color = color.darker();
+        // }
+
+        if (!Setting.TOGGLE_LIGHT) {
+            for (int i = 0; i < distance * 2; i++) {
+                color = color.darker();
+            }
         }
 
         // Removed distortion

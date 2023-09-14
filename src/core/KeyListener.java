@@ -22,6 +22,9 @@ public class KeyListener implements KeyEventDispatcher {
                 case 'd':
                     this.player.turnRight(Setting.TURNING_STEP);
                     break;
+                case 'l':
+                    Setting.TOGGLE_LIGHT = !Setting.TOGGLE_LIGHT;
+                    break;
             }
 
         }
