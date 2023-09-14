@@ -11,11 +11,8 @@ public class Player {
     private double health = 100;
 
     public void forward(double amount) {
-        posX += amount;
-        // posY -= amount * Math.cos(directionAlpha);
-        // posX += amount * Math.sin(directionAlpha);
-
-        // System.out.println(this);
+        posX += Math.cos(directionAlpha) * amount;
+        posY += Math.sin(directionAlpha) * amount;
     }
 
     // amount in radius
@@ -27,7 +24,8 @@ public class Player {
 
     public static double radian(double amount) {
         amount %= Math.PI * 2;
-        if (amount < 0) amount += Math.PI * 2;
+        if (amount < 0)
+            amount += Math.PI * 2;
         return amount;
     }
 

@@ -121,7 +121,6 @@ public class Renderer extends JPanel {
             if (mapCheck.x >= 0 && mapCheck.y >= 0 && mapCheck.x < map.getMapWidth()
                     && mapCheck.y < map.getMapHeight()) {
                 if (map.getTexture(mapCheck.x, mapCheck.y) != Texture.EMPTY) {
-                    // System.out.println("hit!: " + map.getTexture(mapCheck.x, mapCheck.y));
                     hit = true;
                 }
             }
@@ -137,11 +136,9 @@ public class Renderer extends JPanel {
             color = color.darker();
         }
 
-        // System.out.println("mapCheck: " + mapCheck.toString());
-
         // Removed distortion
         distance *= Math.cos(player.getDirectionAlpha() - direction);
-        int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 0.75);
+        int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 1);
 
         g2d.setColor(color);
         g2d.drawLine(pixelX, pixelY - (lineHeight / 2), pixelX, pixelY + (lineHeight / 2));
