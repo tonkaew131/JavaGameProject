@@ -19,12 +19,14 @@ public class Renderer extends JPanel {
     public BufferedImage getBufferedImage() {
         if (isDisplayingImageA) {
             if (bufferedImageA == null)
-                bufferedImageA = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
+                bufferedImageA = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT,
+                        BufferedImage.TYPE_INT_RGB);
             return bufferedImageA;
         }
 
         if (bufferedImageB == null)
-            bufferedImageB = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, BufferedImage.TYPE_INT_RGB);
+            bufferedImageB = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT,
+                    BufferedImage.TYPE_INT_RGB);
         return bufferedImageB;
     }
 
@@ -41,7 +43,8 @@ public class Renderer extends JPanel {
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
 
-        if (Setting.SHOW_FPS) drawFPS(g);
+        if (Setting.SHOW_FPS)
+            drawFPS(g);
 
         drawMap(g2d);
 
@@ -59,114 +62,79 @@ public class Renderer extends JPanel {
     public void rayCast(double posX, double posY, double direction, int pixelX, int pixelY, Graphics2D g2d) {
         // DDA Algorithm
 
-        // distance from top-left
-        double dx = posX % 1;
-        double dy = posY % 1;
+        Point endPoint = new Point(Math.cos(direction) * 100, Math.sin(direction) * 100);
+        Point startPoint = new Point(posX, posY);
 
-        boolean isUp = direction < Math.PI;
-        boolean isRight = (direction < Math.PI / 2 || direction > 3 * Math.PI / 2);
+        Point rayDirection = new Point();
+        rayDirection.x = endPoint.x - startPoint.x;
+        rayDirection.y = endPoint.y - startPoint.y;
 
-        // first horizontal intersect
-        // q 1
-        double hx = posX + (dy / Math.tan(direction));
-        // q 2
-        if (isUp && !isRight) {
-            hx = posX - (dy / Math.tan(direction));
+        // Normalize
+        double rayLength = Math.sqrt(rayDirection.x * rayDirection.x + rayDirection.y * rayDirection.y);
+        rayDirection.x /= rayLength;
+        rayDirection.y /= rayLength;
+
+        Point rayUnitStepSize = new Point(
+                Math.sqrt(1 + ((rayDirection.y / rayDirection.x) * (rayDirection.y / rayDirection.x))),
+                Math.sqrt(1 + ((rayDirection.x / rayDirection.y) * (rayDirection.x / rayDirection.y))));
+        PointInt mapCheck = new PointInt(posX, posY);
+        // store length in x, y
+        Point rayLengthCumu = new Point();
+        // store step in x, y
+        Point rayStep = new Point();
+
+        if (rayDirection.x < 0) {
+            rayStep.x = -1;
+            rayLengthCumu.x = (startPoint.x - (float) mapCheck.x) * rayUnitStepSize.x;
+        } else {
+            rayStep.x = 1;
+            rayLengthCumu.x = ((float) mapCheck.x + 1 - startPoint.x) * rayUnitStepSize.x;
         }
-        // q 3
-        if (!isUp && !isRight) {
-            hx = posX - ((1 - dy) / Math.tan(direction));
+
+        if (rayDirection.y < 0) {
+            rayStep.y = -1;
+            rayLengthCumu.y = (startPoint.y - (float) mapCheck.y) * rayUnitStepSize.y;
+        } else {
+            rayStep.y = 1;
+            rayLengthCumu.y = ((float) mapCheck.y + 1 - startPoint.y) * rayUnitStepSize.y;
         }
-        // q 4
-        if (!isUp && isRight) {
-            hx = posX + ((1 - dy) / Math.tan(direction));
-        }
 
-        double hy = isUp ? posY - dy : posY + 1 - dy;
-
-        int targetX = (int) hx;
-        int targetY = (int) hy;
-
-        // horizontal step
-        double hxStep = isRight ? 1 / Math.tan(direction) : -1 / Math.tan(direction);
-        double hyStep = isUp ? -1 : 1;
-
-        while (true) {
-            // Point out of map
-            if (targetX >= map.getMapWidth() || targetY >= map.getMapHeight() || targetX < 0 || targetY < 0) {
-                break;
+        boolean hit = false;
+        double distance = 0;
+        double MAX_DISTANCE = 100;
+        while (!hit && distance < MAX_DISTANCE) {
+            if (rayLengthCumu.x < rayLengthCumu.y) {
+                mapCheck.x += rayStep.x;
+                distance = rayLengthCumu.x;
+                rayLengthCumu.x += rayUnitStepSize.x;
+            } else {
+                mapCheck.y += rayStep.y;
+                distance = rayLengthCumu.y;
+                rayLengthCumu.y += rayUnitStepSize.y;
             }
 
-            // Horizontal
-            if (map.getTexture(targetX, targetY) != Texture.EMPTY) {
-                break;
+            if (mapCheck.x >= 0 && mapCheck.y >= 0 && mapCheck.x < map.getMapWidth()
+                    && mapCheck.y < map.getMapHeight()) {
+                if (map.getTexture(mapCheck.x, mapCheck.y) != Texture.EMPTY) {
+                    // System.out.println("hit!: " + map.getTexture(mapCheck.x, mapCheck.y));
+                    hit = true;
+                }
             }
-            hx += hxStep;
-            hy += hyStep;
-            targetX = (int) hx;
-            targetY = (int) hy;
         }
 
-        // first vertical hit
-        double vx = isRight ? posX + 1 - dx : posX - dx;
-        // q 1
-        double vy = posY - ((1 - dx) / Math.tan(direction));
-        // q 2
-        if (isUp && !isRight) {
-            vy = posY - (dx / Math.tan(direction));
-        }
-        // q 3
-        if (!isUp && !isRight) {
-            vy = posY + (dx / Math.tan(direction));
-        }
-        // q 4
-        if (!isUp && isRight) {
-            vy = posY + ((1 - dx) / Math.tan(direction));
-        }
+        Point intersecPoint = new Point();
+        intersecPoint.x = startPoint.x + rayDirection.x * distance;
+        intersecPoint.y = startPoint.y + rayDirection.y * distance;
 
-        double vxStep = isRight ? 1 : -1;
-        double vyStep = isUp ? -1 / Math.tan(direction) : 1 / Math.tan(direction);
+        Color color = map.getTexture(mapCheck.x, mapCheck.y).getColor();
+        // if (rayLengthCumu.x > rayLengthCumu.y)
+        //     color = color.darker();
 
-        targetX = (int) vx;
-        targetY = (int) vy;
-
-        while (true) {
-            // Point out of map
-            if (targetX >= map.getMapWidth() || targetY >= map.getMapHeight() || targetX < 0 || targetY < 0) {
-                break;
-            }
-
-            // Horizontal
-            if (map.getTexture(targetX, targetY) != Texture.EMPTY) {
-                break;
-            }
-            vx += vxStep;
-            vy += vyStep;
-            targetX = (int) vx;
-            targetY = (int) vy;
-        }
-
-        double distanceH = Math.sqrt(Math.pow(posX - hx, 2) + Math.pow(posY - hy, 2));
-        double distanceV = Math.sqrt(Math.pow(posX - vx, 2) + Math.pow(posY - vy, 2));
-
-        double distance = distanceV;
-        if (distanceH < distanceV) {
-            distance = distanceH;
-            targetX = (int) hx;
-            targetY = (int) hy;
-        }
-
-        if (targetX >= map.getMapWidth() || targetY >= map.getMapHeight() || targetX < 0 || targetY < 0) {
-            return;
-        }
-
-        Color color = map.getTexture(targetX, targetY).getColor();
-        if (distanceH > distanceV) {
-            color = color.darker();
-        }
+        // System.out.println("mapCheck: " + mapCheck.toString());
 
         // Removed distortion
-        distance *= Math.cos(Player.radian(direction - this.player.getDirectionAlpha()));
+        // distance *= Math.cos(Player.radian(direction -
+        // this.player.getDirectionAlpha()));
         int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 0.75);
 
         g2d.setColor(color);
@@ -202,10 +170,14 @@ public class Renderer extends JPanel {
         int posX = Setting.WINDOWS_WIDTH - (map.getMapWidth() * mapScale) - 1, posY = 1;
         for (int i = 0; i < map.getMapHeight(); i++) {
             for (int j = 0; j < map.getMapWidth(); j++) {
-                if (map.getTexture(i, j) == Texture.EMPTY) g.setColor(Color.BLACK);
-                else if (map.getTexture(i, j) == Texture.WHITE_WALL) g.setColor(Color.WHITE);
-                else if (map.getTexture(i, j) == Texture.RED_WALL) g.setColor(Color.RED);
-                else g.setColor(Color.CYAN);
+                if (map.getTexture(i, j) == Texture.EMPTY)
+                    g.setColor(Color.BLACK);
+                else if (map.getTexture(i, j) == Texture.WHITE_WALL)
+                    g.setColor(Color.WHITE);
+                else if (map.getTexture(i, j) == Texture.RED_WALL)
+                    g.setColor(Color.RED);
+                else
+                    g.setColor(Color.CYAN);
 
                 g.fillRect(posX + (mapScale * i), posY + (j * mapScale), mapScale, mapScale);
             }
@@ -251,5 +223,52 @@ public class Renderer extends JPanel {
 
     public void setMap(Map map) {
         this.map = map;
+    }
+}
+
+class PointInt {
+    public int x;
+    public int y;
+
+    public PointInt(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public PointInt(double x, double y) {
+        this.x = (int) Math.floor(x);
+        this.y = (int) Math.floor(y);
+    }
+
+    public PointInt() {
+        this.x = 0;
+        this.y = 0;
+    }
+
+    public String toString() {
+        return String.format("(%d, %d)", this.x, this.y);
+    }
+}
+
+class Point {
+    public double x;
+    public double y;
+
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public Point() {
+        this.x = 0;
+        this.y = 0;
+    }
+
+    public double distance(Point point) {
+        return Math.sqrt(Math.pow(this.x - point.x, 2) + Math.pow(this.y - point.y, 2));
+    }
+
+    public String toString() {
+        return String.format("(%f, %f)", this.x, this.y);
     }
 }

@@ -5,11 +5,20 @@ public class Map {
     private int mapHeight;
 
     private Texture mapContent[][] = {
-            {Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL},
-            {Texture.WHITE_WALL, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.WHITE_WALL},
-            {Texture.WHITE_WALL, Texture.EMPTY, Texture.RED_WALL, Texture.EMPTY, Texture.WHITE_WALL},
-            {Texture.WHITE_WALL, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.WHITE_WALL},
-            {Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL},
+            { Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.RED_WALL, Texture.WHITE_WALL,
+                    Texture.WHITE_WALL, Texture.WHITE_WALL },
+            { Texture.WHITE_WALL, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY,
+                    Texture.WHITE_WALL },
+            { Texture.WHITE_WALL, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY,
+                    Texture.WHITE_WALL },
+            { Texture.RED_WALL, Texture.EMPTY, Texture.EMPTY, Texture.RED_WALL, Texture.EMPTY, Texture.EMPTY,
+                    Texture.RED_WALL },
+            { Texture.WHITE_WALL, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY,
+                    Texture.WHITE_WALL },
+            { Texture.WHITE_WALL, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY, Texture.EMPTY,
+                    Texture.WHITE_WALL },
+            { Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.WHITE_WALL, Texture.RED_WALL, Texture.WHITE_WALL,
+                    Texture.WHITE_WALL, Texture.WHITE_WALL },
     };
 
     public Map() {
