@@ -36,26 +36,33 @@ public class Renderer extends JPanel {
     }
 
     public void render() {
-        Graphics g = this.getBufferedImage().getGraphics();
+        BufferedImage img = this.getBufferedImage();
+        Graphics g = img.getGraphics();
         Graphics2D g2d = (Graphics2D) g;
 
         // clear image
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
 
-        drawFloors(g2d);
+        // drawFloors(g2d);
 
         double scanStep = (double) Setting.FOV / Setting.WINDOWS_WIDTH * Math.PI / 180;
         double scanStart = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
+
+        // BufferedImage img2 = new BufferedImage(Setting.WINDOWS_WIDTH,
+        // Setting.WINDOWS_HEIGHT,
+        // BufferedImage.TYPE_INT_RGB);
+
         for (int i = 0; i < Setting.WINDOWS_WIDTH; i++) {
-            rayCast(player.getPosX(), player.getPosY(), scanStart, i, Setting.WINDOWS_HEIGHT / 2, g2d);
+            rayCast(player.getPosX(), player.getPosY(), scanStart, i, Setting.WINDOWS_HEIGHT / 2, img);
             scanStart -= scanStep;
         }
+        g.drawImage(img, 0, 0, this);
 
-        drawMap(g2d);
+        // drawMap(g2d);
 
-        if (Setting.SHOW_FPS)
-            drawFPS(g);
+        // if (Setting.SHOW_FPS)
+        // drawFPS(g);
 
         this.update(this.getGraphics());
         this.repaint();
@@ -66,7 +73,7 @@ public class Renderer extends JPanel {
         g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
     }
 
-    public void rayCast(double posX, double posY, double direction, int pixelX, int pixelY, Graphics2D g2d) {
+    public void rayCast(double posX, double posY, double direction, int pixelX, int pixelY, BufferedImage img) {
         // DDA Algorithm
 
         Point endPoint = new Point(Math.cos(direction) * 100, Math.sin(direction) * 100);
@@ -162,13 +169,15 @@ public class Renderer extends JPanel {
         Color color = texture.getColor(0, 0);
 
         double wallY;
+        int pixelYClipped;
         pixelY -= lineHeight / 2;
         for (int i = 0; i < lineHeight; i++) {
             wallY = (double) i / lineHeight;
 
             color = map.getTexture(mapCheck.x, mapCheck.y).getColor(wallX, wallY);
-            g2d.setColor(color);
-            g2d.drawLine(pixelX, pixelY + i, pixelX, pixelY + i);
+
+            pixelYClipped = Math.max(0, Math.min(Setting.WINDOWS_HEIGHT - 1, pixelY + i));
+            img.setRGB(pixelX, pixelYClipped, color.getRGB());
         }
     }
 
