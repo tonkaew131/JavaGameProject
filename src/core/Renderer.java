@@ -43,8 +43,7 @@ public class Renderer extends JPanel {
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
 
-        // drawMap(g2d);
-        // drawFloors(g2d);
+        drawFloors(g2d);
 
         double scanStep = (double) Setting.FOV / Setting.WINDOWS_WIDTH * Math.PI / 180;
         double scanStart = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
@@ -52,6 +51,9 @@ public class Renderer extends JPanel {
             rayCast(player.getPosX(), player.getPosY(), scanStart, i, Setting.WINDOWS_HEIGHT / 2, g2d);
             scanStart -= scanStep;
         }
+
+
+        drawMap(g2d);
 
         if (Setting.SHOW_FPS)
             drawFPS(g);
@@ -61,7 +63,7 @@ public class Renderer extends JPanel {
     }
 
     public void drawFloors(Graphics2D g2d) {
-        g2d.setColor(Color.DARK_GRAY);
+        g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
     }
 
@@ -136,15 +138,20 @@ public class Renderer extends JPanel {
         intersecPoint.x = startPoint.x + rayDirection.x * distance;
         intersecPoint.y = startPoint.y + rayDirection.y * distance;
 
-        Color color = map.getTexture(mapCheck.x, mapCheck.y).getColor();
+        Color color = map.getTexture(mapCheck.x, mapCheck.y).getColor(0, 0);
         // if hit from side
         // if (beforeHit.x < beforeHit.y) {
         //     color = color.darker();
         // }
 
         if (!Setting.TOGGLE_LIGHT) {
-            for (int i = 0; i < distance * 2; i++) {
-                color = color.darker();
+            double lightFactor = 0.95;
+            for (int i = 0; i < distance * 20; i++) {
+                color = new Color(
+                        (int) (color.getRed() * lightFactor),
+                        (int) (color.getGreen() * lightFactor),
+                        (int) (color.getBlue() * lightFactor)
+                );
             }
         }
 
