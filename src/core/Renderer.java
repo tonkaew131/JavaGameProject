@@ -52,7 +52,6 @@ public class Renderer extends JPanel {
             scanStart -= scanStep;
         }
 
-
         drawMap(g2d);
 
         if (Setting.SHOW_FPS)
@@ -138,29 +137,39 @@ public class Renderer extends JPanel {
         intersecPoint.x = startPoint.x + rayDirection.x * distance;
         intersecPoint.y = startPoint.y + rayDirection.y * distance;
 
-        Color color = map.getTexture(mapCheck.x, mapCheck.y).getColor(0, 0);
+        double wallX = Math.max(intersecPoint.x % 1, intersecPoint.y % 1);
+
         // if hit from side
         // if (beforeHit.x < beforeHit.y) {
-        //     color = color.darker();
+        // color = color.darker();
         // }
 
-        if (!Setting.TOGGLE_LIGHT) {
-            double lightFactor = 0.95;
-            for (int i = 0; i < distance * 20; i++) {
-                color = new Color(
-                        (int) (color.getRed() * lightFactor),
-                        (int) (color.getGreen() * lightFactor),
-                        (int) (color.getBlue() * lightFactor)
-                );
-            }
-        }
+        // if (!Setting.TOGGLE_LIGHT) {
+        // double lightFactor = 0.95;
+        // for (int i = 0; i < distance * 20; i++) {
+        // color = new Color(
+        // (int) (color.getRed() * lightFactor),
+        // (int) (color.getGreen() * lightFactor),
+        // (int) (color.getBlue() * lightFactor));
+        // }
+        // }
 
         // Removed distortion
         distance *= Math.cos(player.getDirectionAlpha() - direction);
         int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 1);
 
-        g2d.setColor(color);
-        g2d.drawLine(pixelX, pixelY - (lineHeight / 2), pixelX, pixelY + (lineHeight / 2));
+        Texture texture = map.getTexture(mapCheck.x, mapCheck.y);
+        Color color = texture.getColor(0, 0);
+
+        double wallY;
+        pixelY -= lineHeight / 2;
+        for (int i = 0; i < lineHeight; i++) {
+            wallY = (double) i / lineHeight;
+
+            color = map.getTexture(mapCheck.x, mapCheck.y).getColor(wallX, wallY);
+            g2d.setColor(color);
+            g2d.drawLine(pixelX, pixelY + i, pixelX, pixelY + i);
+        }
     }
 
     @Override

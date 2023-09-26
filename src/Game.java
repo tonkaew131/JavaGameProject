@@ -1,5 +1,4 @@
 
-
 import core.*;
 import core.Renderer;
 
@@ -19,8 +18,10 @@ public class Game {
         frame.setLayout(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(Setting.WINDOWS_RESIZABLE);
-        frame.setTitle("Very Super Duper Extremly Cool Game! by @tonkaew131");
+        frame.setTitle("Long white thingy 2.5D by @tonkaew131");
         frame.setVisible(true);
+
+        Texture.loadTexture();
 
         Player player = new Player();
         KeyListener keyListener = new KeyListener();
