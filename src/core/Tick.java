@@ -37,7 +37,7 @@ public class Tick extends TimerTask {
 
         // Stand still
         if (!KeyListener.isKeyPressed(KeyEvent.VK_W) && !KeyListener.isKeyPressed(KeyEvent.VK_S)) {
-            this.player.setStamina(this.player.getStamina() + staminaStep);
+            this.player.setStamina(this.player.getStamina() + staminaStep * 0.6);
         }
 
         // Walk forward & Run
@@ -46,7 +46,7 @@ public class Tick extends TimerTask {
                 walkingStep *= 2;
                 this.player.setStamina(this.player.getStamina() - staminaStep);
             } else {
-                this.player.setStamina(this.player.getStamina() + staminaStep * 0.5);
+                this.player.setStamina(this.player.getStamina() + staminaStep * 0.4);
             }
 
             this.player.forward(walkingStep);
