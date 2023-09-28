@@ -15,7 +15,6 @@ public class Player {
         rayCast.setPlayerPosition(getPosition());
         rayCast.setDirection(directionAlpha);
         rayCast.cast();
-
         if (rayCast.getDistance() < 0.1)
             return;
 

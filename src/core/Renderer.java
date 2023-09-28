@@ -183,15 +183,7 @@ public class Renderer extends JPanel implements ActionListener {
     }
 
     public void drawOverlay(Graphics2D g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 200, 30);
-
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Serif", Font.BOLD, 16));
-        g.drawString(String.format("X: %.2f, Y: %.2f, A: %.2f", player.getPosX(), player.getPosY(),
-                player.getDirectionAlpha() * 180 / Math.PI), 10, 20);
-
-        int staminaBar = (int) (player.getStamina() * Setting.WINDOWS_WIDTH * 1 / 2);
+        int staminaBar = (int) (player.getStamina() * 200);
         g.fillRoundRect(Setting.WINDOWS_WIDTH / 2 - staminaBar / 2, 25, staminaBar, 4, 4, 4);
     }
 

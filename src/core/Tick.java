@@ -42,7 +42,7 @@ public class Tick extends TimerTask {
 
         // Walk forward & Run
         if (KeyListener.isKeyPressed(KeyEvent.VK_W)) {
-            if (KeyListener.isKeyPressed(KeyEvent.VK_SHIFT)) {
+            if (KeyListener.isKeyPressed(KeyEvent.VK_SHIFT) && this.player.getStamina() > 0.01) {
                 walkingStep *= 2;
                 this.player.setStamina(this.player.getStamina() - staminaStep);
             } else {
