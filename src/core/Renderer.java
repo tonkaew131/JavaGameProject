@@ -97,7 +97,9 @@ public class Renderer extends JPanel implements ActionListener {
 
         g2d.drawImage(img, 0, 0, this);
 
-        drawMap(g2d);
+        // drawMap(g2d);
+
+        drawOverlay(g2d);
 
         // if (Setting.SHOW_FPS)
         // drawFPS(g);
@@ -178,6 +180,19 @@ public class Renderer extends JPanel implements ActionListener {
                 g2d.drawLine(x, y, x, y);
             }
         }
+    }
+
+    public void drawOverlay(Graphics2D g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, 200, 30);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Serif", Font.BOLD, 16));
+        g.drawString(String.format("X: %.2f, Y: %.2f, A: %.2f", player.getPosX(), player.getPosY(),
+                player.getDirectionAlpha() * 180 / Math.PI), 10, 20);
+
+        int staminaBar = (int) (player.getStamina() * Setting.WINDOWS_WIDTH * 1 / 2);
+        g.fillRoundRect(Setting.WINDOWS_WIDTH / 2 - staminaBar / 2, 25, staminaBar, 4, 4, 4);
     }
 
     @Override

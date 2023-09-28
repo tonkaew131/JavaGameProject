@@ -7,6 +7,7 @@ import java.util.Timer;
 
 public class Game {
     Renderer renderer;
+    Player player;
 
     public Game() {
         JFrame frame = new JFrame();
@@ -26,11 +27,11 @@ public class Game {
         this.renderer = new Renderer();
         this.renderer.setMap(map);
 
-        Player player = new Player();
-        player.setMap(map);
+        this.player = new Player();
+        this.player.setMap(map);
         this.renderer.setPlayer(player);
 
-        Tick tick = new Tick(renderer, player);
+        Tick tick = new Tick(this.renderer, this.player);
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(tick, 0, 1000 / 60);
 

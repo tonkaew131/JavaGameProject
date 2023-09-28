@@ -33,19 +33,36 @@ public class Tick extends TimerTask {
 
         double walkingStep = Setting.WALKING_STEP * deltaTime / 1000;
         double turningStep = Setting.TURNING_STEP * deltaTime / 1000;
+        double staminaStep = Setting.STAMINA_STEP * deltaTime / 1000;
 
-        if (KeyListener.isKeyPressed(KeyEvent.VK_SHIFT))
-            walkingStep *= 2;
+        // Stand still
+        if (!KeyListener.isKeyPressed(KeyEvent.VK_W) && !KeyListener.isKeyPressed(KeyEvent.VK_S)) {
+            this.player.setStamina(this.player.getStamina() + staminaStep);
+        }
 
+        // Walk forward & Run
         if (KeyListener.isKeyPressed(KeyEvent.VK_W)) {
+            if (KeyListener.isKeyPressed(KeyEvent.VK_SHIFT)) {
+                walkingStep *= 2;
+                this.player.setStamina(this.player.getStamina() - staminaStep);
+            } else {
+                this.player.setStamina(this.player.getStamina() + staminaStep * 0.5);
+            }
+
             this.player.forward(walkingStep);
         }
+
+        // Walk backward
         if (KeyListener.isKeyPressed(KeyEvent.VK_S)) {
             this.player.backward(turningStep);
         }
+
+        // Turn left
         if (KeyListener.isKeyPressed(KeyEvent.VK_A)) {
             this.player.turnRight(-turningStep);
         }
+
+        // Turn right
         if (KeyListener.isKeyPressed(KeyEvent.VK_D)) {
             this.player.turnRight(turningStep);
         }
@@ -55,6 +72,10 @@ public class Tick extends TimerTask {
 
     public long getDeltaTime() {
         return deltaTime;
+    }
+
+    public long getGameStartMillis() {
+        return gameStartMillis;
     }
 
     long getCurrentMillis() {
