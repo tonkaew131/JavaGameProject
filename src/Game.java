@@ -3,7 +3,7 @@ import core.*;
 import core.Renderer;
 
 import javax.swing.*;
-import java.awt.*;
+import java.util.Timer;
 
 public class Game {
     Renderer renderer;
@@ -21,20 +21,18 @@ public class Game {
 
         Texture.loadTexture();
 
-        // Tick tick = new Tick(renderer);
-        // tick.start();
-
         Map map = new Map();
 
         this.renderer = new Renderer();
         this.renderer.setMap(map);
 
         Player player = new Player();
+        player.setMap(map);
         this.renderer.setPlayer(player);
 
-        KeyListener keyListener = new KeyListener();
-        keyListener.setPlayer(player);
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyListener);
+        Tick tick = new Tick(renderer, player);
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(tick, 0, 1000 / 60);
 
         frame.add(renderer);
         // frame.pack();

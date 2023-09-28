@@ -28,6 +28,8 @@ public class Map {
     }
 
     public Texture getTexture(int x, int y) {
+        if (x < 0 || x >= mapWidth || y < 0 || y >= mapHeight)
+            return Texture.BLACK_WALL;
         return mapContent[x][y];
     }
 

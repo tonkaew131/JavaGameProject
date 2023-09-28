@@ -8,7 +8,31 @@ public class Player {
     // Right is 0, top is PI / 2, left is PI, bottom is 3PI / 2
     private double directionAlpha = 3 * Math.PI / 2;
 
+    private Map map;
+    private RayCast rayCast = new RayCast();
+
     public void forward(double amount) {
+        rayCast.setPlayerPosition(getPosition());
+        rayCast.setDirection(directionAlpha);
+        rayCast.cast();
+
+        if (rayCast.getDistance() < 0.1)
+            return;
+
+        posX += Math.cos(directionAlpha) * amount;
+        posY += Math.sin(directionAlpha) * amount;
+    }
+
+    public void backward(double amount) {
+        double directionAlpha = this.directionAlpha + Math.PI;
+
+        rayCast.setPlayerPosition(getPosition());
+        rayCast.setDirection(radian(directionAlpha));
+        rayCast.cast();
+
+        if (rayCast.getDistance() < 0.1)
+            return;
+
         posX += Math.cos(directionAlpha) * amount;
         posY += Math.sin(directionAlpha) * amount;
     }
@@ -41,6 +65,11 @@ public class Player {
 
     public double getDirectionAlpha() {
         return directionAlpha;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+        this.rayCast.setMap(map);
     }
 
     @Override

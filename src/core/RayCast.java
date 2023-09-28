@@ -10,7 +10,7 @@ public class RayCast {
     private Point<Double> hitPoint;
     private HitSide hitSide;
 
-    private enum HitSide {
+    public enum HitSide {
         HORIZONTAL,
         VERTICAL
     }

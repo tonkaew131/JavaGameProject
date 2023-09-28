@@ -14,7 +14,8 @@ public enum Texture {
     WHITE_WALL(1),
     RED_WALL(2),
     DRY_WALL(3),
-    WOOD(4);
+    WOOD(4),
+    BLACK_WALL(5);
 
     public final int textureId;
     private static Dictionary<Integer, TextureLoader> dict = new Hashtable<>();
@@ -42,6 +43,8 @@ public enum Texture {
             return Color.WHITE;
         if (textureId == 2)
             return Color.RED;
+        if (textureId == 5)
+            return Color.BLACK;
 
         if (textureId == 3)
             return dict.get(3).getColor(x, y);

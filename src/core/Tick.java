@@ -1,54 +1,56 @@
 package core;
 
+import java.awt.event.KeyEvent;
 import java.time.Instant;
+import java.util.TimerTask;
 
-public class Tick extends Thread {
+public class Tick extends TimerTask {
     // time since game lanuched!
     private long gameStartMillis;
     // time since last frame finish render
     private long lastTickMillis;
     // time between frame
     private long deltaTime;
-    private Renderer renderer;
 
-    public Tick(Renderer renderer) {
+    private Renderer renderer;
+    private Player player;
+
+    public Tick(Renderer renderer, Player player) {
+        this.player = player;
+
         this.renderer = renderer;
         this.renderer.setTick(this);
-    }
 
-    public void run() {
-        long targetDeltaTime = 1000 / Setting.MAX_FPS;
         long currentTimeMillis = this.getCurrentMillis();
         gameStartMillis = currentTimeMillis;
         lastTickMillis = currentTimeMillis;
+    }
 
-        while (true) {
-            currentTimeMillis = this.getCurrentMillis();
-            deltaTime = currentTimeMillis - lastTickMillis;
+    @Override
+    public void run() {
+        long currentTimeMillis = this.getCurrentMillis();
+        deltaTime = currentTimeMillis - lastTickMillis;
 
-            // Dear myself in the future please propery implements tick system with fixed update and dynamic update so no more stupid fickering
+        double walkingStep = Setting.WALKING_STEP * deltaTime / 1000;
+        double turningStep = Setting.TURNING_STEP * deltaTime / 1000;
 
-            this.renderer.render();
-            try {
-                Thread.sleep(targetDeltaTime);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        if (KeyListener.isKeyPressed(KeyEvent.VK_SHIFT))
+            walkingStep *= 2;
 
-//            if (deltaTime < targetDeltaTime) {
-//                try {
-//                    Thread.sleep(targetDeltaTime - deltaTime);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-
-            // System.out.println("Tick updated! deltaTime: " + deltaTime + ", current time (ms): " + currentTimeMillis);
-            // System.out.println("FPS: " + (deltaTime != 0 ? 1000 / deltaTime : "-"));
-            this.renderer.render();
-
-            lastTickMillis = currentTimeMillis;
+        if (KeyListener.isKeyPressed(KeyEvent.VK_W)) {
+            this.player.forward(walkingStep);
         }
+        if (KeyListener.isKeyPressed(KeyEvent.VK_S)) {
+            this.player.backward(turningStep);
+        }
+        if (KeyListener.isKeyPressed(KeyEvent.VK_A)) {
+            this.player.turnRight(-turningStep);
+        }
+        if (KeyListener.isKeyPressed(KeyEvent.VK_D)) {
+            this.player.turnRight(turningStep);
+        }
+
+        lastTickMillis = currentTimeMillis;
     }
 
     public long getDeltaTime() {
@@ -58,4 +60,5 @@ public class Tick extends Thread {
     long getCurrentMillis() {
         return Instant.now().toEpochMilli();
     }
+
 }

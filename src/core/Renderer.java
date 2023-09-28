@@ -55,19 +55,24 @@ public class Renderer extends JPanel implements ActionListener {
         double scanStep = (double) Setting.FOV / Setting.WINDOWS_WIDTH * Math.PI / 180;
         double scanDirection = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
 
+        // predefined variable
+        int darkness, shadow;
+        int lineHeight;
+        double distance;
+        double wallYPercentage, wallXPercentage;
+
         rayCaster.setPlayerPosition(player.getPosition());
         for (int i = 0; i < Setting.WINDOWS_WIDTH; i++) {
             rayCaster.setDirection(scanDirection);
             rayCaster.cast();
 
-            double wallYPercentage;
-            double wallXPercentage = Math.max(rayCaster.getHitPoint().x % 1, rayCaster.getHitPoint().y % 1);
+            wallXPercentage = Math.max(rayCaster.getHitPoint().x % 1, rayCaster.getHitPoint().y % 1);
 
             // Removed distortion
-            double distance = rayCaster.getDistance();
+            distance = rayCaster.getDistance();
             distance *= Math.cos(player.getDirectionAlpha() - scanDirection);
 
-            int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 1);
+            lineHeight = (int) (Setting.WINDOWS_HEIGHT / distance);
 
             Point<Integer> mapCheck = rayCaster.getMapPoint();
             Color color;
@@ -78,6 +83,11 @@ public class Renderer extends JPanel implements ActionListener {
                 wallYPercentage = (double) j / lineHeight;
 
                 color = map.getTexture(mapCheck.x, mapCheck.y).getColor(wallXPercentage, wallYPercentage);
+                darkness = Setting.TOGGLE_LIGHT ? (int) (distance * 50) : 0;
+                shadow = rayCaster.getHitSide() == RayCast.HitSide.VERTICAL ? 10 : 0;
+                color = new Color(Math.max(0, color.getRed() - darkness - shadow),
+                        Math.max(0, color.getGreen() - darkness - shadow),
+                        Math.max(0, color.getBlue() - darkness - shadow));
 
                 img.setRGB(i, pixelY + j, color.getRGB());
             }
@@ -87,8 +97,7 @@ public class Renderer extends JPanel implements ActionListener {
 
         g2d.drawImage(img, 0, 0, this);
 
-        // if (this.map != null)
-        // drawMap(g2d);
+        drawMap(g2d);
 
         // if (Setting.SHOW_FPS)
         // drawFPS(g);

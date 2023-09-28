@@ -8,9 +8,9 @@ public class Setting {
     public static int MAX_FPS = 24;
     public static boolean SHOW_FPS = true;
     public static int FOV = 60;
-    public static boolean TOGGLE_LIGHT = false;
+    public static boolean TOGGLE_LIGHT = true;
 
     // Game's logic settings
-    public static double WALKING_STEP = 0.05;
-    public static double TURNING_STEP = 0.08;
+    public static double WALKING_STEP = 1;
+    public static double TURNING_STEP = 1.5;
 }
