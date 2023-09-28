@@ -74,6 +74,11 @@ class TextureLoader {
 
     // as a percentage
     public Color getColor(double x, double y) {
-        return color[(int) (x * imageWidth)][(int) (y * imageHeight)];
+        if (x < 0 || x >= 1 || y < 0 || y >= 1)
+            return Color.BLACK;
+
+        int i = (int) Math.min(Math.round(x * imageWidth), imageWidth - 1);
+        int j = (int) Math.min(Math.round(y * imageHeight), imageHeight - 1);
+        return color[i][j];
     }
 }

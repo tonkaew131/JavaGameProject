@@ -8,8 +8,6 @@ public class Player {
     // Right is 0, top is PI / 2, left is PI, bottom is 3PI / 2
     private double directionAlpha = 3 * Math.PI / 2;
 
-    private double health = 100;
-
     public void forward(double amount) {
         posX += Math.cos(directionAlpha) * amount;
         posY += Math.sin(directionAlpha) * amount;
@@ -35,6 +33,10 @@ public class Player {
 
     public double getPosY() {
         return posY;
+    }
+
+    public Point<Double> getPosition() {
+        return new Point<Double>(posX, posY);
     }
 
     public double getDirectionAlpha() {

@@ -2,18 +2,29 @@ package core;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-public class Renderer extends JPanel {
+public class Renderer extends JPanel implements ActionListener {
     private BufferedImage bufferedImageA;
     private BufferedImage bufferedImageB;
     private boolean isDisplayingImageA;
-    private Tick tick;
-    private Player player;
+
+    private RayCast rayCaster;
     private Map map;
+    private Tick tick;
+    private Timer timer = new Timer((int) (1000.0 / Setting.MAX_FPS), this);
+    private Player player;
 
     public Renderer() {
+        rayCaster = new RayCast();
+
+        super.setSize(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
+        super.setPreferredSize(new Dimension(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT));
+
         this.setBackground(Color.BLACK);
+        timer.start();
     }
 
     public BufferedImage getBufferedImage() {
@@ -30,11 +41,6 @@ public class Renderer extends JPanel {
         return bufferedImageB;
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
-    }
-
     public void render() {
         BufferedImage img = this.getBufferedImage();
         Graphics g = img.getGraphics();
@@ -47,25 +53,45 @@ public class Renderer extends JPanel {
         // drawFloors(g2d);
 
         double scanStep = (double) Setting.FOV / Setting.WINDOWS_WIDTH * Math.PI / 180;
-        double scanStart = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
+        double scanDirection = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
 
-        // BufferedImage img2 = new BufferedImage(Setting.WINDOWS_WIDTH,
-        // Setting.WINDOWS_HEIGHT,
-        // BufferedImage.TYPE_INT_RGB);
-
+        rayCaster.setPlayerPosition(player.getPosition());
         for (int i = 0; i < Setting.WINDOWS_WIDTH; i++) {
-            rayCast(player.getPosX(), player.getPosY(), scanStart, i, Setting.WINDOWS_HEIGHT / 2, img);
-            scanStart -= scanStep;
-        }
-        g.drawImage(img, 0, 0, this);
+            rayCaster.setDirection(scanDirection);
+            rayCaster.cast();
 
+            double wallYPercentage;
+            double wallXPercentage = Math.max(rayCaster.getHitPoint().x % 1, rayCaster.getHitPoint().y % 1);
+
+            // Removed distortion
+            double distance = rayCaster.getDistance();
+            distance *= Math.cos(player.getDirectionAlpha() - scanDirection);
+
+            int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 1);
+
+            Point<Integer> mapCheck = rayCaster.getMapPoint();
+            Color color;
+
+            lineHeight = Math.min(lineHeight, Setting.WINDOWS_HEIGHT);
+            int pixelY = Setting.WINDOWS_HEIGHT / 2 - lineHeight / 2;
+            for (int j = 0; j < lineHeight; j++) {
+                wallYPercentage = (double) j / lineHeight;
+
+                color = map.getTexture(mapCheck.x, mapCheck.y).getColor(wallXPercentage, wallYPercentage);
+
+                img.setRGB(i, pixelY + j, color.getRGB());
+            }
+
+            scanDirection -= scanStep;
+        }
+
+        g2d.drawImage(img, 0, 0, this);
+
+        // if (this.map != null)
         // drawMap(g2d);
 
         // if (Setting.SHOW_FPS)
         // drawFPS(g);
-
-        this.update(this.getGraphics());
-        this.repaint();
     }
 
     public void drawFloors(Graphics2D g2d) {
@@ -73,117 +99,9 @@ public class Renderer extends JPanel {
         g2d.fillRect(0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
     }
 
-    public void rayCast(double posX, double posY, double direction, int pixelX, int pixelY, BufferedImage img) {
-        // DDA Algorithm
-
-        Point endPoint = new Point(Math.cos(direction) * 100, Math.sin(direction) * 100);
-        Point startPoint = new Point(posX, posY);
-
-        Point rayDirection = new Point();
-        rayDirection.x = endPoint.x - startPoint.x;
-        rayDirection.y = endPoint.y - startPoint.y;
-
-        // Normalize
-        double rayLength = Math.sqrt(rayDirection.x * rayDirection.x + rayDirection.y * rayDirection.y);
-        rayDirection.x /= rayLength;
-        rayDirection.y /= rayLength;
-
-        Point rayUnitStepSize = new Point(
-                Math.sqrt(1 + ((rayDirection.y / rayDirection.x) * (rayDirection.y / rayDirection.x))),
-                Math.sqrt(1 + ((rayDirection.x / rayDirection.y) * (rayDirection.x / rayDirection.y))));
-        PointInt mapCheck = new PointInt(posX, posY);
-        // store length in x, y
-        Point rayLengthCumu = new Point();
-        // store step in x, y
-        Point rayStep = new Point();
-
-        if (rayDirection.x < 0) {
-            rayStep.x = -1;
-            rayLengthCumu.x = (startPoint.x - (float) mapCheck.x) * rayUnitStepSize.x;
-        } else {
-            rayStep.x = 1;
-            rayLengthCumu.x = ((float) mapCheck.x + 1 - startPoint.x) * rayUnitStepSize.x;
-        }
-
-        if (rayDirection.y < 0) {
-            rayStep.y = -1;
-            rayLengthCumu.y = (startPoint.y - (float) mapCheck.y) * rayUnitStepSize.y;
-        } else {
-            rayStep.y = 1;
-            rayLengthCumu.y = ((float) mapCheck.y + 1 - startPoint.y) * rayUnitStepSize.y;
-        }
-
-        Point beforeHit = new Point();
-
-        boolean hit = false;
-        double distance = 0;
-        double MAX_DISTANCE = 100;
-        while (!hit && distance < MAX_DISTANCE) {
-            beforeHit.x = rayLengthCumu.x;
-            beforeHit.y = rayLengthCumu.y;
-
-            if (rayLengthCumu.x < rayLengthCumu.y) {
-                mapCheck.x += rayStep.x;
-                distance = rayLengthCumu.x;
-                rayLengthCumu.x += rayUnitStepSize.x;
-            } else {
-                mapCheck.y += rayStep.y;
-                distance = rayLengthCumu.y;
-                rayLengthCumu.y += rayUnitStepSize.y;
-            }
-
-            if (mapCheck.x >= 0 && mapCheck.y >= 0 && mapCheck.x < map.getMapWidth()
-                    && mapCheck.y < map.getMapHeight()) {
-                if (map.getTexture(mapCheck.x, mapCheck.y) != Texture.EMPTY) {
-                    hit = true;
-                }
-            }
-        }
-
-        Point intersecPoint = new Point();
-        intersecPoint.x = startPoint.x + rayDirection.x * distance;
-        intersecPoint.y = startPoint.y + rayDirection.y * distance;
-
-        double wallX = Math.max(intersecPoint.x % 1, intersecPoint.y % 1);
-
-        // if hit from side
-        // if (beforeHit.x < beforeHit.y) {
-        // color = color.darker();
-        // }
-
-        // if (!Setting.TOGGLE_LIGHT) {
-        // double lightFactor = 0.95;
-        // for (int i = 0; i < distance * 20; i++) {
-        // color = new Color(
-        // (int) (color.getRed() * lightFactor),
-        // (int) (color.getGreen() * lightFactor),
-        // (int) (color.getBlue() * lightFactor));
-        // }
-        // }
-
-        // Removed distortion
-        distance *= Math.cos(player.getDirectionAlpha() - direction);
-        int lineHeight = (int) ((Setting.WINDOWS_HEIGHT / 2) / distance * 1);
-
-        Texture texture = map.getTexture(mapCheck.x, mapCheck.y);
-        Color color = texture.getColor(0, 0);
-
-        double wallY;
-        int pixelYClipped;
-        pixelY -= lineHeight / 2;
-        for (int i = 0; i < lineHeight; i++) {
-            wallY = (double) i / lineHeight;
-
-            color = map.getTexture(mapCheck.x, mapCheck.y).getColor(wallX, wallY);
-
-            pixelYClipped = Math.max(0, Math.min(Setting.WINDOWS_HEIGHT - 1, pixelY + i));
-            img.setRGB(pixelX, pixelYClipped, color.getRGB());
-        }
-    }
-
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
         if (isDisplayingImageA) {
             g.drawImage(bufferedImageA, 0, 0, this);
@@ -253,6 +171,12 @@ public class Renderer extends JPanel {
         }
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        render();
+        repaint();
+    }
+
     public void setTick(Tick tick) {
         this.tick = tick;
     }
@@ -263,52 +187,6 @@ public class Renderer extends JPanel {
 
     public void setMap(Map map) {
         this.map = map;
-    }
-}
-
-class PointInt {
-    public int x;
-    public int y;
-
-    public PointInt(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public PointInt(double x, double y) {
-        this.x = (int) Math.floor(x);
-        this.y = (int) Math.floor(y);
-    }
-
-    public PointInt() {
-        this.x = 0;
-        this.y = 0;
-    }
-
-    public String toString() {
-        return String.format("(%d, %d)", this.x, this.y);
-    }
-}
-
-class Point {
-    public double x;
-    public double y;
-
-    public Point(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public Point() {
-        this.x = 0;
-        this.y = 0;
-    }
-
-    public double distance(Point point) {
-        return Math.sqrt(Math.pow(this.x - point.x, 2) + Math.pow(this.y - point.y, 2));
-    }
-
-    public String toString() {
-        return String.format("(%f, %f)", this.x, this.y);
+        this.rayCaster.setMap(map);
     }
 }
