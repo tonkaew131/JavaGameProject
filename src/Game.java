@@ -26,6 +26,7 @@ public class Game {
 
         this.renderer = new Renderer();
         this.renderer.setMap(map);
+        Renderer.loadAssets();
 
         this.player = new Player();
         this.player.setMap(map);

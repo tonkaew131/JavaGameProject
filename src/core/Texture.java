@@ -70,8 +70,9 @@ class TextureLoader {
 
         color = new Color[imageWidth][imageHeight];
         for (int i = 0; i < imageWidth; i++) {
-            for (int j = 0; j < imageHeight; j++)
+            for (int j = 0; j < imageHeight; j++) {
                 color[i][j] = new Color(image.getRGB(i, j));
+            }
         }
     }
 

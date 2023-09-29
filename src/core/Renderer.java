@@ -1,10 +1,15 @@
 package core;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class Renderer extends JPanel implements ActionListener {
     private BufferedImage bufferedImageA;
@@ -17,6 +22,8 @@ public class Renderer extends JPanel implements ActionListener {
     private Timer timer = new Timer((int) (1000.0 / Setting.MAX_FPS), this);
     private Player player;
 
+    private static Dictionary<String, Image> assets = new Hashtable<>();
+
     public Renderer() {
         rayCaster = new RayCast();
 
@@ -25,6 +32,16 @@ public class Renderer extends JPanel implements ActionListener {
 
         this.setBackground(Color.BLACK);
         timer.start();
+    }
+
+    public static void loadAssets() {
+        try {
+            assets.put("overlay", ImageIO.read(new File("src/texture/overlay.png")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("Assets loaded!");
+        }
     }
 
     public BufferedImage getBufferedImage() {
@@ -183,6 +200,9 @@ public class Renderer extends JPanel implements ActionListener {
     }
 
     public void drawOverlay(Graphics2D g) {
+        g.drawImage(assets.get("overlay"), 0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, this);
+
+        g.setColor(Color.WHITE);
         int staminaBar = (int) (player.getStamina() * 200);
         g.fillRoundRect(Setting.WINDOWS_WIDTH / 2 - staminaBar / 2, 25, staminaBar, 4, 4, 4);
     }
