@@ -10,7 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.Set;
 
 public class Renderer extends JPanel implements ActionListener {
     private BufferedImage bufferedImageA;
@@ -70,8 +69,10 @@ public class Renderer extends JPanel implements ActionListener {
 
         // drawFloors(g2d);
 
-        double scanStep = (double) Setting.FOV / Setting.WINDOWS_WIDTH * Math.PI / 180;
-        double scanDirection = player.getDirectionAlpha() + ((double) Setting.FOV / 2 * Math.PI / 180);
+        // radian per pixel
+        double fovRadian = Math.toRadians(Setting.FOV);
+        double scanStep = fovRadian / Setting.WINDOWS_WIDTH;
+        double scanDirection = player.getDirectionAlpha() + (fovRadian / 2);
 
         // predefined variable
         int darkness, shadow;
@@ -159,7 +160,7 @@ public class Renderer extends JPanel implements ActionListener {
     }
 
     public void drawMap(Graphics g) {
-        int mapScale = 15;
+        int mapScale = 10;
         int posX = Setting.WINDOWS_WIDTH - (map.getMapWidth() * mapScale) - 1, posY = 1;
         for (int i = 0; i < map.getMapHeight(); i++) {
             for (int j = 0; j < map.getMapWidth(); j++) {
@@ -169,14 +170,16 @@ public class Renderer extends JPanel implements ActionListener {
                     g.setColor(Color.WHITE);
                 else if (map.getTexture(i, j) == Texture.RED_WALL)
                     g.setColor(Color.RED);
+                else if (map.getTexture(i, j) == Texture.DRY_WALL)
+                    g.setColor(Color.YELLOW);
                 else
-                    g.setColor(Color.CYAN);
+                    g.setColor(Color.WHITE);
 
                 g.fillRect(posX + (mapScale * i), posY + (j * mapScale), mapScale, mapScale);
             }
         }
 
-        g.setColor(Color.cyan);
+        g.setColor(Color.RED);
         g.fillOval(posX + (int) (player.getPosX() * mapScale), posY + (int) (player.getPosY() * mapScale), 3, 3);
     }
 
@@ -207,8 +210,16 @@ public class Renderer extends JPanel implements ActionListener {
     }
 
     public void drawOverlay(Graphics2D g) {
-        g.drawImage(assets.get("overlay"), 0, 0, Setting.WINDOWS_WIDTH,
-                Setting.WINDOWS_HEIGHT, this);
+        if (Setting.TOGGLE_LIGHT) {
+            g.drawImage(assets.get("overlay"), 0, 0, Setting.WINDOWS_WIDTH,
+                    Setting.WINDOWS_HEIGHT, this);
+        }
+
+        g.setColor(Color.RED);
+        g.drawLine(Setting.WINDOWS_WIDTH / 2, 0, Setting.WINDOWS_WIDTH / 2, Setting.WINDOWS_HEIGHT);
+        g.drawString(String.format("X: %.2f, Y: %.2f, d: %.2f",
+                player.getPosX(), player.getPosY(),
+                Math.toDegrees(player.getDirectionAlpha())), 10, 10);
 
         g.setColor(Color.WHITE);
         int staminaBar = (int) (player.getStamina() * 200);

@@ -2,11 +2,12 @@ package core;
 
 public class Player {
     // Player position
-    private double posX = 2, posY = 2;
+    private double posX = 1.5, posY = 26.5;
     // Player direction (in PI)
     // Right is 0, top is PI / 2, left is PI, bottom is 3PI / 2
-    private double directionAlpha = 3 * Math.PI / 2;
+    private double directionAlpha = 0;
     private double stamina = 1;
+    private int letterCount = 0;
 
     private Map map;
     private RayCast rayCast = new RayCast();
@@ -77,6 +78,14 @@ public class Player {
 
     public void setStamina(double stamina) {
         this.stamina = Math.max(0, Math.min(1, stamina));
+    }
+
+    public void addLetter() {
+        letterCount++;
+    }
+
+    public int getLetterCount() {
+        return letterCount;
     }
 
     @Override

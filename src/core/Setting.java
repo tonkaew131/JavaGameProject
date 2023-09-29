@@ -7,7 +7,7 @@ public class Setting {
     public static boolean WINDOWS_RESIZABLE = false;
     public static int MAX_FPS = 24;
     public static boolean SHOW_FPS = true;
-    public static int FOV = 60;
+    public static int FOV = 80;
     public static boolean TOGGLE_LIGHT = true;
 
     // Game's logic settings

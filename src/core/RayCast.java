@@ -40,29 +40,33 @@ public class RayCast {
         rayDirection.x /= rayLength;
         rayDirection.y /= rayLength;
 
-        Point<Double> rayUnitStepSize = new Point<>(
-                Math.sqrt(1 + ((rayDirection.y / rayDirection.x) * (rayDirection.y / rayDirection.x))),
-                Math.sqrt(1 + ((rayDirection.x / rayDirection.y) * (rayDirection.x / rayDirection.y))));
+        // Point<Double> rayUnitStepSize = new Point<>(
+        // Math.sqrt(1 + ((rayDirection.y / rayDirection.x) * (rayDirection.y /
+        // rayDirection.x))),
+        // Math.sqrt(1 + ((rayDirection.x / rayDirection.y) * (rayDirection.x /
+        // rayDirection.y))));
+        Point<Double> rayUnitStepSize = new Point<>(Math.abs(1.0d / rayDirection.x), Math.abs(1.0d / rayDirection.y));
+
         Point<Integer> mapCheck = new Point<>((int) posX, (int) posY);
         // store length in x, y
         Point<Double> rayLengthCumu = new Point<>(0d, 0d);
         // store step in x, y
-        Point<Double> rayStep = new Point<>(0d, 0d);
+        Point<Integer> rayStep = new Point<>(0, 0);
 
         if (rayDirection.x < 0) {
-            rayStep.x = -1d;
-            rayLengthCumu.x = (startPoint.x - (float) mapCheck.x) * rayUnitStepSize.x;
+            rayStep.x = -1;
+            rayLengthCumu.x = (startPoint.x - (double) mapCheck.x) * rayUnitStepSize.x;
         } else {
-            rayStep.x = 1d;
-            rayLengthCumu.x = ((float) mapCheck.x + 1 - startPoint.x) * rayUnitStepSize.x;
+            rayStep.x = 1;
+            rayLengthCumu.x = ((double) (mapCheck.x + 1) - startPoint.x) * rayUnitStepSize.x;
         }
 
         if (rayDirection.y < 0) {
-            rayStep.y = -1d;
-            rayLengthCumu.y = (startPoint.y - (float) mapCheck.y) * rayUnitStepSize.y;
+            rayStep.y = -1;
+            rayLengthCumu.y = (startPoint.y - (double) mapCheck.y) * rayUnitStepSize.y;
         } else {
-            rayStep.y = 1d;
-            rayLengthCumu.y = ((float) mapCheck.y + 1 - startPoint.y) * rayUnitStepSize.y;
+            rayStep.y = 1;
+            rayLengthCumu.y = ((double) (mapCheck.y + 1) - startPoint.y) * rayUnitStepSize.y;
         }
 
         Point<Double> beforeHit = new Point<>();
