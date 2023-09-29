@@ -11,6 +11,7 @@ public class Tick extends TimerTask {
     private long lastTickMillis;
     // time between frame
     private long deltaTime;
+    private long runningTick;
 
     private Renderer renderer;
     private Player player;
@@ -42,7 +43,9 @@ public class Tick extends TimerTask {
 
         // Walk forward & Run
         if (KeyListener.isKeyPressed(KeyEvent.VK_W)) {
+            runningTick += 1;
             if (KeyListener.isKeyPressed(KeyEvent.VK_SHIFT) && this.player.getStamina() > 0.01) {
+                runningTick += 2;
                 walkingStep *= 2;
                 this.player.setStamina(this.player.getStamina() - staminaStep);
             } else {
@@ -76,6 +79,10 @@ public class Tick extends TimerTask {
 
     public long getGameStartMillis() {
         return gameStartMillis;
+    }
+
+    public long getRunningTick() {
+        return runningTick;
     }
 
     long getCurrentMillis() {

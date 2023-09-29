@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.Set;
 
 public class Renderer extends JPanel implements ActionListener {
     private BufferedImage bufferedImageA;
@@ -78,6 +79,9 @@ public class Renderer extends JPanel implements ActionListener {
         double distance;
         double wallYPercentage, wallXPercentage;
 
+        BufferedImage gameplay = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT,
+                BufferedImage.TYPE_INT_RGB);
+
         rayCaster.setPlayerPosition(player.getPosition());
         for (int i = 0; i < Setting.WINDOWS_WIDTH; i++) {
             rayCaster.setDirection(scanDirection);
@@ -106,13 +110,16 @@ public class Renderer extends JPanel implements ActionListener {
                         Math.max(0, color.getGreen() - darkness - shadow),
                         Math.max(0, color.getBlue() - darkness - shadow));
 
-                img.setRGB(i, pixelY + j, color.getRGB());
+                gameplay.setRGB(i, pixelY + j, color.getRGB());
             }
 
             scanDirection -= scanStep;
         }
 
-        g2d.drawImage(img, 0, 0, this);
+        // view bobbing
+        int bobX = (int) 0;
+        int bobY = (int) (Math.abs(10 * Math.sin(tick.getRunningTick() * 1.1)));
+        g2d.drawImage(gameplay, bobX, bobY, this);
 
         // drawMap(g2d);
 
@@ -200,7 +207,8 @@ public class Renderer extends JPanel implements ActionListener {
     }
 
     public void drawOverlay(Graphics2D g) {
-        g.drawImage(assets.get("overlay"), 0, 0, Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT, this);
+        g.drawImage(assets.get("overlay"), 0, 0, Setting.WINDOWS_WIDTH,
+                Setting.WINDOWS_HEIGHT, this);
 
         g.setColor(Color.WHITE);
         int staminaBar = (int) (player.getStamina() * 200);
