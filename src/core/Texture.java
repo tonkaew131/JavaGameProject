@@ -15,7 +15,9 @@ public enum Texture {
     RED_WALL(2),
     DRY_WALL(3),
     WOOD(4),
-    BLACK_WALL(5);
+    BLACK_WALL(5),
+    GLASS_DOOR(6),
+    BOARD(7);
 
     public final int textureId;
     private static Dictionary<Integer, TextureLoader> dict = new Hashtable<>();
@@ -28,6 +30,8 @@ public enum Texture {
         try {
             dict.put(3, new TextureLoader("src/texture/dry_wall.png"));
             dict.put(4, new TextureLoader("src/texture/wood.png"));
+            dict.put(6, new TextureLoader("src/texture/dry_wall_glass_door.png"));
+            dict.put(7, new TextureLoader("src/texture/dry_wall_board.png"));
         } catch (IOException e) {
             System.out.println("Failed to load texture!");
             e.printStackTrace();
@@ -50,6 +54,10 @@ public enum Texture {
             return dict.get(3).getColor(x, y);
         if (textureId == 4)
             return dict.get(4).getColor(x, y);
+        if (textureId == 6)
+            return dict.get(6).getColor(x, y);
+        if (textureId == 7)
+            return dict.get(7).getColor(x, y);
         return Color.BLACK;
     }
 }

@@ -79,6 +79,10 @@ public class Renderer extends JPanel implements ActionListener {
         int lineHeight;
         double distance;
         double wallYPercentage, wallXPercentage;
+        int pixelY;
+        int clipLineHeight;
+        int halfScreenHeight = Setting.WINDOWS_HEIGHT / 2;
+        int offsetHeight;
 
         BufferedImage gameplay = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT,
                 BufferedImage.TYPE_INT_RGB);
@@ -88,7 +92,8 @@ public class Renderer extends JPanel implements ActionListener {
             rayCaster.setDirection(scanDirection);
             rayCaster.cast();
 
-            wallXPercentage = Math.max(rayCaster.getHitPoint().x % 1, rayCaster.getHitPoint().y % 1);
+            wallXPercentage = rayCaster.getHitSide() == RayCast.HitSide.VERTICAL ? (rayCaster.getHitPoint().x % 1)
+                    : (rayCaster.getHitPoint().y % 1);
 
             // Removed distortion
             distance = rayCaster.getDistance();
@@ -99,10 +104,11 @@ public class Renderer extends JPanel implements ActionListener {
             Point<Integer> mapCheck = rayCaster.getMapPoint();
             Color color;
 
-            lineHeight = Math.min(lineHeight, Setting.WINDOWS_HEIGHT);
-            int pixelY = Setting.WINDOWS_HEIGHT / 2 - lineHeight / 2;
-            for (int j = 0; j < lineHeight; j++) {
-                wallYPercentage = (double) j / lineHeight;
+            pixelY = Math.max(halfScreenHeight - lineHeight / 2, 0);
+            clipLineHeight = Math.min(lineHeight, Setting.WINDOWS_HEIGHT);
+            offsetHeight = clipLineHeight != lineHeight ? (lineHeight - clipLineHeight) / 2 : 0;
+            for (int j = 0; j < clipLineHeight; j++) {
+                wallYPercentage = ((double) j + offsetHeight) / lineHeight;
 
                 color = map.getTexture(mapCheck.x, mapCheck.y).getColor(wallXPercentage, wallYPercentage);
                 darkness = Setting.TOGGLE_LIGHT ? (int) (distance * 50) : 0;
