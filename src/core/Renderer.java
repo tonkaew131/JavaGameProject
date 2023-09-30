@@ -246,6 +246,9 @@ public class Renderer extends JPanel implements ActionListener {
         g.setColor(Color.WHITE);
         int staminaBar = (int) (player.getStamina() * 200);
         g.fillRoundRect(Setting.WINDOWS_WIDTH / 2 - staminaBar / 2, 25, staminaBar, 4, 4, 4);
+
+        g.setColor(Color.WHITE);
+        g.drawString(String.format("Letter: %d", player.getLetterCount()), 10, 25);
     }
 
     @Override
