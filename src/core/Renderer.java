@@ -106,7 +106,7 @@ public class Renderer extends JPanel implements ActionListener {
 
                 color = map.getTexture(mapCheck.x, mapCheck.y).getColor(wallXPercentage, wallYPercentage);
                 darkness = Setting.TOGGLE_LIGHT ? (int) (distance * 50) : 0;
-                shadow = rayCaster.getHitSide() == RayCast.HitSide.VERTICAL ? 10 : 0;
+                shadow = rayCaster.getHitSide() == RayCast.HitSide.VERTICAL ? 20 : 0;
                 color = new Color(Math.max(0, color.getRed() - darkness - shadow),
                         Math.max(0, color.getGreen() - darkness - shadow),
                         Math.max(0, color.getBlue() - darkness - shadow));
@@ -122,7 +122,8 @@ public class Renderer extends JPanel implements ActionListener {
         int bobY = (int) (Math.abs(10 * Math.sin(tick.getRunningTick() * 1.1)));
         g2d.drawImage(gameplay, bobX, bobY, this);
 
-        // drawMap(g2d);
+        if (Setting.TOGGLE_MAP)
+            drawMap(g2d);
 
         drawOverlay(g2d);
 
@@ -161,26 +162,43 @@ public class Renderer extends JPanel implements ActionListener {
 
     public void drawMap(Graphics g) {
         int mapScale = 10;
-        int posX = Setting.WINDOWS_WIDTH - (map.getMapWidth() * mapScale) - 1, posY = 1;
-        for (int i = 0; i < map.getMapHeight(); i++) {
-            for (int j = 0; j < map.getMapWidth(); j++) {
-                if (map.getTexture(i, j) == Texture.EMPTY)
+        int width = map.getMapWidth();
+
+        int posX = Setting.WINDOWS_WIDTH - (width * mapScale) - 1;
+        int posY = 1;
+        Texture texture;
+        for (int y = 0; y < map.getMapHeight(); y++) {
+            for (int x = 0; x < map.getMapWidth(); x++) {
+                texture = map.getTexture(x, y);
+                if (texture == Texture.EMPTY)
                     g.setColor(Color.BLACK);
-                else if (map.getTexture(i, j) == Texture.WHITE_WALL)
+                else if (texture == Texture.WHITE_WALL)
                     g.setColor(Color.WHITE);
-                else if (map.getTexture(i, j) == Texture.RED_WALL)
+                else if (texture == Texture.RED_WALL)
                     g.setColor(Color.RED);
-                else if (map.getTexture(i, j) == Texture.DRY_WALL)
+                else if (texture == Texture.DRY_WALL)
                     g.setColor(Color.YELLOW);
                 else
                     g.setColor(Color.WHITE);
 
-                g.fillRect(posX + (mapScale * i), posY + (j * mapScale), mapScale, mapScale);
+                g.fillRect(posX + (mapScale * x), posY + (y * mapScale), mapScale, mapScale);
             }
         }
 
         g.setColor(Color.RED);
-        g.fillOval(posX + (int) (player.getPosX() * mapScale), posY + (int) (player.getPosY() * mapScale), 3, 3);
+        g.fillOval(
+                posX + (int) Math.round(player.getPosX() * mapScale) - 2,
+                posY + (int) Math.round(player.getPosY() * mapScale) - 2,
+                4, 4);
+
+        rayCaster.setDirection(player.getDirectionAlpha());
+        rayCaster.cast();
+        g.setColor(Color.GREEN);
+        g.drawLine(
+                posX + (int) Math.round(player.getPosX() * mapScale),
+                posY + (int) Math.round(player.getPosY() * mapScale),
+                posX + (int) Math.round(rayCaster.getHitPoint().x * mapScale),
+                posY + (int) Math.round(rayCaster.getHitPoint().y * mapScale));
     }
 
     public void drawRainbow(Graphics g) {
@@ -215,8 +233,6 @@ public class Renderer extends JPanel implements ActionListener {
                     Setting.WINDOWS_HEIGHT, this);
         }
 
-        g.setColor(Color.RED);
-        g.drawLine(Setting.WINDOWS_WIDTH / 2, 0, Setting.WINDOWS_WIDTH / 2, Setting.WINDOWS_HEIGHT);
         g.drawString(String.format("X: %.2f, Y: %.2f, d: %.2f",
                 player.getPosX(), player.getPosY(),
                 Math.toDegrees(player.getDirectionAlpha())), 10, 10);

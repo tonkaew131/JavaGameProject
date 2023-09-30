@@ -28,7 +28,9 @@ public class RayCast {
         double posX = playerPosition.x;
         double posY = playerPosition.y;
 
-        Point<Double> endPoint = new Point<>(Math.cos(direction) * 100, Math.sin(direction) * 100);
+        Point<Double> endPoint = new Point<>(
+                posX + Math.cos(direction) * 100,
+                posY + Math.sin(direction) * 100);
         Point<Double> startPoint = new Point<>(posX, posY);
 
         Point<Double> rayDirection = new Point<>(0d, 0d);
@@ -79,17 +81,17 @@ public class RayCast {
             beforeHit.y = rayLengthCumu.y;
 
             if (rayLengthCumu.x < rayLengthCumu.y) {
-                mapCheck.x += rayStep.x.intValue();
+                mapCheck.x += rayStep.x;
                 distance = rayLengthCumu.x;
                 rayLengthCumu.x += rayUnitStepSize.x;
             } else {
-                mapCheck.y += rayStep.y.intValue();
+                mapCheck.y += rayStep.y;
                 distance = rayLengthCumu.y;
                 rayLengthCumu.y += rayUnitStepSize.y;
             }
 
-            if (mapCheck.x >= 0 && mapCheck.y >= 0 && mapCheck.x < map.getMapWidth()
-                    && mapCheck.y < map.getMapHeight()) {
+            if (mapCheck.x >= 0 && mapCheck.y >= 0 &&
+                    mapCheck.x < map.getMapWidth() && mapCheck.y < map.getMapHeight()) {
                 if (map.getTexture(mapCheck.x, mapCheck.y) != Texture.EMPTY) {
                     hit = true;
                 }

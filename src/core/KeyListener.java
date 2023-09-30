@@ -14,6 +14,9 @@ public class KeyListener {
                 if (event.getKeyCode() == KeyEvent.VK_L) {
                     Setting.TOGGLE_LIGHT = !Setting.TOGGLE_LIGHT;
                 }
+                if(event.getKeyCode() == KeyEvent.VK_M) {
+                    Setting.TOGGLE_MAP = !Setting.TOGGLE_MAP;
+                }
             }
 
             synchronized (KeyListener.class) {
