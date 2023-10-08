@@ -5,27 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06e4f4d3-31a1-49c0-a08f-2b4bffb18c17" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/font/Pixelify_Sans/OFL.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/font/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/font/Pixelify_Sans/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/font/Pixelify_Sans/static/PixelifySans-Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/font/Pixelify_Sans/static/PixelifySans-Medium.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/font/Pixelify_Sans/static/PixelifySans-Regular.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/font/Pixelify_Sans/static/PixelifySans-SemiBold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/texture/dry_wall_metal_door.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/texture/dry_wall_wood_door.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/texture/letter.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/texture/letter_dry_wall.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/documents/Map/Map.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/documents/Map/Map.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documents/Map/Map_v2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/documents/Map/Map_v2.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documents/Map/Map_v2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documents/Map/Map_v2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/documents/Map/~$Map.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/KeyListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/KeyListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Renderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/Texture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Texture.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/Tick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Tick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/texture/dry_wall_window.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/texture/dry_wall_window.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

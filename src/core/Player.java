@@ -51,6 +51,18 @@ public class Player {
         return amount;
     }
 
+    public void collect() {
+        rayCast.setDirection(directionAlpha);
+        rayCast.setPlayerPosition(getPosition());
+        rayCast.cast();
+
+        if (rayCast.getDistance() > 0.75)
+            return;
+
+        letterCount++;
+        return;
+    }
+
     public double getPosX() {
         return posX;
     }

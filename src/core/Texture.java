@@ -21,7 +21,8 @@ public enum Texture {
     HELP_ME(8),
     WINDOW(9),
     METAL_DOOR(10),
-    WOOD_DOOR(11);
+    WOOD_DOOR(11),
+    METAL_WALL(12);
 
     public final int textureId;
     private static Dictionary<Integer, TextureLoader> dict = new Hashtable<>();
@@ -42,20 +43,20 @@ public enum Texture {
             dict.put(9, new TextureLoader("src/texture/dry_wall_window.png"));
             dict.put(10, new TextureLoader("src/texture/dry_wall_metal_door.png"));
             dict.put(11, new TextureLoader("src/texture/dry_wall_wood_door.png"));
+            dict.put(12, new TextureLoader("src/texture/metal_wall.png"));
         } catch (IOException e) {
             System.out.println("[Texture]: Failed to load textures!");
             e.printStackTrace();
             return;
         }
         System.out.println("[Texture]: Textures loaded! (" + (System.currentTimeMillis() - startTime) + "ms)");
-    
+
         try {
-            GraphicsEnvironment ge = 
-              GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("A.ttf")));
-         } catch (IOException|FontFormatException e) {
-            //Handle exception
-         }
+        } catch (IOException | FontFormatException e) {
+            // Handle exception
+        }
     }
 
     public Color getColor(double x, double y) {

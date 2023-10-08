@@ -36,6 +36,8 @@ public class Game {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(tick, 0, 1000 / 60);
 
+        KeyListener.setPlayer(player);
+
         frame.add(renderer);
         // frame.pack();
     }
