@@ -56,10 +56,14 @@ public class Player {
         rayCast.setPlayerPosition(getPosition());
         rayCast.cast();
 
-        if (rayCast.getDistance() > 0.75)
+        if (rayCast.getDistance() > 1)
             return;
 
-        letterCount++;
+        Point<Integer> mapCheck = rayCast.getMapPoint();
+        if (map.checkLetter(mapCheck.x, mapCheck.y)) {
+            map.removeLetter(mapCheck.x, mapCheck.y);
+            letterCount++;
+        }
         return;
     }
 

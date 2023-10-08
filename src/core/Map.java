@@ -1,5 +1,7 @@
 package core;
 
+import java.util.ArrayList;
+
 public class Map {
     private int mapWidth;
     private int mapHeight;
@@ -32,12 +34,17 @@ public class Map {
         { 3,3,3,0,0,0,3,12,12,12,3,0,0,3,0,0,0,3,0,0,3,3,3,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,3,3,3,3 },
         { 3,3,3,3,0,3,3,11,3,13,3,3,3,3,3,3,3,3,3,3,3,3,3,3,0,3,3,0,3,3,3,3,3,0,3,3,0,3,3,3,3,3,3 },
         { 3,3,7,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,3,3,3,3,3,0,3,0,0,0,0,0,0,0,0,0,0,0,3,3,3,3,3,3 },
-        { 6,0,0,0,0,3,0,0,3,0,0,10,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },
+        { 6,0,0,0,0,14,0,0,3,0,0,10,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },
         { 3,3,3,0,0,0,0,0,0,0,0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },
-        { 3,3,3,3,8,3,9,9,9,9,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },
+        { 3,3,3,3,8,3,9,9,9,9,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },        
     };
 
+    private ArrayList<Point<Integer>> spawnedLetters = new ArrayList<>();
+
     public Map() {
+        // Letter no0
+        spawnedLetters.add(new Point<Integer>(5, 26));
+
         mapHeight = preMapContent.length;
         mapWidth = preMapContent[0].length;
 
@@ -61,5 +68,24 @@ public class Map {
 
     public int getMapWidth() {
         return mapWidth;
+    }
+
+    public boolean checkLetter(int x, int y) {
+        for (Point<Integer> letter : spawnedLetters) {
+            if (letter.x == x && letter.y == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void removeLetter(int x, int y) {
+        for (Point<Integer> letter : spawnedLetters) {
+            if (letter.x == x && letter.y == y) {
+                spawnedLetters.remove(letter);
+                mapContent[y][x] = Texture.getNoLetterTexture(mapContent[y][x].getTextureId());
+                break;
+            }
+        }
     }
 }
