@@ -125,7 +125,7 @@ public class Renderer extends JPanel implements ActionListener {
 
         // view bobbing
         int bobX = (int) 0;
-        int bobY = (int) (Math.abs(10 * Math.sin(tick.getRunningTick() * 1.1)));
+        int bobY = (int) (Math.abs(10 * Math.sin(tick.getRunningTick() * 1.2)));
         g2d.drawImage(gameplay, bobX, bobY, this);
 
         if (Setting.TOGGLE_MAP)

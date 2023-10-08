@@ -22,14 +22,14 @@ public class Tick extends TimerTask {
         this.renderer = renderer;
         this.renderer.setTick(this);
 
-        long currentTimeMillis = this.getCurrentMillis();
+        long currentTimeMillis = getCurrentMillis();
         gameStartMillis = currentTimeMillis;
         lastTickMillis = currentTimeMillis;
     }
 
     @Override
     public void run() {
-        long currentTimeMillis = this.getCurrentMillis();
+        long currentTimeMillis = getCurrentMillis();
         deltaTime = currentTimeMillis - lastTickMillis;
 
         double walkingStep = Setting.WALKING_STEP * deltaTime / 1000;
@@ -85,7 +85,7 @@ public class Tick extends TimerTask {
         return runningTick;
     }
 
-    long getCurrentMillis() {
+    static long getCurrentMillis() {
         return Instant.now().toEpochMilli();
     }
 

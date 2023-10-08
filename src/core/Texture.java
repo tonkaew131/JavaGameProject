@@ -19,7 +19,9 @@ public enum Texture {
     GLASS_DOOR(6),
     BOARD(7),
     HELP_ME(8),
-    WINDOW(9);
+    WINDOW(9),
+    METAL_DOOR(10),
+    WOOD_DOOR(11);
 
     public final int textureId;
     private static Dictionary<Integer, TextureLoader> dict = new Hashtable<>();
@@ -29,6 +31,8 @@ public enum Texture {
     }
 
     public static void loadTexture() {
+        long startTime = System.currentTimeMillis();
+        System.out.println("[Texture]: Loading textures...");
         try {
             dict.put(3, new TextureLoader("src/texture/dry_wall.png"));
             dict.put(4, new TextureLoader("src/texture/wood.png"));
@@ -36,12 +40,22 @@ public enum Texture {
             dict.put(7, new TextureLoader("src/texture/dry_wall_board.png"));
             dict.put(8, new TextureLoader("src/texture/dry_wall_help.png"));
             dict.put(9, new TextureLoader("src/texture/dry_wall_window.png"));
+            dict.put(10, new TextureLoader("src/texture/dry_wall_metal_door.png"));
+            dict.put(11, new TextureLoader("src/texture/dry_wall_wood_door.png"));
         } catch (IOException e) {
-            System.out.println("Failed to load texture!");
+            System.out.println("[Texture]: Failed to load textures!");
             e.printStackTrace();
             return;
         }
-        System.out.println("Texture loaded!");
+        System.out.println("[Texture]: Textures loaded! (" + (System.currentTimeMillis() - startTime) + "ms)");
+    
+        try {
+            GraphicsEnvironment ge = 
+              GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("A.ttf")));
+         } catch (IOException|FontFormatException e) {
+            //Handle exception
+         }
     }
 
     public Color getColor(double x, double y) {
@@ -54,18 +68,9 @@ public enum Texture {
         if (textureId == 5)
             return Color.BLACK;
 
-        if (textureId == 3)
-            return dict.get(3).getColor(x, y);
-        if (textureId == 4)
-            return dict.get(4).getColor(x, y);
-        if (textureId == 6)
-            return dict.get(6).getColor(x, y);
-        if (textureId == 7)
-            return dict.get(7).getColor(x, y);
-        if (textureId == 8)
-            return dict.get(8).getColor(x, y);
-        if (textureId == 9)
-            return dict.get(9).getColor(x, y);
+        if (dict.get(textureId) != null) {
+            return dict.get(textureId).getColor(x, y);
+        }
 
         return Color.BLACK;
     }
