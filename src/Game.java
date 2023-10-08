@@ -3,6 +3,8 @@ import core.*;
 import core.Renderer;
 
 import javax.swing.*;
+
+import java.awt.Dimension;
 import java.util.Timer;
 
 public class Game {
@@ -16,11 +18,13 @@ public class Game {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(Setting.WINDOWS_RESIZABLE);
         frame.setSize(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
+        frame.setPreferredSize(new Dimension(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT));
         frame.setTitle("Long white thingy 2.5D by @tonkaew131");
         frame.setVisible(true);
         frame.setFocusable(true);
 
         Texture.loadTexture();
+        FontCustom.loadFonts();
 
         Map map = new Map();
 

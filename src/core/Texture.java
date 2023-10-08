@@ -54,13 +54,6 @@ public enum Texture {
             return;
         }
         System.out.println("[Texture]: Textures loaded! (" + (System.currentTimeMillis() - startTime) + "ms)");
-
-        try {
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("A.ttf")));
-        } catch (IOException | FontFormatException e) {
-            // Handle exception
-        }
     }
 
     public Color getColor(double x, double y) {

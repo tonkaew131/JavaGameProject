@@ -2,6 +2,8 @@ package core;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,14 +26,34 @@ public class Renderer extends JPanel implements ActionListener {
 
     private static Dictionary<String, Image> assets = new Hashtable<>();
 
+    JLabel titleLabel = new JLabel("", SwingConstants.CENTER);
+    JLabel subtitleLabel = new JLabel("Collect 7 Letter to get out...", SwingConstants.CENTER);
+
     public Renderer() {
         rayCaster = new RayCast();
 
         super.setSize(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
         super.setPreferredSize(new Dimension(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT));
 
+        this.setLayout(new BorderLayout());
+
+        titleLabel.setFont(FontCustom.PixelifySans.deriveFont(Font.BOLD, 64));
+        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setBorder(new EmptyBorder(100, 0, 0, 0)); // top, left, bottom, right
+        add(titleLabel, BorderLayout.CENTER);
+
+        subtitleLabel.setFont(FontCustom.PixelifySans.deriveFont(Font.PLAIN, 22));
+        subtitleLabel.setForeground(Color.WHITE);
+        subtitleLabel.setBorder(new EmptyBorder(0, 0, 100, 0)); // top, left, bottom, right
+        add(subtitleLabel, BorderLayout.SOUTH);
+
         this.setBackground(Color.BLACK);
         timer.start();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT);
     }
 
     public static void loadAssets() {
@@ -246,9 +268,6 @@ public class Renderer extends JPanel implements ActionListener {
         g.setColor(Color.WHITE);
         int staminaBar = (int) (player.getStamina() * 200);
         g.fillRoundRect(Setting.WINDOWS_WIDTH / 2 - staminaBar / 2, 25, staminaBar, 4, 4, 4);
-
-        g.setColor(Color.WHITE);
-        g.drawString(String.format("Letter: %d", player.getLetterCount()), 10, 25);
     }
 
     @Override
