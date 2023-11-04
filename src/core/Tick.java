@@ -89,4 +89,7 @@ public class Tick extends TimerTask {
         return Instant.now().toEpochMilli();
     }
 
+    public int getFPS() {
+        return (int) (1000 / deltaTime);
+    }
 }

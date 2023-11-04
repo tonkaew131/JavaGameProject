@@ -154,9 +154,6 @@ public class Renderer extends JPanel implements ActionListener {
             drawMap(g2d);
 
         drawOverlay(g2d);
-
-        // if (Setting.SHOW_FPS)
-        // drawFPS(g);
     }
 
     public void drawFloors(Graphics2D g2d) {
@@ -174,18 +171,6 @@ public class Renderer extends JPanel implements ActionListener {
             g.drawImage(bufferedImageB, 0, 0, this);
         }
         isDisplayingImageA = !isDisplayingImageA;
-    }
-
-    public void drawFPS(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        Font font = new Font("Serif", Font.BOLD, 16);
-
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, 30, 16);
-
-        g2d.setFont(font);
-        g2d.setColor(Color.BLACK);
-        g2d.drawString(String.format("%d", (tick.getDeltaTime() != 0 ? (1000 / tick.getDeltaTime()) : 9999)), 3, 13);
     }
 
     public void drawMap(Graphics g) {
@@ -268,6 +253,9 @@ public class Renderer extends JPanel implements ActionListener {
         g.setColor(Color.WHITE);
         int staminaBar = (int) (player.getStamina() * 200);
         g.fillRoundRect(Setting.WINDOWS_WIDTH / 2 - staminaBar / 2, 25, staminaBar, 4, 4, 4);
+
+        if (Setting.SHOW_FPS)
+            g.drawString("FPS: " + tick.getFPS(), 10, 25);
     }
 
     @Override
