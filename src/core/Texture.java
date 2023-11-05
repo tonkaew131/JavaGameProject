@@ -24,7 +24,8 @@ public enum Texture {
     WOOD_DOOR(11),
     METAL_WALL(12),
     WOOD_DOOR_BLOOD(13),
-    LETTER(14);
+    LETTER(14),
+    LETTER_METAL_WALL(15);
 
     public final int textureId;
     private static Dictionary<Integer, TextureLoader> dict = new Hashtable<>();
@@ -48,6 +49,9 @@ public enum Texture {
             dict.put(12, new TextureLoader("src/texture/metal_wall.png"));
             dict.put(13, new TextureLoader("src/texture/dry_wall_wood_door_blood.png"));
             dict.put(14, new TextureLoader("src/texture/letter_dry_wall.png"));
+            dict.put(14, new TextureLoader("src/texture/letter_dry_wall.png"));
+            dict.put(14, new TextureLoader("src/texture/letter_dry_wall.png"));
+            dict.put(15, new TextureLoader("src/texture/letter_metal_wall.png"));
         } catch (IOException e) {
             System.out.println("[Texture]: Failed to load textures!");
             e.printStackTrace();
@@ -76,6 +80,8 @@ public enum Texture {
     public static Texture getNoLetterTexture(int textureId) {
         if (textureId == 14)
             return DRY_WALL;
+        if (textureId == 15)
+            return METAL_WALL;
 
         return DRY_WALL;
     }
