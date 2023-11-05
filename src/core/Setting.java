@@ -15,4 +15,5 @@ public class Setting {
     public static double WALKING_STEP = 1; // per sec
     public static double TURNING_STEP = 1.5; // per sec
     public static double STAMINA_STEP = 0.1; // per sec
+    public static double LETTER_REACH_DISTANCE = 1;
 }

@@ -246,16 +246,25 @@ public class Renderer extends JPanel implements ActionListener {
                     Setting.WINDOWS_HEIGHT, this);
         }
 
-        g.drawString(String.format("X: %.2f, Y: %.2f, d: %.2f",
-                player.getPosX(), player.getPosY(),
-                Math.toDegrees(player.getDirectionAlpha())), 10, 10);
+        // g.drawString(String.format("X: %.2f, Y: %.2f, d: %.2f",
+        // player.getPosX(), player.getPosY(),
+        // Math.toDegrees(player.getDirectionAlpha())), 10, 10);
 
+        // Draw Stamina bar
         g.setColor(Color.WHITE);
         int staminaBar = (int) (player.getStamina() * 200);
         g.fillRoundRect(Setting.WINDOWS_WIDTH / 2 - staminaBar / 2, 25, staminaBar, 4, 4, 4);
 
         if (Setting.SHOW_FPS)
             g.drawString("FPS: " + tick.getFPS(), 10, 25);
+
+        // Draw Letter tooltip
+        rayCaster.setDirection(player.getDirectionAlpha());
+        rayCaster.cast();
+        Point<Integer> mapCheck = rayCaster.getMapPoint();
+        if (map.checkLetter(mapCheck.x, mapCheck.y) && rayCaster.getDistance() <= Setting.LETTER_REACH_DISTANCE) {
+            g.drawString("Pless E to collect", Setting.WINDOWS_WIDTH / 2 - 50, Setting.WINDOWS_HEIGHT / 2);
+        }
     }
 
     @Override

@@ -56,7 +56,7 @@ public class Player {
         rayCast.setPlayerPosition(getPosition());
         rayCast.cast();
 
-        if (rayCast.getDistance() > 1)
+        if (rayCast.getDistance() > Setting.LETTER_REACH_DISTANCE)
             return;
 
         Point<Integer> mapCheck = rayCast.getMapPoint();

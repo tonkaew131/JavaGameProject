@@ -90,6 +90,8 @@ public class Tick extends TimerTask {
     }
 
     public int getFPS() {
+        if (deltaTime == 0)
+            return 9999;
         return (int) (1000 / deltaTime);
     }
 }
