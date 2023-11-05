@@ -6,8 +6,9 @@ public class Setting {
     public static int WINDOWS_HEIGHT = 720;
     public static boolean WINDOWS_RESIZABLE = false;
     public static int MAX_FPS = 60;
-    public static boolean SHOW_FPS = true;
     public static int FOV = 80;
+    public static boolean VIEW_BOBBING = false;
+    public static boolean SHOW_FPS = true;
     public static boolean TOGGLE_LIGHT = true;
     public static boolean TOGGLE_MAP = false;
 
