@@ -265,6 +265,9 @@ public class Renderer extends JPanel implements ActionListener {
         if (map.checkLetter(mapCheck.x, mapCheck.y) && rayCaster.getDistance() <= Setting.LETTER_REACH_DISTANCE) {
             g.drawString("Pless E to collect", Setting.WINDOWS_WIDTH / 2 - 50, Setting.WINDOWS_HEIGHT / 2);
         }
+
+        // Draw Letter count
+        g.drawString(String.format("Letter: %d/7", player.getLetterCount()), Setting.WINDOWS_WIDTH - 100, 25);
     }
 
     @Override
