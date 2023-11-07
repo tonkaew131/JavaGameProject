@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Sprite {
     private Point<Integer> pos;
+    // Width & Height of rendered sprite (in block size)
     private double width;
     private double height;
     private Image image;
@@ -25,5 +26,13 @@ public class Sprite {
             e.printStackTrace();
             return;
         }
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public Point<Integer> getPos() {
+        return pos;
     }
 }
