@@ -26,7 +26,8 @@ public class Game {
         Texture.loadTexture();
         FontCustom.loadFonts();
 
-        Map map = new Map();
+        // Map map = new Map();
+        Map map = new MapTest();
 
         this.renderer = new Renderer();
         this.renderer.setMap(map);

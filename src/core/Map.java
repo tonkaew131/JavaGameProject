@@ -40,6 +40,7 @@ public class Map {
     };
 
     private ArrayList<Point<Integer>> spawnedLetters = new ArrayList<>();
+    private ArrayList<Sprite> renderedSprites = new ArrayList<>();
 
     public Map() {
         spawnedLetters.add(new Point<Integer>(5, 26));
@@ -92,5 +93,9 @@ public class Map {
                 break;
             }
         }
+    }
+
+    public ArrayList<Sprite> getRenderedSprites() {
+        return renderedSprites;
     }
 }

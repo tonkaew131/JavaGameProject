@@ -10,6 +10,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -17,6 +21,7 @@ public class Renderer extends JPanel implements ActionListener {
     private BufferedImage bufferedImageA;
     private BufferedImage bufferedImageB;
     private boolean isDisplayingImageA;
+    private double[] zBuffer;
 
     private RayCast rayCaster;
     private Map map;
@@ -46,6 +51,8 @@ public class Renderer extends JPanel implements ActionListener {
         subtitleLabel.setForeground(Color.WHITE);
         subtitleLabel.setBorder(new EmptyBorder(0, 0, 100, 0)); // top, left, bottom, right
         add(subtitleLabel, BorderLayout.SOUTH);
+
+        zBuffer = new double[Setting.WINDOWS_WIDTH];
 
         this.setBackground(Color.BLACK);
         timer.start();
@@ -121,6 +128,8 @@ public class Renderer extends JPanel implements ActionListener {
             distance = rayCaster.getDistance();
             distance *= Math.cos(player.getDirectionAlpha() - scanDirection);
 
+            zBuffer[i] = distance;
+
             lineHeight = (int) (Setting.WINDOWS_HEIGHT / distance);
 
             Point<Integer> mapCheck = rayCaster.getMapPoint();
@@ -157,6 +166,8 @@ public class Renderer extends JPanel implements ActionListener {
             drawMap(g2d);
 
         drawOverlay(g2d);
+
+        drawSprite(g2d);
     }
 
     public void drawFloors(Graphics2D g2d) {
@@ -271,6 +282,28 @@ public class Renderer extends JPanel implements ActionListener {
 
         // Draw Letter count
         g.drawString(String.format("Letter: %d/7", player.getLetterCount()), Setting.WINDOWS_WIDTH - 100, 25);
+    }
+
+    public void drawSprite(Graphics2D g) {
+        ArrayList<Sprite> sprites = map.getRenderedSprites();
+
+        Collections.sort(sprites, new Comparator<Sprite>() {
+            @Override
+            public int compare(Sprite s1, Sprite s2) {
+                return Double.compare(s1.getDistance(player.getPosition()), s2.getDistance(player.getPosition()));
+            }
+        });
+
+        // Near to far
+        for (int i = 0; i < sprites.size(); i++) {
+            double distance = sprites.get(i).getDistance(player.getPosition());
+
+            int width = (int) (sprites.get(i).getImageWidth() / distance);
+            int height = (int) (sprites.get(i).getImageHeight() / distance);
+            int x = (int) (Setting.WINDOWS_WIDTH / 2 - width / 2);
+            int y = (int) (Setting.WINDOWS_HEIGHT / 2 - height / 2);
+            g.drawImage(sprites.get(i).getImage(), x, y, width, height, this);
+        }
     }
 
     @Override
