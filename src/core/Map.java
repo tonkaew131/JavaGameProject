@@ -6,6 +6,9 @@ public class Map {
     private int mapWidth;
     private int mapHeight;
 
+    private double spawnX = 1.5;
+    private double spawnY = 26.5;
+
     private Texture mapContent[][];
     private int preMapContent[][] = {
         { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,12,15,3,8,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },
@@ -97,5 +100,13 @@ public class Map {
 
     public ArrayList<Sprite> getRenderedSprites() {
         return renderedSprites;
+    }
+
+    public double getSpawnX() {
+        return spawnX;
+    }
+
+    public double getSpawnY() {
+        return spawnY;
     }
 }

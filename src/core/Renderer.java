@@ -113,7 +113,9 @@ public class Renderer extends JPanel implements ActionListener {
         int halfScreenHeight = Setting.WINDOWS_HEIGHT / 2;
         int offsetHeight;
 
-        BufferedImage gameplay = new BufferedImage(Setting.WINDOWS_WIDTH, Setting.WINDOWS_HEIGHT,
+        BufferedImage gameplay = new BufferedImage(
+                Setting.WINDOWS_WIDTH,
+                Setting.WINDOWS_HEIGHT,
                 BufferedImage.TYPE_INT_RGB);
 
         rayCaster.setPlayerPosition(player.getPosition());
