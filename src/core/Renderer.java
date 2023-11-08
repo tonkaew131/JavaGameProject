@@ -300,8 +300,20 @@ public class Renderer extends JPanel implements ActionListener {
 
             int width = (int) (sprites.get(i).getImageWidth() / distance);
             int height = (int) (sprites.get(i).getImageHeight() / distance);
-            int x = (int) (Setting.WINDOWS_WIDTH / 2 - width / 2);
             int y = (int) (Setting.WINDOWS_HEIGHT / 2 - height / 2);
+
+            double direction = sprites.get(i).getAbsoluteDirection(player.getPosition());
+            direction -= player.getDirectionAlpha();
+
+            double fovRadianHalf = Math.toRadians(Setting.FOV / 2);
+            // double leftBound = player.getDirectionAlpha() + fovRadianHalf;
+            // double rightBound = player.getDirectionAlpha() - fovRadianHalf;
+
+            // if (direction > leftBound || direction < rightBound)
+            //     continue;
+
+            int x = (int) (Setting.WINDOWS_WIDTH / 2 + (direction / fovRadianHalf) * (Setting.WINDOWS_WIDTH / 2) - width / 2);
+
             g.drawImage(sprites.get(i).getImage(), x, y, width, height, this);
         }
     }

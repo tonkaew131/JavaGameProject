@@ -44,6 +44,13 @@ public class Sprite {
         return Math.sqrt(Math.pow(pos.x - point.x, 2) + Math.pow(pos.y - point.y, 2));
     }
 
+    public double getAbsoluteDirection(Point<Double> point) {
+        double alpha = Math.atan2(pos.y - point.x, pos.x - point.x);
+        if (alpha < 0)
+            alpha += Math.PI * 2;
+        return alpha;
+    }
+
     public double getHeight() {
         return height;
     }
