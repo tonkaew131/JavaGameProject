@@ -2,19 +2,23 @@ package core;
 
 public class Player {
     // Player position
-    private double posX = 2, posY = 2;
-    // private double posX = 1.5, posY = 26.5;
-    
+    // private double posX = 2, posY = 2;
+    private double posX = 1.5, posY = 26.5;
+
     // Player direction (in PI)
     // Right is 0, top is PI / 2, left is PI, bottom is 3PI / 2
     private double directionAlpha = 0;
     private double stamina = 1;
+    private boolean disableMoving = false;
     private int letterCount = 0;
 
     private Map map;
     private RayCast rayCast = new RayCast();
 
     public void forward(double amount) {
+        if (disableMoving)
+            return;
+
         rayCast.setPlayerPosition(getPosition());
         rayCast.setDirection(directionAlpha);
         rayCast.cast();
@@ -26,6 +30,9 @@ public class Player {
     }
 
     public void backward(double amount) {
+        if (disableMoving)
+            return;
+
         double directionAlpha = this.directionAlpha + Math.PI;
 
         rayCast.setPlayerPosition(getPosition());

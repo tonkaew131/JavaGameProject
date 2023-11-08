@@ -218,6 +218,16 @@ public class Renderer extends JPanel implements ActionListener {
                 posY + (int) Math.round(player.getPosY() * mapScale) - 2,
                 4, 4);
 
+        // draw sprite
+        g.setColor(Color.BLUE);
+        ArrayList<Sprite> sprites = map.getRenderedSprites();
+        for (int i = 0; i < sprites.size(); i++) {
+            g.fillOval(
+                    posX + (int) Math.round(sprites.get(i).getPos().x * mapScale) - 2,
+                    posY + (int) Math.round(sprites.get(i).getPos().y * mapScale) - 2,
+                    4, 4);
+        }
+
         rayCaster.setDirection(player.getDirectionAlpha());
         rayCaster.cast();
         g.setColor(Color.GREEN);
@@ -298,21 +308,23 @@ public class Renderer extends JPanel implements ActionListener {
         for (int i = 0; i < sprites.size(); i++) {
             double distance = sprites.get(i).getDistance(player.getPosition());
 
-            int width = (int) (sprites.get(i).getImageWidth() / distance);
-            int height = (int) (sprites.get(i).getImageHeight() / distance);
-            int y = (int) (Setting.WINDOWS_HEIGHT / 2 - height / 2);
+            double scale = 2 / distance;
+            int width = (int) (sprites.get(i).getImageWidth() * scale);
+            int height = (int) (sprites.get(i).getImageHeight() * scale);
+
+            int y = (int) ((Setting.WINDOWS_HEIGHT / 2) - (height / 2));
 
             double direction = sprites.get(i).getAbsoluteDirection(player.getPosition());
             direction -= player.getDirectionAlpha();
+            direction = Math.toRadians(Math.toDegrees(direction));
 
-            double fovRadianHalf = Math.toRadians(Setting.FOV / 2);
-            // double leftBound = player.getDirectionAlpha() + fovRadianHalf;
-            // double rightBound = player.getDirectionAlpha() - fovRadianHalf;
+            double fovRadian = Math.toRadians(Setting.FOV);
 
-            // if (direction > leftBound || direction < rightBound)
-            //     continue;
+            // check if sprite is in fov
+            if (Math.abs(direction) > fovRadian / 2)
+                continue;
 
-            int x = (int) (Setting.WINDOWS_WIDTH / 2 + (direction / fovRadianHalf) * (Setting.WINDOWS_WIDTH / 2) - width / 2);
+            int x = (int) ((Setting.WINDOWS_WIDTH / 2) - (direction / fovRadian * Setting.WINDOWS_WIDTH) - width / 2);
 
             g.drawImage(sprites.get(i).getImage(), x, y, width, height, this);
         }
