@@ -65,7 +65,7 @@ public class Renderer extends JPanel implements ActionListener {
     public static void loadAssets() {
         try {
             assets.put("overlay",
-                    ImageIO.read(new File("resources/texture/overlay.png")));
+                    ImageIO.read(Renderer.class.getResourceAsStream("/resources/texture/overlay.png")));
         } catch (IOException e) {
             System.out.println("[Renderer]: Failed to load assets!");
             e.printStackTrace();

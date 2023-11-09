@@ -10,10 +10,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06e4f4d3-31a1-49c0-a08f-2b4bffb18c17" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/JavaGameProject_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall_blood.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall_board.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall_get.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall_glass_door.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall_help.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall_metal_door.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall_window.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall_wood_door.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/dry_wall_wood_door_blood.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/flashlight_hold.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/letter.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/letter_dry_wall.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/letter_metal_wall.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/metal_wall.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/overlay.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/white_front.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/resources/texture/wood.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JavaGameProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaGameProject.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/core/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/font/Pixelify_Sans/OFL.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/font/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/font/Pixelify_Sans/README.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/font/Pixelify_Sans/static/PixelifySans-Bold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/font/Pixelify_Sans/static/PixelifySans-Medium.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/font/Pixelify_Sans/static/PixelifySans-Regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/font/Pixelify_Sans/static/PixelifySans-SemiBold.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall_blood.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall_board.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall_get.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall_glass_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall_help.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall_metal_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall_window.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall_wood_door.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/dry_wall_wood_door_blood.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/flashlight_hold.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/letter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/letter_dry_wall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/letter_metal_wall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/metal_wall.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/overlay.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/white_front.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/texture/wood.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/FontCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/FontCustom.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/Renderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Renderer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/Texture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/Texture.java" afterDir="false" />
     </list>
@@ -50,12 +91,20 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/athicha/Desktop/JavaGameProject",
+    "last_opened_file_path": "/Users/athicha/Desktop/JavaGameProject/src/resources/texture",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/resources/texture" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

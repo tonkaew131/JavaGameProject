@@ -2,7 +2,6 @@ package core;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.io.File;
 import java.io.IOException;
 
 public class FontCustom {
@@ -12,10 +11,10 @@ public class FontCustom {
         // GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         // ge.registerFont(PixelifySans);
 
-        File fontFile = new File("resources/font/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf");
         try {
             // Pixelify Sans
-            PixelifySans = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+            PixelifySans = Font.createFont(Font.TRUETYPE_FONT, FontCustom.class
+                    .getResourceAsStream("/resources/font/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf"));
         } catch (FontFormatException e) {
             System.out.println("[FontCustom]: Failed to load fonts!");
             e.printStackTrace();

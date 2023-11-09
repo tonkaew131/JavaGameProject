@@ -40,22 +40,22 @@ public enum Texture {
         long startTime = System.currentTimeMillis();
         System.out.println("[Texture]: Loading textures...");
         try {
-            dict.put(3, new TextureLoader("resources/texture/dry_wall.png"));
-            dict.put(4, new TextureLoader("resources/texture/wood.png"));
-            dict.put(6, new TextureLoader("resources/texture/dry_wall_glass_door.png"));
-            dict.put(7, new TextureLoader("resources/texture/dry_wall_board.png"));
-            dict.put(8, new TextureLoader("resources/texture/dry_wall_help.png"));
-            dict.put(9, new TextureLoader("resources/texture/dry_wall_window.png"));
-            dict.put(10, new TextureLoader("resources/texture/dry_wall_metal_door.png"));
-            dict.put(11, new TextureLoader("resources/texture/dry_wall_wood_door.png"));
-            dict.put(12, new TextureLoader("resources/texture/metal_wall.png"));
-            dict.put(13, new TextureLoader("resources/texture/dry_wall_wood_door_blood.png"));
-            dict.put(14, new TextureLoader("resources/texture/letter_dry_wall.png"));
-            dict.put(14, new TextureLoader("resources/texture/letter_dry_wall.png"));
-            dict.put(14, new TextureLoader("resources/texture/letter_dry_wall.png"));
-            dict.put(15, new TextureLoader("resources/texture/letter_metal_wall.png"));
-            dict.put(16, new TextureLoader("resources/texture/dry_wall_get.png"));
-            dict.put(17, new TextureLoader("resources/texture/dry_wall_blood.png"));
+            dict.put(3, new TextureLoader("/resources/texture/dry_wall.png"));
+            dict.put(4, new TextureLoader("/resources/texture/wood.png"));
+            dict.put(6, new TextureLoader("/resources/texture/dry_wall_glass_door.png"));
+            dict.put(7, new TextureLoader("/resources/texture/dry_wall_board.png"));
+            dict.put(8, new TextureLoader("/resources/texture/dry_wall_help.png"));
+            dict.put(9, new TextureLoader("/resources/texture/dry_wall_window.png"));
+            dict.put(10, new TextureLoader("/resources/texture/dry_wall_metal_door.png"));
+            dict.put(11, new TextureLoader("/resources/texture/dry_wall_wood_door.png"));
+            dict.put(12, new TextureLoader("/resources/texture/metal_wall.png"));
+            dict.put(13, new TextureLoader("/resources/texture/dry_wall_wood_door_blood.png"));
+            dict.put(14, new TextureLoader("/resources/texture/letter_dry_wall.png"));
+            dict.put(14, new TextureLoader("/resources/texture/letter_dry_wall.png"));
+            dict.put(14, new TextureLoader("/resources/texture/letter_dry_wall.png"));
+            dict.put(15, new TextureLoader("/resources/texture/letter_metal_wall.png"));
+            dict.put(16, new TextureLoader("/resources/texture/dry_wall_get.png"));
+            dict.put(17, new TextureLoader("/resources/texture/dry_wall_blood.png"));
         } catch (IOException e) {
             System.out.println("[Texture]: Failed to load textures!");
             e.printStackTrace();
@@ -103,8 +103,7 @@ class TextureLoader {
     private Color color[][];
 
     public TextureLoader(String path) throws IOException {
-        File file = new File(path);
-        image = ImageIO.read(file);
+        image = ImageIO.read(getClass().getResourceAsStream(path));
 
         imageWidth = image.getWidth();
         imageHeight = image.getHeight();
