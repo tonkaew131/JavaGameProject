@@ -1,7 +1,8 @@
 package core;
 
-import java.io.File;
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -38,9 +39,9 @@ public class Sound {
 
         Clip clip = null;
         try {
-            audioInputStream = AudioSystem
-                    .getAudioInputStream(
-                            getClass().getResourceAsStream(path));
+            InputStream audioSrc = getClass().getResourceAsStream(path);
+            InputStream bufferedIn = new BufferedInputStream(audioSrc);
+            audioInputStream = AudioSystem.getAudioInputStream(bufferedIn);
             clip = AudioSystem.getClip();
             clip.open(audioInputStream);
         } catch (UnsupportedAudioFileException e) {
