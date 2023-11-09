@@ -6,10 +6,8 @@ public class Map {
     private int mapWidth;
     private int mapHeight;
 
-    // private double spawnX = 1.5;
-    // private double spawnY = 26.5;
-    private double spawnX = 40.5;
-    private double spawnY = 13.5;
+    private double spawnX = 1.5;
+    private double spawnY = 26.5;
 
     private Point<Integer> exitPoint = new Point<>(42, 13);
 
