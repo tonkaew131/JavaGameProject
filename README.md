@@ -2,7 +2,7 @@
 
 ## .jar
 
-สามารถหาได้ใน [Releases](https://github.com/tonkaew131/JavaGameProject/releases)
+สามารถหาได้ใน [Releases](https://github.com/tonkaew131/JavaGameProject/releases) จะรันจำเป็นต้องใช้ Java 21 สามารถโหลดได้จาก [Oracle.com](https://www.oracle.com/java/technologies/downloads/#jdk21-windows)
 
 ## Requirements
 
