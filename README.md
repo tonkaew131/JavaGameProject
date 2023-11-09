@@ -1,5 +1,9 @@
 # JavaGameProject
 
+## .jar
+
+สามารถหาได้ใน [Releases](https://github.com/tonkaew131/JavaGameProject/releases)
+
 ## Requirements
 
 รายละเอียดเนื้อหาที่ต้องส่งในรายงานฉบับสมบูรณ์
