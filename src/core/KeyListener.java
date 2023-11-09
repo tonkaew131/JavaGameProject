@@ -21,6 +21,7 @@ public class KeyListener {
                 }
                 if (event.getKeyCode() == KeyEvent.VK_E) {
                     player.collect();
+                    player.checkWinning();
                 }
             }
 

@@ -6,8 +6,12 @@ public class Map {
     private int mapWidth;
     private int mapHeight;
 
-    private double spawnX = 1.5;
-    private double spawnY = 26.5;
+    // private double spawnX = 1.5;
+    // private double spawnY = 26.5;
+    private double spawnX = 40.5;
+    private double spawnY = 13.5;
+
+    private Point<Integer> exitPoint = new Point<>(42, 13);
 
     private Texture mapContent[][];
     private int preMapContent[][] = {
@@ -86,6 +90,10 @@ public class Map {
             }
         }
         return false;
+    }
+
+    public boolean checkExit(int x, int y) {
+        return exitPoint.x == x && exitPoint.y == y;
     }
 
     public void removeLetter(int x, int y) {

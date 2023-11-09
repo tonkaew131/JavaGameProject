@@ -20,6 +20,8 @@ public class Player {
     private Sound sound;
     private RayCast rayCast = new RayCast();
 
+    private boolean isWinning = false;
+
     public void forward(double amount) {
         if (disableMoving)
             return;
@@ -158,6 +160,32 @@ public class Player {
 
     public void setForceTurnDuration(double forceTurnDuration) {
         this.forceTurnDuration = forceTurnDuration;
+    }
+
+    public boolean isWinning() {
+        return this.isWinning;
+    }
+
+    public void setLetterCount(int letterCount) {
+        this.letterCount = letterCount;
+    }
+
+    public void setWinning(boolean isWinning) {
+        this.isWinning = isWinning;
+    }
+
+    public void checkWinning() {
+        rayCast.setDirection(directionAlpha);
+        rayCast.setPlayerPosition(getPosition());
+        rayCast.cast();
+
+        if (rayCast.getDistance() > Setting.LETTER_REACH_DISTANCE)
+            return;
+
+        Point<Integer> mapCheck = rayCast.getMapPoint();
+        if (map.checkExit(mapCheck.x, mapCheck.y) && letterCount == 7) {
+            isWinning = true;
+        }
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,6 +65,10 @@ public class Renderer extends JPanel implements ActionListener {
         try {
             assets.put("overlay",
                     ImageIO.read(Renderer.class.getResourceAsStream("/resources/texture/overlay.png")));
+            assets.put("overlay-not-end",
+                    ImageIO.read(Renderer.class.getResourceAsStream("/resources/texture/overlay_not_end.png")));
+            assets.put("end-screen",
+                    ImageIO.read(Renderer.class.getResourceAsStream("/resources/texture/end_screen.png")));
         } catch (IOException e) {
             System.out.println("[Renderer]: Failed to load assets!");
             e.printStackTrace();
@@ -92,6 +95,11 @@ public class Renderer extends JPanel implements ActionListener {
         BufferedImage img = this.getBufferedImage();
         Graphics g = img.getGraphics();
         Graphics2D g2d = (Graphics2D) g;
+
+        if (player.isWinning()) {
+            g.drawImage(assets.get("end-screen"), 0, 0, this);
+            return;
+        }
 
         // clear image
         g2d.setColor(Color.BLACK);
@@ -285,16 +293,24 @@ public class Renderer extends JPanel implements ActionListener {
         if (Setting.SHOW_FPS)
             g.drawString("FPS: " + tick.getFPS(), 10, 25);
 
+        // Draw Letter count
+        g.drawString(String.format("Letter: %d/7", player.getLetterCount()), Setting.WINDOWS_WIDTH - 100, 25);
+
         // Draw Letter tooltip
         rayCaster.setDirection(player.getDirectionAlpha());
         rayCaster.cast();
         Point<Integer> mapCheck = rayCaster.getMapPoint();
         if (map.checkLetter(mapCheck.x, mapCheck.y) && rayCaster.getDistance() <= Setting.LETTER_REACH_DISTANCE) {
-            g.drawString("Pless E to collect", Setting.WINDOWS_WIDTH / 2 - 50, Setting.WINDOWS_HEIGHT / 2);
+            g.drawString("Press E to collect", Setting.WINDOWS_WIDTH / 2 - 50, Setting.WINDOWS_HEIGHT / 2);
+        }
+        if (map.checkExit(mapCheck.x, mapCheck.y) && rayCaster.getDistance() <= Setting.LETTER_REACH_DISTANCE) {
+            if (player.getLetterCount() != 7) {
+                g.drawImage(assets.get("overlay-not-end"), 0, 0, this);
+            } else {
+                g.drawString("Press E to exit", Setting.WINDOWS_WIDTH / 2 - 50, Setting.WINDOWS_HEIGHT / 2);
+            }
         }
 
-        // Draw Letter count
-        g.drawString(String.format("Letter: %d/7", player.getLetterCount()), Setting.WINDOWS_WIDTH - 100, 25);
     }
 
     public void drawSprite(Graphics2D g) {

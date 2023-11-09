@@ -15,23 +15,27 @@ public class Sound {
     private Clip breadthSound = loadSound("/resources/sound/breath.wav");
 
     public Sound() {
-        Clip backgroundMusic = loadSound("/resources/sound/background_music.wav");
-        backgroundMusic.start();
-        backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+        if (Setting.ENABLED_SOUND) {
+            Clip backgroundMusic = loadSound("/resources/sound/background_music.wav");
+            backgroundMusic.start();
+            backgroundMusic.loop(Clip.LOOP_CONTINUOUSLY);
+        }
     }
 
     public void playLetterPickupSound() {
-        new Thread(null, () -> {
-            letterPickupSound.setFramePosition(0);
-            letterPickupSound.start();
-        }).start();
+        if (Setting.ENABLED_SOUND)
+            new Thread(null, () -> {
+                letterPickupSound.setFramePosition(0);
+                letterPickupSound.start();
+            }).start();
     }
 
     public void playBreadthSound() {
-        new Thread(null, () -> {
-            breadthSound.setFramePosition(0);
-            breadthSound.start();
-        }).start();
+        if (Setting.ENABLED_SOUND)
+            new Thread(null, () -> {
+                breadthSound.setFramePosition(0);
+                breadthSound.start();
+            }).start();
     }
 
     public Clip loadSound(String path) {
