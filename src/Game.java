@@ -44,6 +44,7 @@ public class Game {
         KeyListener.setPlayer(player);
 
         frame.add(renderer);
+
         // frame.pack();
     }
 

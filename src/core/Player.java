@@ -8,10 +8,13 @@ public class Player {
     // Right is 0, top is PI / 2, left is PI, bottom is 3PI / 2
     private double directionAlpha = 0;
     private double stamina = 1;
-    private boolean disableMoving = false;
     private int letterCount = 0;
 
     private double lastMillisForceTurn = 0;
+    private double forceTurnDuration = 0;
+    private double forceTurnTo = 0;
+    private double forceTurnStep = 0;
+    private boolean disableMoving = false;
 
     private Map map;
     private RayCast rayCast = new RayCast();
@@ -54,8 +57,14 @@ public class Player {
         directionAlpha = radian(directionAlpha);
     }
 
-    public void forceTurnTo(double toDirection, long currentMillis) {
+    // duration is millis sec
+    public void forceTurnTo(double toDirection, long currentMillis, int duration) {
         lastMillisForceTurn = currentMillis;
+        forceTurnTo = toDirection;
+        forceTurnDuration = duration;
+
+        double diff = radian(toDirection - directionAlpha);
+        forceTurnStep = diff / duration;
     }
 
     public static double radian(double amount) {
@@ -118,6 +127,30 @@ public class Player {
 
     public int getLetterCount() {
         return letterCount;
+    }
+
+    public double getForceTurnDuration() {
+        return forceTurnDuration;
+    }
+
+    public double getForceTurnTo() {
+        return forceTurnTo;
+    }
+
+    public double getForceTurnStep() {
+        return forceTurnStep;
+    }
+
+    public double getLastMillisForceTurn() {
+        return lastMillisForceTurn;
+    }
+
+    public void setDirectionAlpha(double directionAlpha) {
+        this.directionAlpha = directionAlpha;
+    }
+
+    public void setForceTurnDuration(double forceTurnDuration) {
+        this.forceTurnDuration = forceTurnDuration;
     }
 
     @Override

@@ -70,6 +70,11 @@ public class Tick extends TimerTask {
             this.player.turnRight(turningStep);
         }
 
+        // Force turn
+        if (currentTimeMillis - this.player.getLastMillisForceTurn() < this.player.getForceTurnDuration()) {
+            this.player.turnRight(this.player.getForceTurnStep());
+        }
+
         lastTickMillis = currentTimeMillis;
     }
 
@@ -85,7 +90,7 @@ public class Tick extends TimerTask {
         return runningTick;
     }
 
-    static long getCurrentMillis() {
+    public static long getCurrentMillis() {
         return Instant.now().toEpochMilli();
     }
 
