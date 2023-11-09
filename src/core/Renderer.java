@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -65,8 +64,10 @@ public class Renderer extends JPanel implements ActionListener {
 
     public static void loadAssets() {
         try {
-            assets.put("overlay", ImageIO.read(new File("src/texture/overlay.png")));
+            assets.put("overlay",
+                    ImageIO.read(new File("resources/texture/overlay.png")));
         } catch (IOException e) {
+            System.out.println("[Renderer]: Failed to load assets!");
             e.printStackTrace();
         } finally {
             System.out.println("Assets loaded!");

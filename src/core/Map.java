@@ -50,7 +50,7 @@ public class Map {
         spawnedLetters.add(new Point<Integer>(9, 22));
         spawnedLetters.add(new Point<Integer>(19, 0));
         spawnedLetters.add(new Point<Integer>(25, 7));
-        spawnedLetters.add(new Point<Integer>(34, 24));
+        spawnedLetters.add(new Point<Integer>(37, 24));
         spawnedLetters.add(new Point<Integer>(32, 16));
         spawnedLetters.add(new Point<Integer>(18, 24));
 

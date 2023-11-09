@@ -12,7 +12,7 @@ public class FontCustom {
         // GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         // ge.registerFont(PixelifySans);
 
-        File fontFile = new File("src/font/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf");
+        File fontFile = new File("resources/font/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf");
         try {
             // Pixelify Sans
             PixelifySans = Font.createFont(Font.TRUETYPE_FONT, fontFile);
