@@ -106,7 +106,15 @@ public class Map {
         return spawnX;
     }
 
+    public void setSpawnX(double spawnX) {
+        this.spawnX = spawnX;
+    }
+
     public double getSpawnY() {
         return spawnY;
+    }
+
+    public void setSpawnY(double spawnY) {
+        this.spawnY = spawnY;
     }
 }

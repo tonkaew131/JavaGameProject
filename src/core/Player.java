@@ -11,6 +11,8 @@ public class Player {
     private boolean disableMoving = false;
     private int letterCount = 0;
 
+    private double lastMillisForceTurn = 0;
+
     private Map map;
     private RayCast rayCast = new RayCast();
 
@@ -50,6 +52,10 @@ public class Player {
         directionAlpha -= amount;
 
         directionAlpha = radian(directionAlpha);
+    }
+
+    public void forceTurnTo(double toDirection, long currentMillis) {
+        lastMillisForceTurn = currentMillis;
     }
 
     public static double radian(double amount) {

@@ -21,6 +21,9 @@ public class MapTest extends Map {
     private ArrayList<Sprite> renderedSprites = new ArrayList<>();
 
     public MapTest() {
+        setSpawnX(2d);
+        setSpawnY(2d);
+
         renderedSprites.add(new SpriteWhite(new Point<Double>(3d, 3d)));
         renderedSprites.add(new SpriteWhite(new Point<Double>(1d, 1d)));
         renderedSprites.add(new SpriteWhite(new Point<Double>(5d, 5d)));
