@@ -6,6 +6,8 @@ public class Map {
     private int mapWidth;
     private int mapHeight;
 
+    // private double spawnX = 40.5;
+    // private double spawnY = 13.5;
     private double spawnX = 1.5;
     private double spawnY = 26.5;
 
@@ -48,14 +50,18 @@ public class Map {
     private ArrayList<Sprite> renderedSprites = new ArrayList<>();
 
     public Map() {
-        spawnedLetters.add(new Point<Integer>(5, 26));
-        spawnedLetters.add(new Point<Integer>(9, 22));
-        spawnedLetters.add(new Point<Integer>(19, 0));
-        spawnedLetters.add(new Point<Integer>(25, 7));
-        spawnedLetters.add(new Point<Integer>(37, 24));
-        spawnedLetters.add(new Point<Integer>(32, 16));
-        spawnedLetters.add(new Point<Integer>(18, 24));
+        addLetter(5, 26);
+        addLetter(9, 22);
+        addLetter(19, 0);
+        addLetter(25, 7);
+        addLetter(37, 24);
+        addLetter(32, 16);
+        addLetter(18, 24);
 
+        parseMap();
+    }
+    
+    public void parseMap() {
         mapHeight = preMapContent.length;
         mapWidth = preMapContent[0].length;
 
@@ -65,6 +71,10 @@ public class Map {
                 mapContent[i][j] = Texture.values()[preMapContent[i][j]];
             }
         }
+    }
+
+    public void addLetter(int x, int y) {
+        spawnedLetters.add(new Point<Integer>(x, y));
     }
 
     public Texture getTexture(int x, int y) {
