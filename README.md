@@ -33,9 +33,9 @@
 
 9 November 2023
 
-- Sound Effect by <a href="https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=153277">UNIVERSFIELD</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=153277">Pixabay</a>
-- Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=96164">Pixabay</a>
-- Sound Effect by <a href="https://pixabay.com/users/floraphonic-38928062/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=172689">floraphonic</a> from <a href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=172689">Pixabay</a>
+- Sound Effect by [UNIVERSFIELD](https://pixabay.com/users/universfield-28281460/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=153277) from [Pixabay](https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=153277)
+- Sound Effect from [Pixabay](https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=96164)
+- Sound Effect by [floraphonic](https://pixabay.com/users/floraphonic-38928062/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=172689) from [Pixabay](https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=172689)
 
 5 November 2023
 
@@ -58,5 +58,5 @@
 
 7 September 2023
 
-- https://github.com/tonkaew131/JavaGameProject/tree/92ab21d67071e42de816f0b86bb2262772b0dc76
-- https://lodev.org/cgtutor/raycasting.html
+- [https://github.com/tonkaew131/JavaGameProject/tree/92ab21d67071e42de816f0b86bb2262772b0dc76](https://github.com/tonkaew131/JavaGameProject/tree/92ab21d67071e42de816f0b86bb2262772b0dc76)
+- [Raycasting - Lode's Computer Graphics Tutorial](https://lodev.org/cgtutor/raycasting.html)
