@@ -17,6 +17,7 @@ public class Player {
     private boolean disableMoving = false;
 
     private Map map;
+    private Sound sound;
     private RayCast rayCast = new RayCast();
 
     public void forward(double amount) {
@@ -86,6 +87,8 @@ public class Player {
         if (map.checkLetter(mapCheck.x, mapCheck.y)) {
             map.removeLetter(mapCheck.x, mapCheck.y);
             letterCount++;
+
+            sound.playLetterPickupSound();
         }
         return;
     }
@@ -111,6 +114,10 @@ public class Player {
         this.rayCast.setMap(map);
         posX = map.getSpawnX();
         posY = map.getSpawnY();
+    }
+
+    public void setSound(Sound sound) {
+        this.sound = sound;
     }
 
     public double getStamina() {

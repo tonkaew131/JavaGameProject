@@ -13,7 +13,10 @@ public class Tick extends TimerTask {
     private long deltaTime;
     private long runningTick;
 
+    private long lastBreadthSoundMillis = 0;
+
     private Renderer renderer;
+    private Sound sound;
     private Player player;
 
     public Tick(Renderer renderer, Player player) {
@@ -75,6 +78,11 @@ public class Tick extends TimerTask {
             this.player.turnRight(this.player.getForceTurnStep());
         }
 
+        if (Math.random() < 0.001 && currentTimeMillis - lastBreadthSoundMillis > 15000) {
+            lastBreadthSoundMillis = currentTimeMillis;
+            sound.playBreadthSound();
+        }
+
         lastTickMillis = currentTimeMillis;
     }
 
@@ -92,6 +100,10 @@ public class Tick extends TimerTask {
 
     public static long getCurrentMillis() {
         return Instant.now().toEpochMilli();
+    }
+
+    public void setSound(Sound sound) {
+        this.sound = sound;
     }
 
     public int getFPS() {

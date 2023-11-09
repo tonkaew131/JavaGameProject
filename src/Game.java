@@ -10,6 +10,7 @@ import java.util.Timer;
 public class Game {
     Renderer renderer;
     Player player;
+    Sound sound;
 
     public Game() {
         JFrame frame = new JFrame();
@@ -26,8 +27,8 @@ public class Game {
         Texture.loadTexture();
         FontCustom.loadFonts();
 
-        // Map map = new Map();
-        Map map = new MapTest();
+        Map map = new Map();
+        // Map map = new MapTest();
 
         this.renderer = new Renderer();
         this.renderer.setMap(map);
@@ -37,7 +38,12 @@ public class Game {
         this.player.setMap(map);
         this.renderer.setPlayer(player);
 
+        this.sound = new Sound();
+        player.setSound(sound);
+
         Tick tick = new Tick(this.renderer, this.player);
+        tick.setSound(sound);
+
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(tick, 0, 1000 / 60);
 
