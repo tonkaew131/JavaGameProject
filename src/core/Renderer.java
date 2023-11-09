@@ -168,9 +168,9 @@ public class Renderer extends JPanel implements ActionListener {
         if (Setting.TOGGLE_MAP)
             drawMap(g2d);
 
-        drawOverlay(g2d);
-
         drawSprite(g2d);
+
+        drawOverlay(g2d);
     }
 
     public void drawFloors(Graphics2D g2d) {
@@ -303,7 +303,7 @@ public class Renderer extends JPanel implements ActionListener {
         Collections.sort(sprites, new Comparator<Sprite>() {
             @Override
             public int compare(Sprite s1, Sprite s2) {
-                return Double.compare(s1.getDistance(player.getPosition()), s2.getDistance(player.getPosition()));
+                return Double.compare(s2.getDistance(player.getPosition()), s1.getDistance(player.getPosition()));
             }
         });
 
@@ -311,7 +311,7 @@ public class Renderer extends JPanel implements ActionListener {
         for (int i = 0; i < sprites.size(); i++) {
             double distance = sprites.get(i).getDistance(player.getPosition());
 
-            double scale = 2 / distance;
+            double scale = 1.5 / distance;
             int width = (int) (sprites.get(i).getImageWidth() * scale);
             int height = (int) (sprites.get(i).getImageHeight() * scale);
 
@@ -330,6 +330,12 @@ public class Renderer extends JPanel implements ActionListener {
             int x = (int) ((Setting.WINDOWS_WIDTH / 2) - (direction / fovRadian * Setting.WINDOWS_WIDTH) - width / 2);
 
             g.drawImage(sprites.get(i).getImage(), x, y, width, height, this);
+
+            if (distance < 1)
+                continue;
+            Color ov = new Color(0, 0, 0, (int) Math.max(0, 255 - (35 / distance)));
+            g.setColor(ov);
+            g.fillRect(x, y, width, height);
         }
     }
 

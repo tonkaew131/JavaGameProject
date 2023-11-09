@@ -20,9 +20,8 @@ public class Sprite {
         this.width = width;
         this.height = height;
 
-        File file = new File(imagePath);
         try {
-            this.image = ImageIO.read(file);
+            this.image = ImageIO.read(getClass().getResourceAsStream(imagePath));
             this.imageHeight = image.getHeight(null);
             this.imageWidth = image.getWidth(null);
         } catch (IOException e) {
