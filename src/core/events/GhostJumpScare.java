@@ -24,6 +24,6 @@ public class GhostJumpScare extends MapEvent {
             public void run() {
                 getMap().removeSprite(ghost);
             }
-        }, 1000);
+        }, 500);
     }
 }
