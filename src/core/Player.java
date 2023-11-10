@@ -15,6 +15,7 @@ public class Player {
     private double forceTurnTo = 0;
     private double forceTurnStep = 0;
     private boolean disableMoving = false;
+    private boolean disableTurning = false;
 
     private Map map;
     private Sound sound;
@@ -55,6 +56,9 @@ public class Player {
 
     // amount in radius
     public void turnRight(double amount) {
+        if (disableTurning)
+            return;
+
         directionAlpha -= amount;
 
         directionAlpha = radian(directionAlpha);
@@ -67,7 +71,7 @@ public class Player {
         forceTurnDuration = duration;
 
         double diff = radian(toDirection - directionAlpha);
-        forceTurnStep = diff / duration;
+        forceTurnStep = diff ;
     }
 
     public static double radian(double amount) {
@@ -132,6 +136,14 @@ public class Player {
 
     public void addLetter() {
         letterCount++;
+    }
+
+    public void setDisableMoving(boolean disableMoving) {
+        this.disableMoving = disableMoving;
+    }
+
+    public void setDisableTurning(boolean disableTurning) {
+        this.disableTurning = disableTurning;
     }
 
     public int getLetterCount() {

@@ -16,8 +16,8 @@ public class Tick extends TimerTask {
     private long lastBreadthSoundMillis = 0;
 
     private Renderer renderer;
-    private Sound sound;
-    private Player player;
+    protected Sound sound;
+    protected Player player;
 
     public Tick(Renderer renderer, Player player) {
         this.player = player;
@@ -74,9 +74,19 @@ public class Tick extends TimerTask {
         }
 
         // Force turn
-        if (currentTimeMillis - this.player.getLastMillisForceTurn() < this.player.getForceTurnDuration()) {
-            this.player.turnRight(this.player.getForceTurnStep());
+        if (this.player.getForceTurnDuration() > 0) {
+        this.player.setDisableTurning(false);
+        this.player.setDisableMoving(false);
+
+            this.player.setDirectionAlpha(this.player.getDirectionAlpha() + (this.player.getForceTurnStep() / deltaTime));
+            this.player.setForceTurnDuration(this.player.getForceTurnDuration() - deltaTime);
+            if (this.player.getForceTurnDuration() <= 0) {
+                this.player.setForceTurnDuration(0);
+                this.player.setDirectionAlpha(this.player.getForceTurnTo());
+            }
         }
+        this.player.setDisableTurning(false);
+        this.player.setDisableMoving(false);
 
         if (Math.random() < 0.001 && currentTimeMillis - lastBreadthSoundMillis > 15000) {
             lastBreadthSoundMillis = currentTimeMillis;

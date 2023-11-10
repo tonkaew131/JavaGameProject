@@ -47,6 +47,10 @@ public class Game {
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(tick, 0, 1000 / 60);
 
+        TickMapEvent tickMapEvent = new TickMapEvent(map, this.renderer, this.player, this.sound);
+        Timer timerMapEvent = new Timer();
+        timerMapEvent.scheduleAtFixedRate(tickMapEvent, 0, 1000 / 60);
+
         KeyListener.setPlayer(player);
 
         frame.add(renderer);

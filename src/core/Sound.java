@@ -13,6 +13,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Sound {
     private Clip letterPickupSound = loadSound("/resources/sound/letter_pickup.wav");
     private Clip breadthSound = loadSound("/resources/sound/breath.wav");
+    private Clip jumpScareSound = loadSound("/resources/sound/jump_scare.wav");
 
     public Sound() {
         if (Setting.ENABLED_SOUND) {
@@ -35,6 +36,14 @@ public class Sound {
             new Thread(null, () -> {
                 breadthSound.setFramePosition(0);
                 breadthSound.start();
+            }).start();
+    }
+
+    public void playJumpScareSound() {
+        if (Setting.ENABLED_SOUND)
+            new Thread(null, () -> {
+                jumpScareSound.setFramePosition(0);
+                jumpScareSound.start();
             }).start();
     }
 

@@ -2,6 +2,8 @@ package core;
 
 import java.util.ArrayList;
 
+import core.events.GhostJumpScare;
+
 public class Map {
     private int mapWidth;
     private int mapHeight;
@@ -47,6 +49,7 @@ public class Map {
     };
 
     private ArrayList<Point<Integer>> spawnedLetters = new ArrayList<>();
+    private ArrayList<MapEvent> mapEvents = new ArrayList<>();
     private ArrayList<Sprite> renderedSprites = new ArrayList<>();
 
     public Map() {
@@ -57,6 +60,9 @@ public class Map {
         addLetter(37, 24);
         addLetter(32, 16);
         addLetter(18, 24);
+
+        MapEvent e1 = new GhostJumpScare(4, 23);
+        mapEvents.add(e1);
 
         parseMap();
     }
@@ -75,6 +81,10 @@ public class Map {
 
     public void addLetter(int x, int y) {
         spawnedLetters.add(new Point<Integer>(x, y));
+    }
+
+    public void addSprite(Sprite sprite) {
+        renderedSprites.add(sprite);
     }
 
     public Texture getTexture(int x, int y) {
@@ -116,6 +126,14 @@ public class Map {
 
     public ArrayList<Sprite> getRenderedSprites() {
         return renderedSprites;
+    }
+
+    public void removeSprite(Sprite sprite) {
+        renderedSprites.remove(sprite);
+    }
+
+    public ArrayList<MapEvent> getMapEvents() {
+        return mapEvents;
     }
 
     public double getSpawnX() {
