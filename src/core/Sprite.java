@@ -48,9 +48,7 @@ public class Sprite {
     }
 
     public double getAbsoluteDirection(Point<Double> point) {
-        double alpha = Math.atan2(pos.y - point.x, pos.x - point.x);
-        if (alpha < 0)
-            alpha += Math.PI * 2;
+        double alpha = Math.atan2(point.y - pos.y, point.x - pos.x);
         return alpha;
     }
 
