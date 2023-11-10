@@ -12,6 +12,7 @@ public class Setting {
     public static boolean TOGGLE_LIGHT = true;
     public static boolean TOGGLE_MAP = false;
     public static boolean ENABLED_SOUND = true;
+    public static boolean CHEATING = true;
 
     // Game's logic settings
     public static double WALKING_STEP = 1; // per sec

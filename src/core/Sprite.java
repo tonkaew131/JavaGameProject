@@ -1,6 +1,8 @@
 package core;
 
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -11,7 +13,9 @@ public class Sprite {
     // Width & Height of rendered sprite (in block size)
     private double width;
     private double height;
+
     private Image image;
+    private Color color[][];
     private int imageHeight;
     private int imageWidth;
 
@@ -64,5 +68,25 @@ public class Sprite {
 
     public int getImageWidth() {
         return imageWidth;
+    }
+
+    public Color getColor(double x, double y) {
+        if (color == null) {
+            BufferedImage image = (BufferedImage) this.image;
+            color = new Color[imageWidth][imageHeight];
+            for (int i = 0; i < imageWidth; i++) {
+                for (int j = 0; j < imageHeight; j++) {
+                    color[i][j] = new Color(image.getRGB(i, j));
+                }
+            }
+        }
+
+        int posX = (int) (x * imageWidth);
+        int posY = (int) (y * imageHeight);
+
+        if (posX < 0 || posX >= imageWidth || posY < 0 || posY >= imageHeight)
+            return Color.BLACK;
+
+        return color[posX][posY];
     }
 }

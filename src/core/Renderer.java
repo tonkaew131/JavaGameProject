@@ -291,7 +291,7 @@ public class Renderer extends JPanel implements ActionListener {
         g.fillRoundRect(Setting.WINDOWS_WIDTH / 2 - staminaBar / 2, 25, staminaBar, 4, 4, 4);
 
         if (Setting.SHOW_FPS)
-            g.drawString("FPS: " + tick.getFPS(), 10, 25);
+            g.drawString("TPS: " + tick.getFPS(), 10, 25);
 
         // Draw Letter count
         g.drawString(String.format("Letter: %d/7", player.getLetterCount()), Setting.WINDOWS_WIDTH - 100, 25);
@@ -324,34 +324,42 @@ public class Renderer extends JPanel implements ActionListener {
         });
 
         // Near to far
-        for (int i = 0; i < sprites.size(); i++) {
-            double distance = sprites.get(i).getDistance(player.getPosition());
-
-            double scale = 1.5 / distance;
-            int width = (int) (sprites.get(i).getImageWidth() * scale);
-            int height = (int) (sprites.get(i).getImageHeight() * scale);
-
-            int y = (int) ((Setting.WINDOWS_HEIGHT / 2) - (height / 2));
-
-            double direction = sprites.get(i).getAbsoluteDirection(player.getPosition());
-            direction -= player.getDirectionAlpha();
-            direction = Math.toRadians(Math.toDegrees(direction));
+        for (int s = 0; s < sprites.size(); s++) {
+            // https://github.com/ssloy/tinyraycaster/wiki/Part-3:-populating-the-world
+            Sprite sprite = sprites.get(s);
+            // absolute direction from the player to the sprite (in radians)
+            double spriteDirection = Math.atan2(sprite.getPos().y - player.getPosY(),
+                    sprite.getPos().x - player.getPosX());
+            // remove unnecessary periods from the relative direction
+            while (spriteDirection - player.getDirectionAlpha() > Math.PI)
+                spriteDirection -= 2 * Math.PI;
+            while (spriteDirection - player.getDirectionAlpha() < -Math.PI)
+                spriteDirection += 2 * Math.PI;
 
             double fovRadian = Math.toRadians(Setting.FOV);
 
-            // check if sprite is in fov
-            if (Math.abs(direction) > fovRadian / 2)
-                continue;
+            // distance from the player to the sprite
+            double spriteDist = Math.sqrt(Math.pow(player.getPosX() - sprite.getPos().x, 2)
+                    + Math.pow(player.getPosY() - sprite.getPos().y, 2));
+            int srpiteScreenSize = (int) Math.min(2000, Setting.WINDOWS_HEIGHT / spriteDist);
+            // do not forget the 3D view takes only a half of the framebuffer, thus fb.w/2
+            // for the screen width
+            int hOffset = (int) ((spriteDirection - player.getDirectionAlpha()) * (Setting.WINDOWS_WIDTH / 2)
+                    / (fovRadian) + (Setting.WINDOWS_WIDTH / 2) / 2 - srpiteScreenSize / 2);
+            int vOffset = Setting.WINDOWS_HEIGHT / 2 - srpiteScreenSize / 2;
 
-            int x = (int) ((Setting.WINDOWS_WIDTH / 2) - (direction / fovRadian * Setting.WINDOWS_WIDTH) - width / 2);
-
-            g.drawImage(sprites.get(i).getImage(), x, y, width, height, this);
-
-            if (distance < 1)
-                continue;
-            Color ov = new Color(0, 0, 0, (int) Math.max(0, 255 - (35 / distance)));
-            g.setColor(ov);
-            g.fillRect(x, y, width, height);
+            for (int i = 0; i < srpiteScreenSize; i++) {
+                if (hOffset + i < 0 || hOffset + i >= Setting.WINDOWS_WIDTH / 2)
+                    continue;
+                for (int j = 0; j < srpiteScreenSize; j++) {
+                    if (vOffset + j < 0 || vOffset + j >= Setting.WINDOWS_HEIGHT)
+                        continue;
+                    // fb.set_pixel(Setting.WINDOWS_WIDTH/2 + hOffset+i, vOffset+j,
+                    // pack_color(0,0,0));
+                    g.setColor(Color.RED);
+                    g.fillRect(Setting.WINDOWS_WIDTH / 2 + hOffset + i, vOffset + j, 1, 1);
+                }
+            }
         }
     }
 

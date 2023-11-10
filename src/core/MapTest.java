@@ -25,9 +25,9 @@ public class MapTest extends Map {
         setSpawnY(2d);
 
         renderedSprites.add(new SpriteWhite(new Point<Double>(3d, 3d)));
-        renderedSprites.add(new SpriteWhite(new Point<Double>(1d, 1d)));
-        renderedSprites.add(new SpriteWhite(new Point<Double>(5d, 5d)));
-        renderedSprites.add(new SpriteWhite(new Point<Double>(2d, 5d)));
+        // renderedSprites.add(new SpriteWhite(new Point<Double>(1d, 1d)));
+        // renderedSprites.add(new SpriteWhite(new Point<Double>(5d, 5d)));
+        // renderedSprites.add(new SpriteWhite(new Point<Double>(2d, 5d)));
 
         mapHeight = preMapContent.length;
         mapWidth = preMapContent[0].length;

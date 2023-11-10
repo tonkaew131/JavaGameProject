@@ -13,12 +13,12 @@ public class KeyListener {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(event -> {
             // Pressed once
             if (event.getID() == KeyEvent.KEY_PRESSED) {
-                // if (event.getKeyCode() == KeyEvent.VK_L) {
-                // Setting.TOGGLE_LIGHT = !Setting.TOGGLE_LIGHT;
-                // }
-                // if (event.getKeyCode() == KeyEvent.VK_M) {
-                // Setting.TOGGLE_MAP = !Setting.TOGGLE_MAP;
-                // }
+                if (event.getKeyCode() == KeyEvent.VK_L && Setting.CHEATING) {
+                    Setting.TOGGLE_LIGHT = !Setting.TOGGLE_LIGHT;
+                }
+                if (event.getKeyCode() == KeyEvent.VK_M && Setting.CHEATING) {
+                    Setting.TOGGLE_MAP = !Setting.TOGGLE_MAP;
+                }
                 if (event.getKeyCode() == KeyEvent.VK_E) {
                     player.collect();
                     player.checkWinning();
