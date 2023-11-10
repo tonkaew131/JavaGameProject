@@ -346,7 +346,7 @@ public class Renderer extends JPanel implements ActionListener {
             Sprite sp = sprites.get(s);
 
             double distance = sp.getDistance(player.getPosition());
-            distance *= Math.cos(player.getDirectionAlpha() - sp.getAbsoluteDirection(player.getPosition()));
+            // distance *= Math.cos(player.getDirectionAlpha() - sp.getAbsoluteDirection(player.getPosition()));
 
             double scale = 1.5 / distance;
             int width = (int) (sp.getImageWidth() * scale);
@@ -371,8 +371,10 @@ public class Renderer extends JPanel implements ActionListener {
 
             g.drawImage(sp.getImage(), x, y, width, height, this);
 
+            System.out.println(distance);
             if (distance < 1)
                 continue;
+
             Color ov = new Color(0, 0, 0, (int) Math.max(0, 255 - (35 / distance)));
             g.setColor(ov);
             g.fillRect(x, y, width, height);
