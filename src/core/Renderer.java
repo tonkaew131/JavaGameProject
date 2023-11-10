@@ -73,7 +73,7 @@ public class Renderer extends JPanel implements ActionListener {
             System.out.println("[Renderer]: Failed to load assets!");
             e.printStackTrace();
         } finally {
-            System.out.println("Assets loaded!");
+            System.out.println("[Renderer]: Assets loaded!");
         }
     }
 
@@ -371,7 +371,7 @@ public class Renderer extends JPanel implements ActionListener {
 
             g.drawImage(sp.getImage(), x, y, width, height, this);
 
-            System.out.println(distance);
+            // System.out.println(distance);
             if (distance < 1)
                 continue;
 
