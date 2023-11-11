@@ -43,6 +43,7 @@ public class Game {
 
         Tick tick = new Tick(this.renderer, this.player);
         tick.setSound(sound);
+        renderer.setTick(tick);
 
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(tick, 0, 1000 / 60);

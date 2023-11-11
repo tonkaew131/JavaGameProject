@@ -23,7 +23,6 @@ public class Tick extends TimerTask {
         this.player = player;
 
         this.renderer = renderer;
-        this.renderer.setTick(this);
 
         long currentTimeMillis = getCurrentMillis();
         gameStartMillis = currentTimeMillis;
@@ -33,7 +32,10 @@ public class Tick extends TimerTask {
     @Override
     public void run() {
         long currentTimeMillis = getCurrentMillis();
-        deltaTime = currentTimeMillis - lastTickMillis;
+        this.deltaTime = currentTimeMillis - lastTickMillis;
+
+        // System.out.println(this);
+        // System.out.println(currentTimeMillis + " " + deltaTime + " " + lastTickMillis);
 
         double walkingStep = Setting.WALKING_STEP * deltaTime / 1000;
         double turningStep = Setting.TURNING_STEP * deltaTime / 1000;
@@ -75,10 +77,11 @@ public class Tick extends TimerTask {
 
         // Force turn
         if (this.player.getForceTurnDuration() > 0) {
-        this.player.setDisableTurning(false);
-        this.player.setDisableMoving(false);
+            this.player.setDisableTurning(false);
+            this.player.setDisableMoving(false);
 
-            this.player.setDirectionAlpha(this.player.getDirectionAlpha() + (this.player.getForceTurnStep() / deltaTime));
+            this.player
+                    .setDirectionAlpha(this.player.getDirectionAlpha() + (this.player.getForceTurnStep() / deltaTime));
             this.player.setForceTurnDuration(this.player.getForceTurnDuration() - deltaTime);
             if (this.player.getForceTurnDuration() <= 0) {
                 this.player.setForceTurnDuration(0);
@@ -97,7 +100,7 @@ public class Tick extends TimerTask {
     }
 
     public long getDeltaTime() {
-        return deltaTime;
+        return this.deltaTime;
     }
 
     public long getGameStartMillis() {
@@ -116,9 +119,16 @@ public class Tick extends TimerTask {
         this.sound = sound;
     }
 
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
     public int getFPS() {
-        if (deltaTime == 0)
+        // System.out.println(this);
+        // System.out.println(deltaTime);
+
+        if (this.deltaTime == 0)
             return 9999;
-        return (int) (1000 / deltaTime);
+        return (int) (1000 / this.deltaTime);
     }
 }

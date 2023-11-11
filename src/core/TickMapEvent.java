@@ -2,6 +2,7 @@ package core;
 
 public class TickMapEvent extends Tick {
     private Map map;
+
     public TickMapEvent(Map map, Renderer renderer, Player player, Sound sound) {
         super(renderer, player);
         this.map = map;
