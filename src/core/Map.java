@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 
+import core.events.GhostFollow;
 import core.events.GhostJumpScare;
 
 public class Map {
@@ -78,20 +79,25 @@ public class Map {
         ((GhostJumpScare) e4).setGhostY(5.5);
         mapEvents.add(e4);
         MapEvent e5 = new GhostJumpScare(35, 19);
-        ((GhostJumpScare) e5).setTurning(false);;
+        ((GhostJumpScare) e5).setTurning(false);
         ((GhostJumpScare) e5).setGhostX(34.5);        
         ((GhostJumpScare) e5).setGhostY(20.5);
         mapEvents.add(e5);
         MapEvent e6 = new GhostJumpScare(35, 19);
-        ((GhostJumpScare) e6).setTurning(false);;
+        ((GhostJumpScare) e6).setTurning(false);
         ((GhostJumpScare) e6).setGhostX(33.5);        
         ((GhostJumpScare) e6).setGhostY(19.5);
         mapEvents.add(e6);
         MapEvent e7 = new GhostJumpScare(35, 19);
-        ((GhostJumpScare) e7).setTurning(false);;
+        ((GhostJumpScare) e7).setTurning(false);
         ((GhostJumpScare) e7).setGhostX(33.5);        
         ((GhostJumpScare) e7).setGhostY(20.5);
         mapEvents.add(e7);
+        
+        MapEvent e8 = new GhostFollow(33, 13);
+        ((GhostFollow) e8).setGhostX(28.5);
+        ((GhostFollow) e8).setGhostY(15.5);
+        mapEvents.add(e8);
 
         parseMap();
     }

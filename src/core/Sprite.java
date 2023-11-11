@@ -68,6 +68,10 @@ public class Sprite {
         return imageWidth;
     }
 
+    public void setPos(Point<Double> pos) {
+        this.pos = pos;
+    }
+
     public Color getColor(double x, double y) {
         if (color == null) {
             BufferedImage image = (BufferedImage) this.image;

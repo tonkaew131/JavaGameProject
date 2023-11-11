@@ -13,7 +13,7 @@ public class PathFind {
     private int mapRow;
 
     private ArrayList<Node> openList = new ArrayList<Node>();
-    private ArrayList<Node> PathList = new ArrayList<Node>();
+    private ArrayList<Node> pathList = new ArrayList<Node>();
 
     private Node startNode, goalNode, currentNode;
 
@@ -64,12 +64,12 @@ public class PathFind {
         }
 
         openList.clear();
-        PathList.clear();
+        pathList.clear();
         goalReached = false;
         step = 0;
     }
 
-    public void setNode(int startCol, int startRow, int goalCol, int goalRow, Entity entity) {
+    public void setNode(int startCol, int startRow, int goalCol, int goalRow) {
         reset();
 
         startNode = node[startRow][startCol];
@@ -90,7 +90,6 @@ public class PathFind {
                 col = 0;
                 row++;
             }
-
         }
     }
 
@@ -161,7 +160,7 @@ public class PathFind {
 
             if (currentNode == goalNode) {
                 goalReached = true;
-                TrackthePath();
+                trackthePath();
             }
             step++;
 
@@ -177,11 +176,15 @@ public class PathFind {
         }
     }
 
-    public void TrackthePath() {
+    public void trackthePath() {
         Node node = goalNode;
         while (node != startNode) {
-            PathList.add(0, node);
+            pathList.add(0, node);
             node = node.parent;
         }
+    }
+
+    public ArrayList<Node> getPathList() {
+        return pathList;
     }
 }
