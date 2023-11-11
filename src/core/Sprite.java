@@ -52,6 +52,18 @@ public class Sprite {
         return alpha;
     }
 
+    public void setImage(String path) {
+        try {
+            this.image = ImageIO.read(getClass().getResourceAsStream(path));
+            this.imageHeight = image.getHeight(null);
+            this.imageWidth = image.getWidth(null);
+        } catch (IOException e) {
+            System.out.println(String.format("[Sprite]: Failed to load sprite texture! (%s)", path));
+            e.printStackTrace();
+            return;
+        }
+    }
+
     public double getHeight() {
         return height;
     }
