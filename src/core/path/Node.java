@@ -14,6 +14,5 @@ public class Node {
     public Node(int col, int row) {
         this.col = col;
         this.row = row;
-
     }
 }

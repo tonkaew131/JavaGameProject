@@ -2,180 +2,186 @@ package core.path;
 
 import java.util.ArrayList;
 
+import core.Map;
+import core.Texture;
+
 public class PathFind {
-    // GamePanel gp;
-    // Node[][] node;
-    // ArrayList<Node> openList = new ArrayList<Node>();
-    // public ArrayList<Node> PathList = new ArrayList<Node>();
-    // Node startNode, goalNode, currentNode;
-    // boolean goalreached = false;
-    // int step = 0;
+    private Map map;
+    private Node[][] node;
 
-    // public PathFinding(GamePanel gp) {
-    //     this.gp = gp;
-    //     intializeNode();
-    // }
+    private int mapCol;
+    private int mapRow;
 
-    // public void intializeNode() {
-    //     node = new Node[gp.maxWorldCol][gp.maxWorldRow];
+    private ArrayList<Node> openList = new ArrayList<Node>();
+    private ArrayList<Node> PathList = new ArrayList<Node>();
 
-    //     int col = 0;
-    //     int row = 0;
+    private Node startNode, goalNode, currentNode;
 
-    //     while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
-    //         node[col][row] = new Node(col, row);
+    boolean goalReached = false;
+    int step = 0;
 
-    //         col++;
-    //         if (col == gp.maxWorldCol) {
-    //             col = 0;
-    //             row++;
-    //         }
+    public PathFind(Map map) {
+        this.map = map;
+        intializeNode();
+    }
 
-    //     }
-    // }
+    public void intializeNode() {
+        this.mapCol = map.getMapWidth();
+        this.mapRow = map.getMapHeight();
 
-    // public void reset() {
-    //     int col = 0;
-    //     int row = 0;
+        node = new Node[mapRow][mapCol];
 
-    //     while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
+        int col = 0;
+        int row = 0;
 
-    //         node[col][row].open = false;
-    //         node[col][row].checked = false;
-    //         node[col][row].solid = false;
+        while (col < mapCol && row < mapRow) {
+            node[row][col] = new Node(col, row);
 
-    //         col++;
+            col++;
+            if (col == mapCol) {
+                col = 0;
+                row++;
+            }
+        }
+    }
 
-    //         if (col == gp.maxWorldCol) {
-    //             col = 0;
-    //             row++;
-    //         }
+    public void reset() {
+        int col = 0;
+        int row = 0;
 
-    //     }
+        while (col < mapCol && row < mapRow) {
+            node[row][col].open = false;
+            node[row][col].checked = false;
+            node[row][col].solid = false;
 
-    //     openList.clear();
-    //     PathList.clear();
-    //     goalreached = false;
-    //     step = 0;
-    // }
+            col++;
 
-    // public void setNode(int startCol, int startRow, int goalCol, int goalRow, Entity entity) {
-    //     reset();
+            if (col == mapCol) {
+                col = 0;
+                row++;
+            }
 
-    //     startNode = node[startCol][startRow];
-    //     currentNode = startNode;
-    //     goalNode = node[goalCol][goalRow];
-    //     openList.add(startNode);
+        }
 
-    //     int col = 0;
-    //     int row = 0;
-    //     while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
-    //         int tileNum = gp.tm.mapTileNum[col][row];
-    //         if (gp.tm.tile[tileNum].collision == true) {
-    //             node[col][row].solid = true;
-    //         }
+        openList.clear();
+        PathList.clear();
+        goalReached = false;
+        step = 0;
+    }
 
-    //         getCost(node[col][row]);
-    //         col++;
-    //         if (col == gp.maxWorldCol) {
-    //             col = 0;
-    //             row++;
-    //         }
+    public void setNode(int startCol, int startRow, int goalCol, int goalRow, Entity entity) {
+        reset();
 
-    //     }
-    // }
+        startNode = node[startRow][startCol];
+        currentNode = startNode;
+        goalNode = node[goalRow][goalCol];
+        openList.add(startNode);
 
-    // public void getCost(Node node) {
+        int col = 0;
+        int row = 0;
+        while (col < mapCol && row < mapRow) {
+            if (map.getTexture(col, row) != Texture.EMPTY) {
+                node[row][col].solid = true;
+            }
 
-    //     // G cosy
-    //     int xDistance = Math.abs(node.col - goalNode.col);
-    //     int yDistance = Math.abs(node.row - goalNode.row);
-    //     node.gCost = xDistance + yDistance;
+            getCost(node[row][col]);
+            col++;
+            if (col == mapCol) {
+                col = 0;
+                row++;
+            }
 
-    //     // H cost
-    //     xDistance = Math.abs(node.col - startNode.col);
-    //     yDistance = Math.abs(node.row - startNode.row);
-    //     node.hCost = xDistance + yDistance;
+        }
+    }
 
-    //     // F cost
-    //     node.fCost = node.gCost + node.hCost;
+    public void getCost(Node node) {
+        // G cosy
+        int xDistance = Math.abs(node.col - goalNode.col);
+        int yDistance = Math.abs(node.row - goalNode.row);
+        node.gCost = xDistance + yDistance;
 
-    // }
+        // H cost
+        xDistance = Math.abs(node.col - startNode.col);
+        yDistance = Math.abs(node.row - startNode.row);
+        node.hCost = xDistance + yDistance;
 
-    // public boolean search() {
-    //     while (goalreached == false && step < 500) {
-    //         int col = currentNode.col;
-    //         int row = currentNode.row;
+        // F cost
+        node.fCost = node.gCost + node.hCost;
+    }
 
-    //         // check current node
-    //         currentNode.checked = true;
-    //         openList.remove(currentNode);
+    public boolean search() {
+        while (goalReached == false && step < 500) {
+            int col = currentNode.col;
+            int row = currentNode.row;
 
-    //         // check top node
-    //         if (row - 1 >= 0) {
-    //             openNode(node[col][row - 1]);
-    //         }
+            // check current node
+            currentNode.checked = true;
+            openList.remove(currentNode);
 
-    //         // check left node
-    //         if (col - 1 >= 0) {
-    //             openNode(node[col - 1][row]);
-    //         }
+            // check top node
+            if (row - 1 >= 0) {
+                openNode(node[row - 1][col]);
+            }
 
-    //         // check bottom node
-    //         if (row + 1 < gp.maxWorldRow) {
-    //             openNode(node[col][row + 1]);
-    //         }
+            // check left node
+            if (col - 1 >= 0) {
+                openNode(node[row][col - 1]);
+            }
 
-    //         // check right node
-    //         if (col + 1 < gp.maxWorldCol) {
-    //             openNode(node[col + 1][row]);
-    //         }
+            // check bottom node
+            if (row + 1 < mapRow) {
+                openNode(node[row + 1][col]);
+            }
 
-    //         // Find BEst Node
-    //         int bestNodeIndex = 0;
-    //         int bestNodeCost = 9999;
-    //         for (int i = 0; i < openList.size(); i++) {
-    //             if (openList.get(i).fCost < bestNodeCost) {
-    //                 bestNodeIndex = i;
-    //                 bestNodeCost = openList.get(i).fCost;
+            // check right node
+            if (col + 1 < mapCol) {
+                openNode(node[row][col + 1]);
+            }
 
-    //             } else if (openList.get(i).fCost == bestNodeCost) {
-    //                 if (openList.get(i).gCost < openList.get(bestNodeIndex).gCost) {
-    //                     bestNodeIndex = i;
+            // Find BEst Node
+            int bestNodeIndex = 0;
+            int bestNodeCost = 9999;
+            for (int i = 0; i < openList.size(); i++) {
+                if (openList.get(i).fCost < bestNodeCost) {
+                    bestNodeIndex = i;
+                    bestNodeCost = openList.get(i).fCost;
 
-    //                 }
-    //             }
-    //         }
+                } else if (openList.get(i).fCost == bestNodeCost) {
+                    if (openList.get(i).gCost < openList.get(bestNodeIndex).gCost) {
+                        bestNodeIndex = i;
+                    }
+                }
+            }
 
-    //         if (openList.size() == 0) {
-    //             break;
-    //         }
+            if (openList.size() == 0) {
+                break;
+            }
 
-    //         currentNode = openList.get(bestNodeIndex);
+            currentNode = openList.get(bestNodeIndex);
 
-    //         if (currentNode == goalNode) {
-    //             goalreached = true;
-    //             TrackthePath();
-    //         }
-    //         step++;
+            if (currentNode == goalNode) {
+                goalReached = true;
+                TrackthePath();
+            }
+            step++;
 
-    //     }
-    //     return goalreached;
-    // }
+        }
+        return goalReached;
+    }
 
-    // public void openNode(Node node) {
-    //     if (node.solid == false && node.checked == false && node.open == false) {
-    //         node.open = true;
-    //         node.parent = currentNode;
-    //         openList.add(node);
-    //     }
-    // }
+    public void openNode(Node node) {
+        if (node.solid == false && node.checked == false && node.open == false) {
+            node.open = true;
+            node.parent = currentNode;
+            openList.add(node);
+        }
+    }
 
-    // public void TrackthePath() {
-    //     Node node = goalNode;
-    //     while (node != startNode) {
-    //         PathList.add(0, node);
-    //         node = node.parent;
-    //     }
-    // }
+    public void TrackthePath() {
+        Node node = goalNode;
+        while (node != startNode) {
+            PathList.add(0, node);
+            node = node.parent;
+        }
+    }
 }
