@@ -369,6 +369,11 @@ public class Renderer extends JPanel implements ActionListener {
                 continue;
 
             int x = (int) ((Setting.WINDOWS_WIDTH / 2) - (direction / fovRadian * Setting.WINDOWS_WIDTH) - width / 2);
+            if (x < 0 || x > Setting.WINDOWS_WIDTH)
+                continue;
+
+            if (zBuffer[x] < distance)
+                continue;
 
             g.drawImage(sp.getImage(), x, y, width, height, this);
 
