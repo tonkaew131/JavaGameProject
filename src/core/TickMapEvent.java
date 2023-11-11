@@ -7,6 +7,7 @@ public class TickMapEvent extends Tick {
         super(renderer, player);
         this.map = map;
 
+        System.out.println("[TickMapEvent]: " + map.getMapEvents().size() + " Map event loaded");
         for (MapEvent event : map.getMapEvents()) {
             event.setRenderer(renderer);
             event.setMap(map);

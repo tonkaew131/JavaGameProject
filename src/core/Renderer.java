@@ -376,7 +376,7 @@ public class Renderer extends JPanel implements ActionListener {
             if (distance < 1)
                 continue;
 
-            Color ov = new Color(0, 0, 0, (int) Math.max(0, 255 / distance));
+            Color ov = new Color(0, 0, 0, (int) Math.min(255, Math.max(0, (distance * 52))));
             g.setColor(ov);
             g.fillRect(x, y, width, height);
         }

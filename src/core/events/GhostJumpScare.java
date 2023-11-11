@@ -6,6 +6,10 @@ import core.Sprite;
 import core.SpriteWhite;
 
 public class GhostJumpScare extends MapEvent {
+    private double ghostX;
+    private double ghostY;
+    private boolean turning = true;
+
     public GhostJumpScare(int x, int y) {
         super(x, y);
     }
@@ -13,9 +17,11 @@ public class GhostJumpScare extends MapEvent {
     @Override
     public void trigger(long currentMillis) {
         System.out.println("[MapEvent]: Ghost jump scare!");
-        Sprite ghost = new SpriteWhite(new Point<Double>(6.5, 22.5));
+        Sprite ghost = new SpriteWhite(new Point<Double>(ghostX, ghostY));
         getMap().addSprite(ghost);
-        getPlayer().forceTurnTo(ghost.getAbsoluteDirection(getPlayer().getPosition()) + Math.PI, currentMillis, 250);
+        if (turning)
+            getPlayer().forceTurnTo(ghost.getAbsoluteDirection(getPlayer().getPosition()) + Math.PI, currentMillis,
+                    250);
         getSound().playJumpScareSound();
 
         // remove ghost
@@ -25,5 +31,17 @@ public class GhostJumpScare extends MapEvent {
                 getMap().removeSprite(ghost);
             }
         }, 500);
+    }
+
+    public void setGhostX(double ghostX) {
+        this.ghostX = ghostX;
+    }
+
+    public void setGhostY(double ghostY) {
+        this.ghostY = ghostY;
+    }
+
+    public void setTurning(boolean turning) {
+        this.turning = turning;
     }
 }

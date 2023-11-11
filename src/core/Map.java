@@ -62,7 +62,36 @@ public class Map {
         addLetter(18, 24);
 
         MapEvent e1 = new GhostJumpScare(4, 23);
+        ((GhostJumpScare) e1).setGhostX(6.5);
+        ((GhostJumpScare) e1).setGhostY(22.5);
         mapEvents.add(e1);
+        MapEvent e2 = new GhostJumpScare(7, 18);
+        ((GhostJumpScare) e2).setGhostX(7.5);
+        ((GhostJumpScare) e2).setGhostY(19.5);
+        mapEvents.add(e2);
+        MapEvent e3 = new GhostJumpScare(15, 9);
+        ((GhostJumpScare) e3).setGhostX(12.5);
+        ((GhostJumpScare) e3).setGhostY(7.5);
+        mapEvents.add(e3);
+        MapEvent e4 = new GhostJumpScare(22, 5);
+        ((GhostJumpScare) e4).setGhostX(24.5);
+        ((GhostJumpScare) e4).setGhostY(5.5);
+        mapEvents.add(e4);
+        MapEvent e5 = new GhostJumpScare(35, 19);
+        ((GhostJumpScare) e5).setTurning(false);;
+        ((GhostJumpScare) e5).setGhostX(34.5);        
+        ((GhostJumpScare) e5).setGhostY(20.5);
+        mapEvents.add(e5);
+        MapEvent e6 = new GhostJumpScare(35, 19);
+        ((GhostJumpScare) e6).setTurning(false);;
+        ((GhostJumpScare) e6).setGhostX(33.5);        
+        ((GhostJumpScare) e6).setGhostY(19.5);
+        mapEvents.add(e6);
+        MapEvent e7 = new GhostJumpScare(35, 19);
+        ((GhostJumpScare) e7).setTurning(false);;
+        ((GhostJumpScare) e7).setGhostX(33.5);        
+        ((GhostJumpScare) e7).setGhostY(20.5);
+        mapEvents.add(e7);
 
         parseMap();
     }
