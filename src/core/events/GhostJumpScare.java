@@ -12,7 +12,7 @@ public class GhostJumpScare extends MapEvent {
 
     @Override
     public void trigger(long currentMillis) {
-        System.out.println("Ghost jump scare!");
+        System.out.println("[MapEvent]: Ghost jump scare!");
         Sprite ghost = new SpriteWhite(new Point<Double>(6.5, 22.5));
         getMap().addSprite(ghost);
         getPlayer().forceTurnTo(ghost.getAbsoluteDirection(getPlayer().getPosition()) + Math.PI, currentMillis, 250);
