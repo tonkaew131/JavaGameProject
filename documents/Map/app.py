@@ -1,4 +1,4 @@
-FILE_NAME = 'Map_v2'
+FILE_NAME = 'josh'
 
 with open(f'{FILE_NAME}.csv', 'r') as f:
     data = f.read()

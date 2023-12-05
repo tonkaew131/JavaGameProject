@@ -30,7 +30,7 @@ public class Renderer extends JPanel implements ActionListener {
     private static Dictionary<String, Image> assets = new Hashtable<>();
 
     JLabel titleLabel = new JLabel("", SwingConstants.CENTER);
-    JLabel subtitleLabel = new JLabel("Collect 7 Letter to get out...", SwingConstants.CENTER);
+    JLabel subtitleLabel = new JLabel("", SwingConstants.CENTER);
 
     public Renderer() {
         rayCaster = new RayCast();
@@ -312,7 +312,8 @@ public class Renderer extends JPanel implements ActionListener {
             g.drawString("TPS: " + tick.getFPS(), 10, 25);
 
         // Draw Letter count
-        g.drawString(String.format("Letter: %d/7", player.getLetterCount()), Setting.WINDOWS_WIDTH - 100, 25);
+        // g.drawString(String.format("Letter: %d/7", player.getLetterCount()),
+        // Setting.WINDOWS_WIDTH - 100, 25);
 
         // Draw Letter tooltip
         rayCaster.setDirection(player.getDirectionAlpha());
@@ -365,8 +366,8 @@ public class Renderer extends JPanel implements ActionListener {
             double fovRadian = Math.toRadians(Setting.FOV);
 
             // check if sprite is in fov
-            if (Math.abs(direction) > (fovRadian / 2))
-                continue;
+            // if (Math.abs(direction) > (fovRadian / 2))
+            // continue;
 
             int x = (int) ((Setting.WINDOWS_WIDTH / 2) - (direction / fovRadian * Setting.WINDOWS_WIDTH) - width / 2);
             if (x < 0 || x > Setting.WINDOWS_WIDTH)
@@ -378,12 +379,13 @@ public class Renderer extends JPanel implements ActionListener {
             g.drawImage(sp.getImage(), x, y, width, height, this);
 
             // System.out.println(distance);
-            if (distance < 1)
-                continue;
+            // if (distance < 1)
+            // continue;
 
-            Color ov = new Color(0, 0, 0, (int) Math.min(255, Math.max(0, (distance * 52))));
-            g.setColor(ov);
-            g.fillRect(x, y, width, height);
+            // Color ov = new Color(0, 0, 0, (int) Math.min(255, Math.max(0, (distance *
+            // 52))));
+            // g.setColor(ov);
+            // g.fillRect(x, y, width, height);
         }
     }
 
@@ -404,5 +406,9 @@ public class Renderer extends JPanel implements ActionListener {
     public void setMap(Map map) {
         this.map = map;
         this.rayCaster.setMap(map);
+    }
+
+    public Map getMap() {
+        return map;
     }
 }

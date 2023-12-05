@@ -4,6 +4,8 @@ import java.awt.event.KeyEvent;
 import java.time.Instant;
 import java.util.TimerTask;
 
+import core.path.PathFind;
+
 public class Tick extends TimerTask {
     // time since game lanuched!
     private long gameStartMillis;
@@ -35,7 +37,8 @@ public class Tick extends TimerTask {
         this.deltaTime = currentTimeMillis - lastTickMillis;
 
         // System.out.println(this);
-        // System.out.println(currentTimeMillis + " " + deltaTime + " " + lastTickMillis);
+        // System.out.println(currentTimeMillis + " " + deltaTime + " " +
+        // lastTickMillis);
 
         double walkingStep = Setting.WALKING_STEP * deltaTime / 1000;
         double turningStep = Setting.TURNING_STEP * deltaTime / 1000;
@@ -91,9 +94,38 @@ public class Tick extends TimerTask {
         this.player.setDisableTurning(false);
         this.player.setDisableMoving(false);
 
-        if (Math.random() < 0.001 && currentTimeMillis - lastBreadthSoundMillis > 15000) {
-            lastBreadthSoundMillis = currentTimeMillis;
-            sound.playBreadthSound();
+        // if (Math.random() < 0.001 && currentTimeMillis - lastBreadthSoundMillis >
+        // 15000) {
+        // lastBreadthSoundMillis = currentTimeMillis;
+        // sound.playBreadthSound();
+        // }
+
+        if (Math.random() < 0.5) {
+            Point<Double> joshPos = this.renderer.getMap().josh.getPos();
+            Point<Double> playerPos = this.player.getPosition();
+            double distanceFromJosh = Math
+                    .sqrt(Math.pow(joshPos.x - playerPos.x, 2) + Math.pow(joshPos.y - playerPos.y, 2));
+
+            int soundLvl = (int) (500 / distanceFromJosh + 10);
+            Sound.setVolume(sound.getBackgroundMusic(), soundLvl);
+        }
+
+        // Josh always follow player using path finder
+        if (Math.random() < 0.1) {
+            Point<Double> joshPos = this.renderer.getMap().josh.getPos();
+            Point<Double> playerPos = this.player.getPosition();
+
+            int startCol = joshPos.x.intValue();
+            int startRow = joshPos.y.intValue();
+
+            PathFind pf = new PathFind(this.renderer.getMap());
+            pf.setNode(startCol, startRow, playerPos.x.intValue(), playerPos.y.intValue());
+
+            if (pf.search() == true) {
+                this.renderer.getMap().josh.setDirection(
+                        Math.atan2(pf.getPathList().get(0).row - startRow, pf.getPathList().get(0).col - startCol));
+                this.renderer.getMap().josh.forward(walkingStep * 5);
+            }
         }
 
         lastTickMillis = currentTimeMillis;

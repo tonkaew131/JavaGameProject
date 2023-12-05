@@ -3,13 +3,14 @@ package core;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 public class Sprite {
+    private double direction;
     private Point<Double> pos;
+
     // Width & Height of rendered sprite (in block size)
     private double width;
     private double height;
@@ -41,6 +42,19 @@ public class Sprite {
 
     public Point<Double> getPos() {
         return pos;
+    }
+
+    public double getDirection() {
+        return direction;
+    }
+
+    public void setDirection(double direction) {
+        this.direction = direction;
+    }
+
+    public void forward(double distance) {
+        pos.x += distance * Math.cos(direction);
+        pos.y += distance * Math.sin(direction);
     }
 
     public double getDistance(Point<Double> point) {
