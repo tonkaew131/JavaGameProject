@@ -111,21 +111,19 @@ public class Tick extends TimerTask {
         }
 
         // Josh always follow player using path finder
-        if (Math.random() < 0.1) {
-            Point<Double> joshPos = this.renderer.getMap().josh.getPos();
-            Point<Double> playerPos = this.player.getPosition();
+        Point<Double> joshPos = this.renderer.getMap().josh.getPos();
+        Point<Double> playerPos = this.player.getPosition();
 
-            int startCol = joshPos.x.intValue();
-            int startRow = joshPos.y.intValue();
+        int startCol = joshPos.x.intValue();
+        int startRow = joshPos.y.intValue();
 
-            PathFind pf = new PathFind(this.renderer.getMap());
-            pf.setNode(startCol, startRow, playerPos.x.intValue(), playerPos.y.intValue());
+        PathFind pf = new PathFind(this.renderer.getMap());
+        pf.setNode(startCol, startRow, playerPos.x.intValue(), playerPos.y.intValue());
 
-            if (pf.search() == true) {
-                this.renderer.getMap().josh.setDirection(
-                        Math.atan2(pf.getPathList().get(0).row - startRow, pf.getPathList().get(0).col - startCol));
-                this.renderer.getMap().josh.forward(walkingStep * 5);
-            }
+        if (pf.search() == true) {
+            this.renderer.getMap().josh.setDirection(
+                    Math.atan2(pf.getPathList().get(0).row - startRow, pf.getPathList().get(0).col - startCol));
+            this.renderer.getMap().josh.forward(walkingStep * 0.8);
         }
 
         lastTickMillis = currentTimeMillis;
